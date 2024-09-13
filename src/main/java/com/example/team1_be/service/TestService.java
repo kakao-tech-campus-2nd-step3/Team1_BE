@@ -1,12 +1,14 @@
 package com.example.team1_be.service;
 
 import com.example.team1_be.DTO.TestDTO.create;
+import com.example.team1_be.DTO.TestDTO.getList;
 import com.example.team1_be.entity.TestEntity;
 import com.example.team1_be.mapper.TestMapper;
 import com.example.team1_be.repository.TestRepository;
 import com.example.team1_be.util.errorException.BaseHandler;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,10 @@ public class TestService {
     public TestService(TestMapper testMapper, TestRepository testRepository) {
         this.testMapper = testMapper;
         this.testRepository = testRepository;
+    }
+
+    public Page<TestEntity> getTestList(@Valid getList param) {
+        return testRepository.findAll(param.toPageable());
     }
 
     public TestEntity getTest(long get) {

@@ -1,7 +1,13 @@
 package com.example.team1_be.DTO;
 
 
+import com.example.team1_be.util.page.PageParam;
+
 public class TestDTO {
+
+    public static class getList extends PageParam {
+
+    }
 
     public static class create {
 
