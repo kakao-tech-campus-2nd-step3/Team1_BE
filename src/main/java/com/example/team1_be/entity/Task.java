@@ -62,4 +62,5 @@ public class Task {
     public void setProgress(Integer progress) {
         this.progress = progress;
     }
+
 }
