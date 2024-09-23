@@ -1,6 +1,7 @@
 package com.example.team1_be.controller;
 
 import com.example.team1_be.DTO.AuthDTO;
+import com.example.team1_be.DTO.UserDTO.UserDetails;
 import com.example.team1_be.entity.UserEntity;
 import com.example.team1_be.service.UserService;
 import com.example.team1_be.util.page.SingleResult;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +29,12 @@ public class UserController {
     }
 
     @GetMapping
-    public SingleResult<UserEntity> getUser(HttpServletRequest req) {
+    public SingleResult<UserDetails> getUser(HttpServletRequest req) {
+        return new SingleResult<>(userService.getUser(req));
+    }
+
+    @PutMapping
+    public SingleResult<UserDetails> updateUser(HttpServletRequest req) {
         return new SingleResult<>(userService.getUser(req));
     }
 

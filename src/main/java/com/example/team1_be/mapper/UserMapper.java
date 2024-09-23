@@ -16,6 +16,7 @@ public class UserMapper {
             entity.getName(),
             entity.getEmail(),
             entity.getPicture(),
+            entity.getRole().toString(),
             entity.getCreatedAt());
     }
 }
