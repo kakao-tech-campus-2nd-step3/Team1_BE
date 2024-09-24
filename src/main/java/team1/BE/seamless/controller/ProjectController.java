@@ -2,6 +2,7 @@ package team1.BE.seamless.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
+import team1.BE.seamless.DTO.ProjectDTO.*;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.service.ProjectService;
@@ -53,13 +54,13 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 생성")
     @PostMapping
-    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectDTO.create create) {
+    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectCreate create) {
         return new SingleResult<>(projectService.createProject(create));
     }
 
     @Operation(summary = "프로젝트 설정 수정")
     @PutMapping("/{project-id}")
-    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectDTO.update update,
+    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectUpdate update,
         @PathVariable long id) {
         return new SingleResult<>(projectService.updateProject(id, update));
     }
