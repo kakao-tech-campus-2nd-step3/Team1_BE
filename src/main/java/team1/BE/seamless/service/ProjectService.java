@@ -7,6 +7,7 @@ import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
+import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
 import java.util.List;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
+        this.projectMapper = projectMapper;
     }
 
     public Page<ProjectEntity> getProjectList(ProjectDTO.getList param) {
@@ -41,7 +44,7 @@ public class ProjectService {
     }
 
     public ProjectEntity createProject(ProjectCreate create) {
-        ProjectEntity projectEntity = new ProjectEntity(
+        ProjectEntity projectEntity = projectMapper.toEntity(
             create.getName(),
             create.getUser(),
             create.getStartDate(),
@@ -56,11 +59,11 @@ public class ProjectService {
         ProjectEntity projectEntity = projectRepository.findById(get)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
 
-        projectEntity.setName(update.getName());
-        projectEntity.setGuests(update.getGuests());
-        projectEntity.setOptions(update.getOptions());
-        projectEntity.setStartDate(update.getStartDate());
-        projectEntity.setEndDate(update.getEndDate());
+        projectEntity.update(
+            update.getName(),
+            update.getStartDate(),
+            update.getEndDate()
+        );
 
         projectRepository.save(projectEntity);
         return projectEntity;
