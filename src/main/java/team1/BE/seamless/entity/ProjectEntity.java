@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,9 @@ public class ProjectEntity extends BaseEntity{
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
+    private TaskEntity taskEntity;
+
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
@@ -85,6 +89,10 @@ public class ProjectEntity extends BaseEntity{
 
     public List<ProjectOption> getOptions() {
         return options;
+    }
+
+    public TaskEntity getTaskEntity() {
+        return taskEntity;
     }
 
     public LocalDateTime getStartDate() {
@@ -118,6 +126,10 @@ public class ProjectEntity extends BaseEntity{
 
     public void setOptions(List<ProjectOption> options) {
         this.options = options;
+    }
+
+    public void setTaskEntity(TaskEntity taskEntity) {
+        this.taskEntity = taskEntity;
     }
 
     public void setStartDate(LocalDateTime startDate) {
