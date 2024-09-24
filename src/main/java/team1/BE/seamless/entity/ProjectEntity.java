@@ -128,4 +128,11 @@ public class ProjectEntity extends BaseEntity{
         this.endDate = endDate;
     }
 
+    public ProjectEntity update(String name, LocalDateTime startDate, LocalDateTime endDate) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        return this;
+    }
+
 }
