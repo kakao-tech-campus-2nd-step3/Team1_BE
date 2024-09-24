@@ -87,14 +87,14 @@
     - taskRepository.deleteById의 구문 오류(조서영)
       - 위 함수는 Task(entity)의 id만을 입력으로 받을 수 있다.
       - 하지만 Long projectId, Long taskId라는 2개의 파라미터를 제공함으로서 JpaRepository가 빌드에 실패했다.
-  - project 오류
-    - project(entity)의 Column중 하나인 viewType의 자료형을 object로 구현
+  - projectEntity 오류
+    - projectEntity(entity)의 Column중 하나인 viewType의 자료형을 object로 구현
       - Object로 구현시 Hibernate가 제대로 테이블을 생성할 수 없음
   - 해결(김동혁)
     - 기존 김도헌이 작성한 Task(entity)로 변경
       - 기존(조서영)이 작성한 기능이 보다 김도헌이 작성한 기능의 복잡성을 고려함
       - 기존에 구현한 Task(controller, service, repository)는 주석 처리
-    - project(entity)의 viewType은 삭제
+    - projectEntity(entity)의 viewType은 삭제
       - 다양한 차트의 형태(간트, 칸반, 플로우...)의 상태를 정의하기 위해 고려한 컬럼
       - 하지만 기능의 모호성과 차후 업데이트로 반영할 수 있다는 점을 고려해 삭제
   - 당부사항(김동혁)
