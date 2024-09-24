@@ -11,7 +11,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public void deleteTask(Long project_id, Long task_id) {
-        taskRepository.deleteById(project_id, task_id);
+//        taskRepository.deleteById(project_id, task_id);
     }
 
 }
