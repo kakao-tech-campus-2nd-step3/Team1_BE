@@ -2,6 +2,8 @@ package team1.BE.seamless.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
@@ -38,7 +40,7 @@ public class ProjectService {
         return projectEntity.getGuests();
     }
 
-    public ProjectEntity createProject(ProjectDTO.create create) {
+    public ProjectEntity createProject(ProjectCreate create) {
         ProjectEntity projectEntity = new ProjectEntity(
             create.getName(),
             create.getUser(),
@@ -50,12 +52,11 @@ public class ProjectService {
         return projectEntity;
     }
 
-    public ProjectEntity updateProject(long get, ProjectDTO.update update) {
+    public ProjectEntity updateProject(long get, ProjectUpdate update) {
         ProjectEntity projectEntity = projectRepository.findById(get)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
 
         projectEntity.setName(update.getName());
-        projectEntity.setUser(update.getUser());
         projectEntity.setGuests(update.getGuests());
         projectEntity.setOptions(update.getOptions());
         projectEntity.setStartDate(update.getStartDate());
