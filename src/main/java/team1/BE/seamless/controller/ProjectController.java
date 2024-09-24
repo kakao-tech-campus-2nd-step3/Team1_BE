@@ -40,13 +40,13 @@ public class ProjectController {
     }
 
     @Operation(summary = "프로젝트 조회")
-    @GetMapping("/{id}")
+    @GetMapping("/{project-id}")
     public SingleResult<ProjectEntity> getProject(@Valid @PathVariable long id) {
         return new SingleResult<>(projectService.getProject(id));
     }
 
     @Operation(summary = "프로젝트 멤버 조회")
-    @GetMapping("/{id}/{members}")
+    @GetMapping("/{project-id}/{members}")
     public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
@@ -58,14 +58,14 @@ public class ProjectController {
     }
 
     @Operation(summary = "프로젝트 설정 수정")
-    @PutMapping("/{id}")
+    @PutMapping("/{project-id}")
     public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectDTO.update update,
         @PathVariable long id) {
         return new SingleResult<>(projectService.updateProject(id, update));
     }
 
     @Operation(summary = "프로젝트 삭제")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{project-id}")
     public SingleResult<Long> deleteProject(@Valid @PathVariable long id) {
         return new SingleResult<>(projectService.deleteProject(id));
     }
