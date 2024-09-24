@@ -5,6 +5,7 @@ import com.example.team1_be.DTO.UserDTO.UserSimple;
 import com.example.team1_be.DTO.UserDTO.UserUpdate;
 import com.example.team1_be.service.UserService;
 import com.example.team1_be.util.page.SingleResult;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "인증기능 구현")
+@Tag(name = "유저 구현")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -27,11 +28,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "유저 정보 조회")
     @GetMapping
     public SingleResult<UserDetails> getUser(HttpServletRequest req) {
         return new SingleResult<>(userService.getUser(req));
     }
 
+    @Operation(summary = "유저 정보 수정")
     @PutMapping
     public SingleResult<UserSimple> updateUser(HttpServletRequest req, @Valid @RequestBody
         UserUpdate update) {
