@@ -1,5 +1,6 @@
 package team1.BE.seamless.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -27,6 +28,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }

@@ -1,5 +1,6 @@
 package team1.BE.seamless.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -16,6 +17,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    @Autowired
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
