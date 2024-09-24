@@ -1,6 +1,6 @@
 package team1.BE.seamless.DTO;
 
-public class TaskDto {
+public class TaskDTO {
 
     private Long id;
     private String content;
