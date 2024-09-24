@@ -75,8 +75,9 @@ public class ProjectService {
         return projectEntity;
     }
 
-    public void deleteProject(long get) {
+    public Long deleteProject(long get) {
         projectRepository.deleteById(get);
+        return get;
     }
 
 }

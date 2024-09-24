@@ -64,8 +64,8 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 삭제")
     @DeleteMapping("/{id}")
-    public void deleteProject(@Valid @PathVariable long id) {
-        projectService.deleteProject(id);
+    public SingleResult<Long> deleteProject(@Valid @PathVariable long id) {
+        return new SingleResult<>(projectService.deleteProject(id));
     }
 
 }
