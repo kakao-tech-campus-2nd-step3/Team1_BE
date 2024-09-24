@@ -21,11 +21,11 @@ public class ProjectEntity extends BaseEntity{
 
     }
 
-    public ProjectEntity(String name, Integer isDelete, User user,
+    public ProjectEntity(String name, User user,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
-        this.isDelete = isDelete;
+        this.isDelete = 0;
         this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -126,22 +126,6 @@ public class ProjectEntity extends BaseEntity{
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
-    }
-
-    public void addGuest(GuestEntity guestEntity) {
-        if (this.guestEntities == null) {
-            this.guestEntities = new ArrayList<>();
-        }
-        this.guestEntities.add(guestEntity);
-        guestEntity.setProject(this);  // 양방향 관계 설정
-    }
-
-    public void addOption(ProjectOption option) {
-        if (this.options == null) {
-            this.options = new ArrayList<>();
-        }
-        this.options.add(option);
-        option.setProject(this);  // 양방향 관계 설정
     }
 
 }

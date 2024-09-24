@@ -41,23 +41,11 @@ public class ProjectService {
     public ProjectEntity createProject(ProjectDTO.create create) {
         ProjectEntity projectEntity = new ProjectEntity(
             create.getName(),
-            create.getIsDelete(),
             create.getUser(),
             create.getStartDate(),
             create.getEndDate()
         );
 
-        if (create.getGuests() != null) {
-            for (GuestEntity guestEntity : create.getGuests()) {
-                projectEntity.addGuest(guestEntity);
-            }
-        }
-
-        if (create.getOptions() != null) {
-            for (ProjectOption option : create.getOptions()) {
-                projectEntity.addOption(option);
-            }
-        }
         projectRepository.save(projectEntity);
         return projectEntity;
     }
