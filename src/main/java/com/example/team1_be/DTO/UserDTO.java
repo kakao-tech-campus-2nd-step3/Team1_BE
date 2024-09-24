@@ -1,8 +1,33 @@
 package com.example.team1_be.DTO;
 
+import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class UserDTO {
+
+    public static class UserUpdate{
+        private String username;
+
+        @Pattern(regexp = "^(https?:\\/\\/)?([a-zA-Z0-9_-]+\\.)+[a-zA-Z]{2,6}(:[0-9]{1,5})?(\\/.*)?$",
+        message = "사진은 URL이여야 합니다.")
+        private String picture;
+
+        public UserUpdate() {
+        }
+
+        public UserUpdate(String username, String picture) {
+            this.username = username;
+            this.picture = picture;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getPicture() {
+            return picture;
+        }
+    }
 
     public static class UserSimple {
 

@@ -1,18 +1,17 @@
 package com.example.team1_be.controller;
 
-import com.example.team1_be.DTO.AuthDTO;
 import com.example.team1_be.DTO.UserDTO.UserDetails;
-import com.example.team1_be.entity.UserEntity;
+import com.example.team1_be.DTO.UserDTO.UserSimple;
+import com.example.team1_be.DTO.UserDTO.UserUpdate;
 import com.example.team1_be.service.UserService;
 import com.example.team1_be.util.page.SingleResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +33,9 @@ public class UserController {
     }
 
     @PutMapping
-    public SingleResult<UserDetails> updateUser(HttpServletRequest req) {
-        return new SingleResult<>(userService.getUser(req));
+    public SingleResult<UserSimple> updateUser(HttpServletRequest req, @Valid @RequestBody
+        UserUpdate update) {
+        return new SingleResult<>(userService.updateUser(req,update));
     }
 
 }
