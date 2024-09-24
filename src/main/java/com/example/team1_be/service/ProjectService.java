@@ -39,7 +39,6 @@ public class ProjectService {
     public Project createProject(ProjectDTO.create create) {
         Project project = new Project(
             create.getName(),
-            create.getViewType(),
             create.getIsDelete(),
             create.getUser(),
             create.getStartDate(),
@@ -66,7 +65,6 @@ public class ProjectService {
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
 
         project.setName(update.getName());
-        project.setViewType(update.getViewType());
         project.setUser(update.getUser());
         project.setGuests(update.getGuests());
         project.setOptions(update.getOptions());

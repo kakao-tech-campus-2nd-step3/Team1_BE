@@ -21,11 +21,10 @@ public class Project extends BaseEntity{
 
     }
 
-    public Project(String name, Object viewType, Integer isDelete, User user,
+    public Project(String name, Integer isDelete, User user,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
-        this.viewType = viewType;
         this.isDelete = isDelete;
         this.user = user;
         this.startDate = startDate;
@@ -40,8 +39,8 @@ public class Project extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @Column(name = "view_type")
-    private Object viewType;
+//    @Column(name = "view_type")
+//    private Object viewType;
 
     @Column(name = "is_delete")
     private Integer isDelete;
@@ -71,9 +70,6 @@ public class Project extends BaseEntity{
         return name;
     }
 
-    public Object getViewType() {
-        return viewType;
-    }
 
     public Integer getIsDelete() {
         return isDelete;
@@ -106,10 +102,6 @@ public class Project extends BaseEntity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setViewType(Object viewType) {
-        this.viewType = viewType;
     }
 
     public void setIsDelete(Integer isDelete) {

@@ -18,7 +18,7 @@ public class ProjectDTO {
 
         private String name;
 
-        private Object viewType;
+//        private Object viewType;
 
         private Integer isDelete;
 
@@ -35,13 +35,12 @@ public class ProjectDTO {
         public create() {
         }
 
-        public create(String name, Object viewType, Integer isDelete, User user,
+        public create(String name, Integer isDelete, User user,
             LocalDateTime startDate,
             LocalDateTime endDate,
             List<Guest> guests,
             List<ProjectOption> options) {
             this.name = name;
-            this.viewType = viewType;
             this.isDelete = isDelete;
             this.user = user;
             this.startDate = startDate;
@@ -62,10 +61,6 @@ public class ProjectDTO {
 
         public String getName() {
             return name;
-        }
-
-        public Object getViewType() {
-            return viewType;
         }
 
         public Integer getIsDelete() {
@@ -98,7 +93,7 @@ public class ProjectDTO {
 
         private String name;
 
-        private Object viewType;
+//        private Object viewType;
 
         private User user;
 
@@ -113,13 +108,12 @@ public class ProjectDTO {
         public update() {
         }
 
-        public update(String name, Object viewType, User user,
+        public update(String name, User user,
             LocalDateTime startDate,
             LocalDateTime endDate,
             List<Guest> guests,
             List<ProjectOption> options) {
             this.name = name;
-            this.viewType = viewType;
             this.user = user;
             this.startDate = startDate;
             this.endDate = endDate;
@@ -139,10 +133,6 @@ public class ProjectDTO {
 
         public String getName() {
             return name;
-        }
-
-        public Object getViewType() {
-            return viewType;
         }
 
         public User getUser() {
