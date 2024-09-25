@@ -121,5 +121,42 @@ public class ProjectDTO {
 
     }
 
+    public static class ProjectPeriod {
+
+        private Long id;
+
+        private String name;
+
+        private LocalDateTime startDate;
+
+        private LocalDateTime endDate;
+
+        public ProjectPeriod() {
+        }
+
+        public ProjectPeriod(Long id,String name, LocalDateTime startDate, LocalDateTime endDate) {
+            this.id = id;
+            this.name = name;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
+
+    }
 }
 
