@@ -3,7 +3,6 @@ package team1.BE.seamless.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.*;
-import team1.BE.seamless.DTO.ProjectPeriodProjection;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.service.ProjectService;
@@ -49,7 +48,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 기간 리스트 조회")
     @GetMapping("/periods")
-    public PageResult<ProjectPeriodProjection> getProjectPeriod(@Valid ProjectDTO.getList param) {
+    public PageResult<ProjectPeriod> getProjectPeriod(@Valid ProjectDTO.getList param) {
         return PageMapper.toPageResult(projectService.getProjectPeriod(param));
     }
 

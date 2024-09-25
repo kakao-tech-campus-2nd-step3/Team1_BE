@@ -6,7 +6,6 @@ import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
-import team1.BE.seamless.DTO.ProjectPeriodProjection;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.mapper.ProjectMapper;
@@ -45,7 +44,7 @@ public class ProjectService {
         return projectEntity.getGuests();
     }
 
-    public Page<ProjectPeriodProjection> getProjectPeriod(ProjectDTO.getList param) {
+    public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param) {
         return projectRepository.findAllBy(param.toPageable());
     }
 
