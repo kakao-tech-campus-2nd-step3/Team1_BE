@@ -72,16 +72,4 @@ public class GuestEntity extends BaseEntity{
         return taskEntities;
     }
 
-    public void addTask(TaskEntity taskEntity) {
-        if (this.taskEntities == null) {
-            this.taskEntities = new ArrayList<>();
-        }
-        this.taskEntities.add(taskEntity);
-        taskEntity.setOwner(this);  // 양방향 관계 설정
-    }
-
-    public void setProject(ProjectEntity projectEntity) {
-        this.projectEntity = projectEntity;
-    }
-
 }
