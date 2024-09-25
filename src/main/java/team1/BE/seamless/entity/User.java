@@ -10,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "user")
+@Entity(name = "user_table")
 public class User extends BaseEntity{
 
     public User() {
