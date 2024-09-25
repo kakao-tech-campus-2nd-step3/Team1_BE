@@ -24,7 +24,7 @@
 # 구현 기능 목록
 
 - 인증(김동혁)
-    - 회원가입
+    - 회원가입 & 로그인
       - google oauth2로 구현
       - 몇 가지 예외처리된 경로를 제외하면 구글 로그인 요구
         - swagger3
@@ -41,7 +41,17 @@
           - 토큰이 있다면
             - 토큰 검증
             - 토큰 내부의 정보를 파싱
-    - 로그인
+    - 유저 정보 조회
+      - 토큰내 정보로 유저 파싱
+    - 유저 정보 수정
+      - 토큰내 정보로 유저 파싱
+      - 유저이름(username), 사진(picture) 수정 가능
+      - 입력된 값만 검증해서 변경
+        - 공백 검사
+          - 공백시 기존 값 유지
+        - 이미지는 url 검사
+          - url패턴을 어길 시 400
+    - 유저 정보 삭제
     - 코드로 참여
 - 프로젝트(김도헌)
   - 프로젝트 리스트 조회
@@ -66,3 +76,30 @@
   - 각 게스트별 진행도 조회
   - 태스크별 진행도 조회
 - ...
+---
+# Week4 이슈
+- 프로젝트 빌드 실패
+  - Task의 오류 
+    - 컴플리트 수행시 잘못된 수정(김도헌)
+      - 본인이 구현한 기능을 고려하지 않고 조서영이 작성한 Task(entity)로 대치
+    - @Column 부재(조서영)
+      - 작성한 엔티티에 @Column이 없어서 테이블 생성 실패
+    - taskRepository.deleteById의 구문 오류(조서영)
+      - 위 함수는 Task(entity)의 id만을 입력으로 받을 수 있다.
+      - 하지만 Long projectId, Long taskId라는 2개의 파라미터를 제공함으로서 JpaRepository가 빌드에 실패했다.
+  - projectEntity 오류
+    - projectEntity(entity)의 Column중 하나인 viewType의 자료형을 object로 구현
+      - Object로 구현시 Hibernate가 제대로 테이블을 생성할 수 없음
+  - 해결(김동혁)
+    - 기존 김도헌이 작성한 Task(entity)로 변경
+      - 기존(조서영)이 작성한 기능이 보다 김도헌이 작성한 기능의 복잡성을 고려함
+      - 기존에 구현한 Task(controller, service, repository)는 주석 처리
+    - projectEntity(entity)의 viewType은 삭제
+      - 다양한 차트의 형태(간트, 칸반, 플로우...)의 상태를 정의하기 위해 고려한 컬럼
+      - 하지만 기능의 모호성과 차후 업데이트로 반영할 수 있다는 점을 고려해 삭제
+  - 당부사항(김동혁)
+    - 제발 빌드 및 실행에 대한 테스트를 진행하고 커밋을 진행할 것
+    - Test(entity,controller,service,repository 등)을 참조해서 구현할 것
+    - 파일의 명명 규칙을 준수할 것
+      - Task(x)
+      - TaskEntity(0)
