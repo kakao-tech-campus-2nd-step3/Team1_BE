@@ -34,13 +34,13 @@ public class ProjectService {
 
     public ProjectEntity getProject(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
         return projectEntity;
     }
 
     public List<GuestEntity> getProjectMembers(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
         return projectEntity.getGuests();
     }
 
@@ -64,7 +64,7 @@ public class ProjectService {
     @Transactional
     public ProjectEntity updateProject(long get, ProjectUpdate update) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
         projectEntity.update(
             update.getName(),
