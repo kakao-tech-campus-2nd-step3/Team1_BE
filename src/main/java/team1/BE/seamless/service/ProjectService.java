@@ -8,7 +8,6 @@ import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
-import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
