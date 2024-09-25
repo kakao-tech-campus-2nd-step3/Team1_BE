@@ -46,6 +46,12 @@ public class ProjectController {
         return new SingleResult<>(projectService.getProject(id));
     }
 
+    @Operation(summary = "프로젝트 기간 리스트 조회")
+    @GetMapping("/periods")
+    public PageResult<ProjectPeriod> getProjectPeriod(@Valid ProjectDTO.getList param) {
+        return PageMapper.toPageResult(projectService.getProjectPeriod(param));
+    }
+
     @Operation(summary = "프로젝트 멤버 조회")
     @GetMapping("/{project-id}/members")
     public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {

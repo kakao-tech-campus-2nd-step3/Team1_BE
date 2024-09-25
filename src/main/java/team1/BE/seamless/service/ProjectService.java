@@ -3,6 +3,7 @@ package team1.BE.seamless.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -41,6 +42,10 @@ public class ProjectService {
         ProjectEntity projectEntity = projectRepository.findById(get)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
         return projectEntity.getGuests();
+    }
+
+    public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param) {
+        return projectRepository.findProjectPeriod(param.toPageable());
     }
 
     public ProjectEntity createProject(ProjectCreate create) {
