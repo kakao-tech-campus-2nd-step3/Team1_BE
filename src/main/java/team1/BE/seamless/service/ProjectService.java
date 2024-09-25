@@ -1,6 +1,7 @@
 package team1.BE.seamless.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
@@ -48,6 +49,7 @@ public class ProjectService {
         return projectRepository.findProjectPeriod(param.toPageable());
     }
 
+    @Transactional
     public ProjectEntity createProject(ProjectCreate create) {
         ProjectEntity projectEntity = projectMapper.toEntity(
             create.getName(),
@@ -60,6 +62,7 @@ public class ProjectService {
         return projectEntity;
     }
 
+    @Transactional
     public ProjectEntity updateProject(long get, ProjectUpdate update) {
         ProjectEntity projectEntity = projectRepository.findById(get)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
@@ -74,6 +77,7 @@ public class ProjectService {
         return projectEntity;
     }
 
+    @Transactional
     public Long deleteProject(long get) {
         projectRepository.deleteById(get);
         return get;
