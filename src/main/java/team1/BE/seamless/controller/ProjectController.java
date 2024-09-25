@@ -47,7 +47,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "프로젝트 멤버 조회")
-    @GetMapping("/{project-id}/{members}")
+    @GetMapping("/{project-id}/members")
     public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
