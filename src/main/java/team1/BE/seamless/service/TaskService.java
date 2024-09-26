@@ -27,7 +27,7 @@ public class TaskService {
         ProjectEntity projectEntity = projectRepository.findById(req.getProjectId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
         // Guest 기능 구현 이전 이기 때문에 Mock 데이터로 구현
-         GuestEntity guestEntity = new GuestEntity("test@gmail.com", 1, 0, );
+         GuestEntity guestEntity = new GuestEntity("test@gmail.com", "1", 0, projectEntity);
 
         TaskEntity taskEntity = new TaskEntity(
             req.getName(),
