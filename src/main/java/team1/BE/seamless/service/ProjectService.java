@@ -1,9 +1,14 @@
 package team1.BE.seamless.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.ProjectDTO;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
-import team1.BE.seamless.entity.ProjectOption;
+import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
 import java.util.List;
@@ -15,9 +20,12 @@ import org.springframework.stereotype.Service;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
-    public ProjectService(ProjectRepository projectRepository) {
+    @Autowired
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
+        this.projectMapper = projectMapper;
     }
 
     public Page<ProjectEntity> getProjectList(ProjectDTO.getList param) {
@@ -26,57 +34,54 @@ public class ProjectService {
 
     public ProjectEntity getProject(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
         return projectEntity;
     }
 
     public List<GuestEntity> getProjectMembers(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
         return projectEntity.getGuests();
     }
 
-    public ProjectEntity createProject(ProjectDTO.create create) {
-        ProjectEntity projectEntity = new ProjectEntity(
+    public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param) {
+        return projectRepository.findAllBy(param.toPageable());
+    }
+
+    @Transactional
+    public ProjectEntity createProject(ProjectCreate create) {
+        ProjectEntity projectEntity = projectMapper.toEntity(
             create.getName(),
-            create.getIsDelete(),
             create.getUser(),
             create.getStartDate(),
             create.getEndDate()
         );
 
-        if (create.getGuests() != null) {
-            for (GuestEntity guestEntity : create.getGuests()) {
-                projectEntity.addGuest(guestEntity);
-            }
-        }
-
-        if (create.getOptions() != null) {
-            for (ProjectOption option : create.getOptions()) {
-                projectEntity.addOption(option);
-            }
-        }
         projectRepository.save(projectEntity);
         return projectEntity;
     }
 
-    public ProjectEntity updateProject(long get, ProjectDTO.update update) {
+    @Transactional
+    public ProjectEntity updateProject(long get, ProjectUpdate update) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
-        projectEntity.setName(update.getName());
-        projectEntity.setUser(update.getUser());
-        projectEntity.setGuests(update.getGuests());
-        projectEntity.setOptions(update.getOptions());
-        projectEntity.setStartDate(update.getStartDate());
-        projectEntity.setEndDate(update.getEndDate());
+        projectEntity.update(
+            update.getName(),
+            update.getStartDate(),
+            update.getEndDate()
+        );
 
         projectRepository.save(projectEntity);
         return projectEntity;
     }
 
-    public void deleteProject(long get) {
-        projectRepository.deleteById(get);
+    @Transactional
+    public Long deleteProject(long get) {
+        ProjectEntity projectEntity = projectRepository.findById(get)
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+        projectRepository.deleteById(projectEntity.getId());
+        return projectEntity.getId();
     }
 
 }

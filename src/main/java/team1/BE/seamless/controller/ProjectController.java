@@ -1,6 +1,8 @@
 package team1.BE.seamless.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
+import team1.BE.seamless.DTO.ProjectDTO.*;
 import team1.BE.seamless.entity.GuestEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.service.ProjectService;
@@ -27,6 +29,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
@@ -38,34 +41,40 @@ public class ProjectController {
     }
 
     @Operation(summary = "프로젝트 조회")
-    @GetMapping("/{id}")
+    @GetMapping("/{project-id}")
     public SingleResult<ProjectEntity> getProject(@Valid @PathVariable long id) {
         return new SingleResult<>(projectService.getProject(id));
     }
 
+    @Operation(summary = "프로젝트 기간 리스트 조회")
+    @GetMapping("/periods")
+    public PageResult<ProjectPeriod> getProjectPeriod(@Valid ProjectDTO.getList param) {
+        return PageMapper.toPageResult(projectService.getProjectPeriod(param));
+    }
+
     @Operation(summary = "프로젝트 멤버 조회")
-    @GetMapping("/{id}/{members}")
+    @GetMapping("/{project-id}/members")
     public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
 
     @Operation(summary = "프로젝트 생성")
     @PostMapping
-    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectDTO.create create) {
+    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectCreate create) {
         return new SingleResult<>(projectService.createProject(create));
     }
 
     @Operation(summary = "프로젝트 설정 수정")
-    @PutMapping("/{id}")
-    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectDTO.update update,
+    @PutMapping("/{project-id}")
+    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectUpdate update,
         @PathVariable long id) {
         return new SingleResult<>(projectService.updateProject(id, update));
     }
 
     @Operation(summary = "프로젝트 삭제")
-    @DeleteMapping("/{id}")
-    public void deleteProject(@Valid @PathVariable long id) {
-        projectService.deleteProject(id);
+    @DeleteMapping("/{project-id}")
+    public SingleResult<Long> deleteProject(@Valid @PathVariable long id) {
+        return new SingleResult<>(projectService.deleteProject(id));
     }
 
 }
