@@ -2,8 +2,8 @@ package team1.BE.seamless.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import team1.BE.seamless.DTO.ProjectDTO;
-import team1.BE.seamless.DTO.ProjectDTO.*;
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.service.ProjectService;
 import team1.BE.seamless.util.page.ListResult;
@@ -54,19 +54,19 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 멤버 조회")
     @GetMapping("/{project-id}/members")
-    public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {
+    public ListResult<MemberEntity> getProjectMembers(@Valid @PathVariable long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
 
     @Operation(summary = "프로젝트 생성")
     @PostMapping
-    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectCreate create) {
+    public SingleResult<ProjectEntity> createProject(@Valid @RequestBody ProjectDTO.ProjectCreate create) {
         return new SingleResult<>(projectService.createProject(create));
     }
 
     @Operation(summary = "프로젝트 설정 수정")
     @PutMapping("/{project-id}")
-    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectUpdate update,
+    public SingleResult<ProjectEntity> updateProject(@Valid @RequestBody ProjectDTO.ProjectUpdate update,
         @PathVariable long id) {
         return new SingleResult<>(projectService.updateProject(id, update));
     }

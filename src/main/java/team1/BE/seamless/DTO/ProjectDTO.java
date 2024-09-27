@@ -1,8 +1,10 @@
 package team1.BE.seamless.DTO;
 
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectOption;
-import team1.BE.seamless.entity.User;
+import team1.BE.seamless.entity.UserEntity;
+import team1.BE.seamless.entity.UserEntity;
 import team1.BE.seamless.util.page.PageParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,9 +20,9 @@ public class ProjectDTO {
 
         private String name;
 
-        private User user;
+        private UserEntity user;
 
-        private List<GuestEntity> guests;
+        private List<MemberEntity> guests;
 
         private List<ProjectOption> options;
 
@@ -33,10 +35,10 @@ public class ProjectDTO {
             this.options = new ArrayList<>();
         }
 
-        public ProjectCreate(String name, User user,
+        public ProjectCreate(String name, UserEntity user,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guests,
+            List<MemberEntity> guests,
             List<ProjectOption> options) {
             this.name = name;
             this.user = user;
@@ -50,11 +52,11 @@ public class ProjectDTO {
             return name;
         }
 
-        public User getUser() {
+        public UserEntity getUser() {
             return user;
         }
 
-        public List<GuestEntity> getGuests() {
+        public List<MemberEntity> getGuests() {
             return guests;
         }
 
@@ -76,7 +78,7 @@ public class ProjectDTO {
 
         private String name;
 
-        private List<GuestEntity> guests;
+        private List<MemberEntity> guests;
 
         private List<ProjectOption> options;
 
@@ -90,7 +92,7 @@ public class ProjectDTO {
         public ProjectUpdate(String name,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guests,
+            List<MemberEntity> guests,
             List<ProjectOption> options) {
             this.name = name;
             this.startDate = startDate;
@@ -103,7 +105,7 @@ public class ProjectDTO {
             return name;
         }
 
-        public List<GuestEntity> getGuests() {
+        public List<MemberEntity> getGuests() {
             return guests;
         }
 
@@ -165,5 +167,6 @@ public class ProjectDTO {
         LocalDateTime getStartDate();
         LocalDateTime getEndDate();
     }
+
 }
 

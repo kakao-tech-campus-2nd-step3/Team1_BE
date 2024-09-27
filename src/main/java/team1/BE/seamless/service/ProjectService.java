@@ -6,8 +6,9 @@ import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
+import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
@@ -38,10 +39,10 @@ public class ProjectService {
         return projectEntity;
     }
 
-    public List<GuestEntity> getProjectMembers(long get) {
+    public List<MemberEntity> getProjectMembers(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
-        return projectEntity.getGuests();
+        return projectEntity.getMemberEntities();
     }
 
     public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param) {

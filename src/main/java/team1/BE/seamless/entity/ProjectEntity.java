@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "project")
@@ -21,7 +22,7 @@ public class ProjectEntity extends BaseEntity{
 
     }
 
-    public ProjectEntity(String name, User user,
+    public ProjectEntity(String name, UserEntity user,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
@@ -47,10 +48,10 @@ public class ProjectEntity extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<GuestEntity> guestEntities;
+    private List<MemberEntity> memberEntities;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
@@ -78,12 +79,12 @@ public class ProjectEntity extends BaseEntity{
         return isDelete;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public List<GuestEntity> getGuests() {
-        return guestEntities;
+    public List<MemberEntity> getMemberEntities() {
+        return memberEntities;
     }
 
     public List<ProjectOption> getOptions() {
@@ -115,12 +116,12 @@ public class ProjectEntity extends BaseEntity{
         this.isDelete = isDelete;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public void setGuests(List<GuestEntity> guestEntities) {
-        this.guestEntities = guestEntities;
+    public void setMemberEntities(List<MemberEntity> memberEntities) {
+        this.memberEntities = memberEntities;
     }
 
     public void setOptions(List<ProjectOption> options) {
