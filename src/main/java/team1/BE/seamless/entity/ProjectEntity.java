@@ -22,13 +22,17 @@ public class ProjectEntity extends BaseEntity{
     }
 
     public ProjectEntity(String name, Integer isDelete, User user,
-        LocalDateTime startDate,
-        LocalDateTime endDate) {
+                         LocalDateTime startDate,
+                         LocalDateTime endDate) {
         this.name = name;
         this.isDelete = isDelete;
         this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public ProjectEntity(Long id) {
+        this.id = id;
     }
 
     @Id
@@ -50,7 +54,7 @@ public class ProjectEntity extends BaseEntity{
     private User user;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<GuestEntity> guestEntities;
+    private List<MemberEntity> memberEntities;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
@@ -79,8 +83,8 @@ public class ProjectEntity extends BaseEntity{
         return user;
     }
 
-    public List<GuestEntity> getGuests() {
-        return guestEntities;
+    public List<MemberEntity> getMemberEntities() {
+        return memberEntities;
     }
 
     public List<ProjectOption> getOptions() {
@@ -112,8 +116,8 @@ public class ProjectEntity extends BaseEntity{
         this.user = user;
     }
 
-    public void setGuests(List<GuestEntity> guestEntities) {
-        this.guestEntities = guestEntities;
+    public void setMemberEntities(List<MemberEntity> memberEntities) {
+        this.memberEntities = memberEntities;
     }
 
     public void setOptions(List<ProjectOption> options) {
@@ -128,12 +132,12 @@ public class ProjectEntity extends BaseEntity{
         this.endDate = endDate;
     }
 
-    public void addGuest(GuestEntity guestEntity) {
-        if (this.guestEntities == null) {
-            this.guestEntities = new ArrayList<>();
+    public void addMember(MemberEntity memberEntity) {
+        if (this.memberEntities == null) {
+            this.memberEntities = new ArrayList<>();
         }
-        this.guestEntities.add(guestEntity);
-        guestEntity.setProject(this);  // 양방향 관계 설정
+        this.memberEntities.add(memberEntity);
+        memberEntity.setProject(this);  // 양방향 관계 설정
     }
 
     public void addOption(ProjectOption option) {

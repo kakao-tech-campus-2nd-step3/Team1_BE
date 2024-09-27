@@ -1,7 +1,7 @@
 package team1.BE.seamless.service;
 
 import team1.BE.seamless.DTO.ProjectDTO;
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.repository.ProjectRepository;
@@ -26,28 +26,28 @@ public class ProjectService {
 
     public ProjectEntity getProject(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
         return projectEntity;
     }
 
-    public List<GuestEntity> getProjectMembers(long get) {
+    public List<MemberEntity> getProjectMembers(long get) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
-        return projectEntity.getGuests();
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+        return projectEntity.getMemberEntities();
     }
 
     public ProjectEntity createProject(ProjectDTO.create create) {
         ProjectEntity projectEntity = new ProjectEntity(
-            create.getName(),
-            create.getIsDelete(),
-            create.getUser(),
-            create.getStartDate(),
-            create.getEndDate()
+                create.getName(),
+                create.getIsDelete(),
+                create.getUser(),
+                create.getStartDate(),
+                create.getEndDate()
         );
 
-        if (create.getGuests() != null) {
-            for (GuestEntity guestEntity : create.getGuests()) {
-                projectEntity.addGuest(guestEntity);
+        if (create.getMemberEntities() != null) {
+            for (MemberEntity memberEntity : create.getMemberEntities()) {
+                projectEntity.addMember(memberEntity);
             }
         }
 
@@ -62,11 +62,11 @@ public class ProjectService {
 
     public ProjectEntity updateProject(long get, ProjectDTO.update update) {
         ProjectEntity projectEntity = projectRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
 
         projectEntity.setName(update.getName());
         projectEntity.setUser(update.getUser());
-        projectEntity.setGuests(update.getGuests());
+        projectEntity.setMemberEntities(update.getMemberEntities());
         projectEntity.setOptions(update.getOptions());
         projectEntity.setStartDate(update.getStartDate());
         projectEntity.setEndDate(update.getEndDate());

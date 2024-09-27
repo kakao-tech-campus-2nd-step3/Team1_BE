@@ -1,5 +1,7 @@
 package team1.BE.seamless.service;
 
+import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,5 +18,17 @@ public class MemberService {
 
     public void deleteMember(Long id) {
         memberRepository.deleteById(id);
+    }
+
+    public MemberEntity addMember(MemberEntity member, Long projectId) {
+        member.setProject(new ProjectEntity(projectId));
+        return memberRepository.save(member);
+    }
+
+    public MemberEntity updateMember(Long id, MemberEntity memberDetails) {
+        MemberEntity member = memberRepository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
+        member.setEmail(memberDetails.getEmail());
+        member.setJoinNumber(memberDetails.getJoinNumber());
+        return memberRepository.save(member);
     }
 }

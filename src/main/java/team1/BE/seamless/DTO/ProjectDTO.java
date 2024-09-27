@@ -1,6 +1,7 @@
 package team1.BE.seamless.DTO;
 
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.entity.User;
 import team1.BE.seamless.util.page.PageParam;
@@ -24,7 +25,7 @@ public class ProjectDTO {
 
         private User user;
 
-        private List<GuestEntity> guestEntities;
+        private List<MemberEntity> memberEntities;
 
         private List<ProjectOption> options;
 
@@ -38,7 +39,7 @@ public class ProjectDTO {
         public create(String name, Integer isDelete, User user,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guestEntities,
+            List<MemberEntity> memberEntities,
             List<ProjectOption> options) {
             this.name = name;
             this.isDelete = isDelete;
@@ -46,10 +47,10 @@ public class ProjectDTO {
             this.startDate = startDate;
             this.endDate = endDate;
 
-            if (guestEntities == null) {
-                this.guestEntities = new ArrayList<>();
+            if (memberEntities == null) {
+                this.memberEntities = new ArrayList<>();
             } else {
-                this.guestEntities = guestEntities;
+                this.memberEntities = memberEntities;
             }
 
             if (options == null) {
@@ -71,8 +72,8 @@ public class ProjectDTO {
             return user;
         }
 
-        public List<GuestEntity> getGuests() {
-            return guestEntities;
+        public List<MemberEntity> getMemberEntities() {
+            return memberEntities;
         }
 
         public List<ProjectOption> getOptions() {
@@ -97,7 +98,7 @@ public class ProjectDTO {
 
         private User user;
 
-        private List<GuestEntity> guestEntities;
+        private List<MemberEntity> memberEntities;
 
         private List<ProjectOption> options;
 
@@ -111,17 +112,17 @@ public class ProjectDTO {
         public update(String name, User user,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guestEntities,
+            List<MemberEntity> memberEntities,
             List<ProjectOption> options) {
             this.name = name;
             this.user = user;
             this.startDate = startDate;
             this.endDate = endDate;
 
-            if (guestEntities == null) {
-                this.guestEntities = new ArrayList<>();
+            if (memberEntities == null) {
+                this.memberEntities = new ArrayList<>();
             } else {
-                this.guestEntities = guestEntities;
+                this.memberEntities = memberEntities;
             }
 
             if (options == null) {
@@ -139,8 +140,8 @@ public class ProjectDTO {
             return user;
         }
 
-        public List<GuestEntity> getGuests() {
-            return guestEntities;
+        public List<MemberEntity> getMemberEntities() {
+            return memberEntities;
         }
 
         public List<ProjectOption> getOptions() {

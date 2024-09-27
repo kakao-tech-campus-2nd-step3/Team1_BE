@@ -1,7 +1,7 @@
 package team1.BE.seamless.controller;
 
 import team1.BE.seamless.DTO.ProjectDTO;
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.service.ProjectService;
 import team1.BE.seamless.util.page.ListResult;
@@ -45,7 +45,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 멤버 조회")
     @GetMapping("/{id}/{members}")
-    public ListResult<GuestEntity> getProjectMembers(@Valid @PathVariable long id) {
+    public ListResult<MemberEntity> getProjectMembers(@Valid @PathVariable long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
 
