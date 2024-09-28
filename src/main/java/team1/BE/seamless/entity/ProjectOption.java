@@ -20,9 +20,9 @@ public class ProjectOption extends BaseEntity{
 
     }
 
-    public ProjectOption(String name, Integer isDelete, ProjectEntity projectEntity) {
+    public ProjectOption(String name,  ProjectEntity projectEntity) {
         this.name = name;
-        this.isDelete = isDelete;
+        this.isDeleted = false;
         this.projectEntity = projectEntity;
     }
 
@@ -34,8 +34,8 @@ public class ProjectOption extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -52,8 +52,8 @@ public class ProjectOption extends BaseEntity{
         return name;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public ProjectEntity getProject() {
@@ -64,16 +64,12 @@ public class ProjectOption extends BaseEntity{
         return details;
     }
 
-    public void addDetail(ProjectOptionDetail detail) {
-        if (this.details == null) {
-            this.details = new ArrayList<>();
-        }
-        this.details.add(detail);
-        detail.setOption(this);  // 양방향 관계 설정
-    }
-
     public void setProject(ProjectEntity projectEntity) {
         this.projectEntity = projectEntity;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

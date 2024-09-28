@@ -16,11 +16,10 @@ public class ProjectOptionDetail extends BaseEntity{
 
     }
 
-    public ProjectOptionDetail(String name, String eventType, Integer isDelete,
-        ProjectOption option) {
+    public ProjectOptionDetail(String name, String eventType, ProjectOption option) {
         this.name = name;
         this.eventType = eventType;
-        this.isDelete = isDelete;
+        this.isDeleted = false;
         this.option = option;
     }
 
@@ -35,8 +34,8 @@ public class ProjectOptionDetail extends BaseEntity{
     @Column(name = "event_type")
     private String eventType;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id")
@@ -54,8 +53,8 @@ public class ProjectOptionDetail extends BaseEntity{
         return eventType;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public ProjectOption getOption() {
@@ -64,6 +63,10 @@ public class ProjectOptionDetail extends BaseEntity{
 
     public void setOption(ProjectOption option) {
         this.option = option;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

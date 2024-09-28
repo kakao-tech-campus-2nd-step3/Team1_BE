@@ -47,12 +47,12 @@ public class TaskEntity {
     @Column(name = "is_delete")
     private Integer isDelete;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id")
+    @JoinColumn(name = "member_id")
     private MemberEntity owner;
 
     @Column(name = "start_date")

@@ -26,7 +26,7 @@ public class ProjectEntity extends BaseEntity{
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
-        this.isDelete = 0;
+        this.isDeleted = false;
         this.userEntity = userEntity;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -40,8 +40,8 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -53,8 +53,8 @@ public class ProjectEntity extends BaseEntity{
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
-    private TaskEntity taskEntity;
+    @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
+    private List<TaskEntity> taskEntities;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -72,8 +72,8 @@ public class ProjectEntity extends BaseEntity{
     }
 
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public UserEntity getUserEntity() {
@@ -88,8 +88,8 @@ public class ProjectEntity extends BaseEntity{
         return options;
     }
 
-    public TaskEntity getTaskEntity() {
-        return taskEntity;
+    public List<TaskEntity> getTaskEntities() {
+        return taskEntities;
     }
 
     public LocalDateTime getStartDate() {
@@ -109,8 +109,8 @@ public class ProjectEntity extends BaseEntity{
         this.name = name;
     }
 
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public void setUser(UserEntity userEntity) {
@@ -125,8 +125,8 @@ public class ProjectEntity extends BaseEntity{
         this.options = options;
     }
 
-    public void setTaskEntity(TaskEntity taskEntity) {
-        this.taskEntity = taskEntity;
+    public void setTaskEntity(List<TaskEntity> taskEntities) {
+        this.taskEntities = taskEntities;
     }
 
     public void setStartDate(LocalDateTime startDate) {
