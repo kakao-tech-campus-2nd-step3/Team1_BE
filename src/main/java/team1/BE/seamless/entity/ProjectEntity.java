@@ -22,12 +22,12 @@ public class ProjectEntity extends BaseEntity{
 
     }
 
-    public ProjectEntity(String name, UserEntity user,
+    public ProjectEntity(String name, UserEntity userEntity,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
         this.isDelete = 0;
-        this.user = user;
+        this.userEntity = userEntity;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -40,15 +40,12 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-//    @Column(name = "view_type")
-//    private Object viewType;
-
     @Column(name = "is_delete")
     private Integer isDelete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private UserEntity userEntity;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<MemberEntity> memberEntities;
@@ -79,8 +76,8 @@ public class ProjectEntity extends BaseEntity{
         return isDelete;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
     public List<MemberEntity> getMemberEntities() {
@@ -116,8 +113,8 @@ public class ProjectEntity extends BaseEntity{
         this.isDelete = isDelete;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     public void setMemberEntities(List<MemberEntity> memberEntities) {
