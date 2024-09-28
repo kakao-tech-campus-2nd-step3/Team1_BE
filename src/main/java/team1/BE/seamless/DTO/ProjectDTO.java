@@ -1,5 +1,9 @@
 package team1.BE.seamless.DTO;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import java.time.Duration;
 import team1.BE.seamless.util.page.PageParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,8 +23,11 @@ public class ProjectDTO {
 
         private List<Long> optionIds;
 
+        @NotNull
+        @FutureOrPresent
         private LocalDateTime startDate;
 
+        @NotNull
         private LocalDateTime endDate;
 
         public ProjectCreate() {
@@ -58,6 +65,16 @@ public class ProjectDTO {
             return endDate;
         }
 
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
+        }
+
     }
 
     public static class ProjectUpdate {
@@ -66,8 +83,11 @@ public class ProjectDTO {
 
         private List<Long> optionIds;
 
+        @NotNull
+        @FutureOrPresent
         private LocalDateTime startDate;
 
+        @NotNull
         private LocalDateTime endDate;
 
         public ProjectUpdate() {
@@ -94,6 +114,16 @@ public class ProjectDTO {
 
         public LocalDateTime getEndDate() {
             return endDate;
+        }
+
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
         }
 
     }
