@@ -1,8 +1,6 @@
 package team1.BE.seamless.util.auth;
 
 
-import team1.BE.seamless.DTO.AuthDTO.PrincipalDetails;
-import team1.BE.seamless.util.errorException.BaseHandler;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -23,6 +21,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import team1.BE.seamless.DTO.AuthDTO.PrincipalDetails;
+import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.enums.Role;
 import team1.BE.seamless.util.errorException.RuntimeHandler;
 
 @Component
@@ -50,6 +51,21 @@ public class JwtToken {
         Claims claims = Jwts.claims();
         claims.put("authentication", authorities);
         claims.put("email", user.getUser().getEmail());
+        return Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(Date.from(now.toInstant()))
+            .setExpiration(Date.from(expirationDateTime.toInstant()))
+            .signWith(secretKey, SignatureAlgorithm.HS256)
+            .compact();
+    }
+
+    public String createMemberToken(MemberEntity member) {
+        ZonedDateTime now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
+
+        Claims claims = Jwts.claims();
+        claims.put("authentication", Role.MEMBER.toString());
+        claims.put("email", member.getEmail());
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(Date.from(now.toInstant()))

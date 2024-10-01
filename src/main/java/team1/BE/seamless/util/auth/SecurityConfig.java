@@ -53,14 +53,14 @@ public class SecurityConfig {
 //                swagger
                 .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
                     "/api-docs/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/login/**", "/auth/**", "/oauth2/**")
+                .requestMatchers("/login/**", "/api/auth/**", "/oauth2/**")
                 .permitAll()
 //                확장자
                 .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif",
                     "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                 .permitAll()
 //                인증, h2
-                .requestMatchers("/auth/**", "/h2-console/**").permitAll()
+                .requestMatchers( "/h2-console/**").permitAll()
                 .anyRequest()
                 .authenticated()
             )
