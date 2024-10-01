@@ -57,11 +57,17 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new PrincipalDetails(user, oAuth2UserAttributes, userNameAttributeName);
     }
 
+    /**
+     * 유저 정보가 존재하지 않으면 파라미터로 유저 생성
+     * 유저 정보가 있으면 로그인
+     * 삭제여부는 서비스에서 검증
+     * */
     @Transactional
     protected UserEntity saveOrUpdate(OAuthAttributes attributes) {
         UserEntity user = userRepository.findByEmail(attributes.getEmail())
             // 구글 사용자 정보 업데이트(이미 가입된 사용자) => 업데이트
 //            .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+
             // 가입되지 않은 사용자 => User 엔티티 생성
             .orElse(userMapper.toEntity(attributes.getName(), attributes.getEmail(),
                 attributes.getPicture()));
