@@ -1,8 +1,10 @@
 package team1.BE.seamless.DTO;
 
-import team1.BE.seamless.entity.GuestEntity;
+import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectOption;
-import team1.BE.seamless.entity.User;
+import team1.BE.seamless.entity.UserEntity;
+import team1.BE.seamless.entity.UserEntity;
 import team1.BE.seamless.util.page.PageParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,17 +16,13 @@ public class ProjectDTO {
 
     }
 
-    public static class create {
+    public static class ProjectCreate {
 
         private String name;
 
-//        private Object viewType;
+        private UserEntity user;
 
-        private Integer isDelete;
-
-        private User user;
-
-        private List<GuestEntity> guestEntities;
+        private List<MemberEntity> guests;
 
         private List<ProjectOption> options;
 
@@ -32,47 +30,34 @@ public class ProjectDTO {
 
         private LocalDateTime endDate;
 
-        public create() {
+        public ProjectCreate() {
+            this.guests = new ArrayList<>();
+            this.options = new ArrayList<>();
         }
 
-        public create(String name, Integer isDelete, User user,
+        public ProjectCreate(String name, UserEntity user,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guestEntities,
+            List<MemberEntity> guests,
             List<ProjectOption> options) {
             this.name = name;
-            this.isDelete = isDelete;
             this.user = user;
             this.startDate = startDate;
             this.endDate = endDate;
-
-            if (guestEntities == null) {
-                this.guestEntities = new ArrayList<>();
-            } else {
-                this.guestEntities = guestEntities;
-            }
-
-            if (options == null) {
-                this.options = new ArrayList<>();
-            } else {
-                this.options = options;
-            }
+            this.guests = guests;
+            this.options = options;
         }
 
         public String getName() {
             return name;
         }
 
-        public Integer getIsDelete() {
-            return isDelete;
-        }
-
-        public User getUser() {
+        public UserEntity getUser() {
             return user;
         }
 
-        public List<GuestEntity> getGuests() {
-            return guestEntities;
+        public List<MemberEntity> getGuests() {
+            return guests;
         }
 
         public List<ProjectOption> getOptions() {
@@ -89,15 +74,11 @@ public class ProjectDTO {
 
     }
 
-    public static class update {
+    public static class ProjectUpdate {
 
         private String name;
 
-//        private Object viewType;
-
-        private User user;
-
-        private List<GuestEntity> guestEntities;
+        private List<MemberEntity> guests;
 
         private List<ProjectOption> options;
 
@@ -105,42 +86,27 @@ public class ProjectDTO {
 
         private LocalDateTime endDate;
 
-        public update() {
+        public ProjectUpdate() {
         }
 
-        public update(String name, User user,
+        public ProjectUpdate(String name,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<GuestEntity> guestEntities,
+            List<MemberEntity> guests,
             List<ProjectOption> options) {
             this.name = name;
-            this.user = user;
             this.startDate = startDate;
             this.endDate = endDate;
-
-            if (guestEntities == null) {
-                this.guestEntities = new ArrayList<>();
-            } else {
-                this.guestEntities = guestEntities;
-            }
-
-            if (options == null) {
-                this.options = new ArrayList<>();
-            } else {
-                this.options = options;
-            }
+            this.guests = guests;
+            this.options = options;
         }
 
         public String getName() {
             return name;
         }
 
-        public User getUser() {
-            return user;
-        }
-
-        public List<GuestEntity> getGuests() {
-            return guestEntities;
+        public List<MemberEntity> getGuests() {
+            return guests;
         }
 
         public List<ProjectOption> getOptions() {
@@ -155,6 +121,51 @@ public class ProjectDTO {
             return endDate;
         }
 
+    }
+
+//    public static class ProjectPeriod {
+//
+//        private Long id;
+//
+//        private String name;
+//
+//        private LocalDateTime startDate;
+//
+//        private LocalDateTime endDate;
+//
+//        public ProjectPeriod() {
+//        }
+//
+//        public ProjectPeriod(Long id,String name, LocalDateTime startDate, LocalDateTime endDate) {
+//            this.id = id;
+//            this.name = name;
+//            this.startDate = startDate;
+//            this.endDate = endDate;
+//        }
+//
+//        public Long getId() {
+//            return id;
+//        }
+//
+//        public String getName() {
+//            return name;
+//        }
+//
+//        public LocalDateTime getStartDate() {
+//            return startDate;
+//        }
+//
+//        public LocalDateTime getEndDate() {
+//            return endDate;
+//        }
+//
+//    }
+
+    public interface ProjectPeriod {
+        Long getId();
+        String getName();
+        LocalDateTime getStartDate();
+        LocalDateTime getEndDate();
     }
 
 }

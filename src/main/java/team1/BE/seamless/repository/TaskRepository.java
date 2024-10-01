@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
-
-//    void deleteById(Long projectId, Long taskId);
 }
