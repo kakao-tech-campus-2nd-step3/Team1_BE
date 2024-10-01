@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class CustomExceptionHandler {
 
     //    BaseHandler 예외처리
-
     @ExceptionHandler(ResponseStatusException.class)
     public final ResponseEntity<StatusResponse> handleResponseStatusException(
         ResponseStatusException ex, WebRequest request) {
@@ -28,6 +27,14 @@ public class CustomExceptionHandler {
         StatusResponse errorResponse = new StatusResponse(ex.getStatusCode().value(),
             ex.getBindingResult().getFieldError().getDefaultMessage());
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
+    }
+
+    //    spring security 예외처리
+    @ExceptionHandler(RuntimeHandler.class)
+    public ResponseEntity<StatusResponse> handleSignatureException(RuntimeHandler ex,
+        WebRequest request) {
+        StatusResponse errorResponse = new StatusResponse(ex.getStatus().value(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, ex.getStatus());
     }
 
 }

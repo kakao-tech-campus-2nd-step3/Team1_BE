@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import team1.BE.seamless.util.errorException.RuntimeHandler;
 
 @Component
 public class JwtToken {
@@ -65,9 +66,9 @@ public class JwtToken {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (ExpiredJwtException e) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED, "만료된 토큰 입니다.");
+            throw new RuntimeHandler(HttpStatus.UNAUTHORIZED, "만료된 토큰 입니다.");
         } catch (JwtException e) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED, "유효하지 않은 JWT 토큰입니다.");
+            throw new RuntimeHandler(HttpStatus.UNAUTHORIZED, "유효하지 않은 JWT 토큰입니다.");
         }
     }
 

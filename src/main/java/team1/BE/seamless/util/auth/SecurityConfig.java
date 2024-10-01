@@ -1,8 +1,5 @@
 package team1.BE.seamless.util.auth;
 
-import team1.BE.seamless.service.AuthService;
-import team1.BE.seamless.util.fiter.TokenAuthenticationFilter;
-import team1.BE.seamless.util.fiter.TokenExceptionFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import team1.BE.seamless.service.AuthService;
+import team1.BE.seamless.util.errorException.SecurityEntryPoint;
+import team1.BE.seamless.util.fiter.TokenAuthenticationFilter;
+import team1.BE.seamless.util.fiter.TokenExceptionFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,15 +22,19 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler successHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
     private final TokenExceptionFilter tokenExceptionFilter;
+    private final SecurityEntryPoint SecurityException;
+
 
     @Autowired
     public SecurityConfig(AuthService authService, OAuth2SuccessHandler successHandler,
         TokenAuthenticationFilter tokenAuthenticationFilter,
-        TokenExceptionFilter tokenExceptionFilter) {
+        TokenExceptionFilter tokenExceptionFilter,
+        SecurityEntryPoint SecurityException) {
         this.authService = authService;
         this.successHandler = successHandler;
         this.tokenAuthenticationFilter = tokenAuthenticationFilter;
         this.tokenExceptionFilter = tokenExceptionFilter;
+        this.SecurityException = SecurityException;
     }
 
     @Bean
@@ -42,6 +47,7 @@ public class SecurityConfig {
             .logout(AbstractHttpConfigurer::disable)
             .headers(c -> c.frameOptions().disable())
             .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
 
             .authorizeHttpRequests(request -> request
 //                swagger
@@ -64,9 +70,12 @@ public class SecurityConfig {
                 .successHandler(successHandler)
             )
 
-            .addFilterAfter(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//            .exceptionHandling(handler -> handler.authenticationEntryPoint(SecurityException))
+
+            .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(tokenExceptionFilter, tokenAuthenticationFilter.getClass());
 
         return http.build();
     }
+
 }
