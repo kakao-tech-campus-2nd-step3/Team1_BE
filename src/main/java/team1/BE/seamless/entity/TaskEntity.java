@@ -18,12 +18,12 @@ public class TaskEntity {
 
     }
 
-    public TaskEntity(String name, String remark, Integer progress, Integer isDelete, ProjectEntity projectEntity,
+    public TaskEntity(String name, String remark, Integer progress, Boolean isDeleted, ProjectEntity projectEntity,
                       MemberEntity owner, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.remark = remark;
         this.progress = progress;
-        this.isDelete = isDelete;
+        this.isDeleted = isDeleted;
         this.projectEntity = projectEntity;
         this.owner = owner;
         this.startDate = startDate;
@@ -44,8 +44,8 @@ public class TaskEntity {
     @Column(name = "progress")
     private Integer progress;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -77,8 +77,8 @@ public class TaskEntity {
         return progress;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public Boolean getIsDelete() {
+        return isDeleted;
     }
 
     public ProjectEntity getProject() {
