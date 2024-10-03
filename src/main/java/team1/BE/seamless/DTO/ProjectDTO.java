@@ -128,12 +128,62 @@ public class ProjectDTO {
 
     }
 
-    public interface ProjectPeriod {
-        Long getId();
-        String getName();
-        LocalDateTime getStartDate();
-        LocalDateTime getEndDate();
+    public static class ProjectPeriod {
+
+        private Long id;
+
+        private String name;
+
+        @NotNull
+        @FutureOrPresent
+        private LocalDateTime startDate;
+
+        @NotNull
+        private LocalDateTime endDate;
+
+        public ProjectPeriod() {
+        }
+
+        public ProjectPeriod(String name, LocalDateTime startDate, LocalDateTime endDate) {
+            this.name = name;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
+
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
+        }
+
     }
+
+//    public interface ProjectPeriod {
+//        Long getId();
+//        String getName();
+//        LocalDateTime getStartDate();
+//        LocalDateTime getEndDate();
+//    }
 
 }
 

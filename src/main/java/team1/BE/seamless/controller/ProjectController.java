@@ -48,8 +48,8 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 조회")
     @GetMapping("/{project-id}")
-    public SingleResult<ProjectEntity> getProject(@Valid @PathVariable long id, HttpServletRequest req) {
-        return new SingleResult<>(projectService.getProject(id, parsingPram.getEmail(req)));
+    public SingleResult<ProjectEntity> getProject(@Valid @PathVariable long id) {
+        return new SingleResult<>(projectService.getProject(id));
     }
 
     @Operation(summary = "프로젝트 기간 리스트 조회")
@@ -60,8 +60,8 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 멤버 조회")
     @GetMapping("/{project-id}/members")
-    public ListResult<MemberEntity> getProjectMembers(@Valid @PathVariable long id, HttpServletRequest req) {
-        return new ListResult<>(projectService.getProjectMembers(id, parsingPram.getEmail(req)));
+    public ListResult<MemberEntity> getProjectMembers(@Valid @PathVariable long id) {
+        return new ListResult<>(projectService.getProjectMembers(id));
     }
 
     @Operation(summary = "프로젝트 생성")

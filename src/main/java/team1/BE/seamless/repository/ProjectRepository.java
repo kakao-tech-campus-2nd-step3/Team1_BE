@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Page<ProjectEntity> findAllByUserEntityEmail(Pageable pageable, String email);
 
-    Optional<ProjectEntity> findByIdAndUserEntityEmail(Long id, String email);
+    Optional<ProjectEntity> findById(Long id);
 
     Page<ProjectPeriod> findByUserEntityEmail(Pageable pageable, String email);
 }

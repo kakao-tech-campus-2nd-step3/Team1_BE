@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +18,22 @@ import java.util.List;
 public class ProjectEntity extends BaseEntity{
 
     public ProjectEntity() {
-
+        memberEntities = new ArrayList<>();
+        projectOptions = new ArrayList<>();
+        taskEntities = new ArrayList<>();
     }
 
-    public ProjectEntity(String name, UserEntity userEntity,
+    public ProjectEntity(String name, UserEntity userEntity, List<ProjectOption> projectOptions,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
         this.isDeleted = false;
         this.userEntity = userEntity;
+        this.projectOptions = projectOptions;
         this.startDate = startDate;
         this.endDate = endDate;
+        memberEntities = new ArrayList<>();
+        taskEntities = new ArrayList<>();
     }
 
     @Id
@@ -51,7 +55,7 @@ public class ProjectEntity extends BaseEntity{
     private List<MemberEntity> memberEntities;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<ProjectOption> options;
+    private List<ProjectOption> projectOptions;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<TaskEntity> taskEntities;
@@ -62,7 +66,6 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    //Getters
     public Long getId() {
         return id;
     }
@@ -84,8 +87,8 @@ public class ProjectEntity extends BaseEntity{
         return memberEntities;
     }
 
-    public List<ProjectOption> getOptions() {
-        return options;
+    public List<ProjectOption> getProjectOptions() {
+        return projectOptions;
     }
 
     public List<TaskEntity> getTaskEntities() {
@@ -100,7 +103,6 @@ public class ProjectEntity extends BaseEntity{
         return endDate;
     }
 
-    //Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -121,8 +123,8 @@ public class ProjectEntity extends BaseEntity{
         this.memberEntities = memberEntities;
     }
 
-    public void setOptions(List<ProjectOption> options) {
-        this.options = options;
+    public void setProjectOptions(List<ProjectOption> projectOptions) {
+        this.projectOptions = projectOptions;
     }
 
     public void setTaskEntity(List<TaskEntity> taskEntities) {
