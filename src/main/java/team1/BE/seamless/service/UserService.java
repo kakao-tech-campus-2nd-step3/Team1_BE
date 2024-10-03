@@ -31,17 +31,27 @@ public class UserService {
     }
 
     public UserDetails getUser(HttpServletRequest req) {
-        UserEntity user = userRepository.findByEmail(parsingPram.getEmail(req))
+        UserEntity user = userRepository.findByEmailAndIsDelete(parsingPram.getEmail(req),0)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
         return userMapper.toUserDetails(user);
     }
 
     @Transactional
     public UserSimple updateUser(HttpServletRequest req, @Valid UserUpdate update) {
-        UserEntity user = userRepository.findByEmail(parsingPram.getEmail(req))
+        UserEntity user = userRepository.findByEmailAndIsDelete(parsingPram.getEmail(req),0)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
         userMapper.toUpdate(user,update);
+
+        return userMapper.toUserSimple(user);
+    }
+
+    @Transactional
+    public UserSimple deleteUser(HttpServletRequest req) {
+        UserEntity user = userRepository.findByEmailAndIsDelete(parsingPram.getEmail(req),0)
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+
+        user.setIsDelete();
 
         return userMapper.toUserSimple(user);
     }

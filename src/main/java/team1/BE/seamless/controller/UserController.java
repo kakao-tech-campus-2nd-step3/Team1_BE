@@ -1,5 +1,6 @@
 package team1.BE.seamless.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import team1.BE.seamless.DTO.UserDTO.UserDetails;
 import team1.BE.seamless.DTO.UserDTO.UserSimple;
 import team1.BE.seamless.DTO.UserDTO.UserUpdate;
@@ -39,6 +40,12 @@ public class UserController {
     public SingleResult<UserSimple> updateUser(HttpServletRequest req, @Valid @RequestBody
         UserUpdate update) {
         return new SingleResult<>(userService.updateUser(req,update));
+    }
+
+    @Operation(summary = "유저 정보 삭제")
+    @DeleteMapping
+    public SingleResult<UserSimple> deleteUser(HttpServletRequest req) {
+        return new SingleResult<>(userService.deleteUser(req));
     }
 
 }
