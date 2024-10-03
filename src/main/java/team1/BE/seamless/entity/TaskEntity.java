@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @Entity(name = "task")
@@ -29,18 +28,6 @@ public class TaskEntity {
         this.endDate = endDate;
     }
 
-//    public TaskEntity(String name, String remark, Integer progress, Boolean isDeleted, ProjectEntity projectEntity,
-//                      MemberEntity owner, LocalDateTime startDate, LocalDateTime endDate) {
-//        this.name = name;
-//        this.remark = remark;
-//        this.progress = progress;
-//        this.isDeleted = isDeleted;
-//        this.projectEntity = projectEntity;
-//        this.owner = owner;
-//        this.startDate = startDate;
-//        this.endDate = endDate;
-//    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "task_id")
@@ -58,7 +45,7 @@ public class TaskEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
