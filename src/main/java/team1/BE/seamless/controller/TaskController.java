@@ -1,6 +1,8 @@
 package team1.BE.seamless.controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import team1.BE.seamless.DTO.TaskDTO;
@@ -22,6 +24,12 @@ public class TaskController {
     @Autowired
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @GetMapping("/{projectId}/task")
+    public List<TaskEntity> getTaskList(@PathVariable Long projectId) {
+        List<TaskEntity> taskList = taskService.getTaskList(projectId);
+        return taskList;
     }
 
     @PostMapping("/{projectId}/task")

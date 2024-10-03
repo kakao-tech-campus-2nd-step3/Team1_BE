@@ -1,5 +1,6 @@
 package team1.BE.seamless.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,12 @@ public class TaskService {
         this.taskMapper = taskMapper;
     }
 
+    public List<TaskEntity> getTaskList(Long projectId) {
+        ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
+
+        return taskRepository.findByProjectEntity(projectEntity);
+    }
+
     public TaskEntity createTask(TaskDTO req) {
         ProjectEntity projectEntity = projectRepository.findById(req.getProjectId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
@@ -50,8 +57,8 @@ public class TaskService {
     public Long deleteTask(Long taskId) {
         TaskEntity taskEntity = taskRepository.findById(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
-        taskRepository.delete(taskEntity);
 
+        taskRepository.delete(taskEntity);
         return taskEntity.getId();
     }
 
