@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -54,6 +55,29 @@ public class TaskService {
         return taskEntity;
     }
 
+    @Transactional
+    public TaskEntity updateTask(Long taskId, TaskDTO req) {
+        TaskEntity taskEntity = taskRepository.findById(taskId).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
+
+        ProjectEntity projectEntity = projectRepository.findById(req.getProjectId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
+
+        MemberEntity memberEntity = memberRepository.findById(req.getOwnerId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
+
+        TaskEntity updatedTask = taskEntity.update(
+            req.getName(),
+            req.getRemark(),
+            req.getProgress(),
+            req.getIsDeleted(),
+            projectEntity,
+            memberEntity,
+            req.getStartDate(),
+            req.getEndDate()
+        );
+
+        taskRepository.save(updatedTask);
+        return updatedTask;
+    }
+
     public Long deleteTask(Long taskId) {
         TaskEntity taskEntity = taskRepository.findById(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
@@ -61,5 +85,4 @@ public class TaskService {
         taskRepository.delete(taskEntity);
         return taskEntity.getId();
     }
-
 }
