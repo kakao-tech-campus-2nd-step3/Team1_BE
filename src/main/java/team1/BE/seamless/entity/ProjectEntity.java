@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "project")
-public class ProjectEntity extends BaseEntity{
+public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
         memberEntities = new ArrayList<>();

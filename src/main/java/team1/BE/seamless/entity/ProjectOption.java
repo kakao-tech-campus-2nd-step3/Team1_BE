@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity(name = "project_option")
-public class ProjectOption extends BaseEntity{
+public class ProjectOption extends BaseEntity {
 
     public ProjectOption() {
 
@@ -22,7 +22,7 @@ public class ProjectOption extends BaseEntity{
         this.optionEntity = optionEntity;
     }
 
-    public ProjectOption(String name,  ProjectEntity projectEntity, OptionEntity optionEntity) {
+    public ProjectOption(String name, ProjectEntity projectEntity, OptionEntity optionEntity) {
         this.name = name;
         this.isDeleted = false;
         this.projectEntity = projectEntity;

@@ -1,25 +1,25 @@
 package team1.BE.seamless.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.OptionEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
-import team1.BE.seamless.entity.OptionEntity;
 import team1.BE.seamless.entity.UserEntity;
 import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.OptionRepository;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.repository.UserRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
-import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectService {
@@ -67,8 +67,10 @@ public class ProjectService {
             .map(optionEntity -> new ProjectOption(optionEntity.getName(), optionEntity))
             .toList();
 
-        ProjectEntity projectEntity = projectRepository.save(projectMapper.toEntity(create, userEntity, projectOptions));
-        projectOptions.forEach(option -> option.setProjectEntity(projectEntity)); //ProjectOption에 Project 매핑
+        ProjectEntity projectEntity = projectRepository.save(
+            projectMapper.toEntity(create, userEntity, projectOptions));
+        projectOptions.forEach(
+            option -> option.setProjectEntity(projectEntity)); //ProjectOption에 Project 매핑
         return projectEntity;
     }
 
@@ -83,7 +85,8 @@ public class ProjectService {
         // 새로운 옵션 추가
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(update.getOptionIds());
         for (OptionEntity optionEntity : optionEntities) {
-            ProjectOption projectOption = new ProjectOption(optionEntity.getName(), projectEntity, optionEntity);
+            ProjectOption projectOption = new ProjectOption(optionEntity.getName(), projectEntity,
+                optionEntity);
             projectOptions.add(projectOption);
         }
 

@@ -4,10 +4,10 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
-import team1.BE.seamless.util.page.PageParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import team1.BE.seamless.util.page.PageParam;
 
 public class ProjectDTO {
 
@@ -93,7 +93,8 @@ public class ProjectDTO {
         public ProjectUpdate() {
         }
 
-        public ProjectUpdate(String name, List<Long> optionIds, LocalDateTime startDate, LocalDateTime endDate) {
+        public ProjectUpdate(String name, List<Long> optionIds, LocalDateTime startDate,
+            LocalDateTime endDate) {
             this.name = name;
             this.optionIds = optionIds;
             this.startDate = startDate;
@@ -177,13 +178,6 @@ public class ProjectDTO {
         }
 
     }
-
-//    public interface ProjectPeriod {
-//        Long getId();
-//        String getName();
-//        LocalDateTime getStartDate();
-//        LocalDateTime getEndDate();
-//    }
 
 }
 

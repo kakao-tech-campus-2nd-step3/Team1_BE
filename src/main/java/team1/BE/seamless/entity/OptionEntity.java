@@ -10,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 
 @Entity(name = "option")
-public class OptionEntity extends BaseEntity{
+public class OptionEntity extends BaseEntity {
 
     public OptionEntity() {
 
@@ -36,7 +36,7 @@ public class OptionEntity extends BaseEntity{
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @OneToMany(mappedBy = "optionEntity", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "optionEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
 
     public Long getId() {
