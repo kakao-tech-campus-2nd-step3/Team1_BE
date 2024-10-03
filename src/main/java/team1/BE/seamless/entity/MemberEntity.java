@@ -37,7 +37,7 @@ public class MemberEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "guest_id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "email")
