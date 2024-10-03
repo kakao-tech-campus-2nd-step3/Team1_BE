@@ -22,7 +22,7 @@ public class ProjectCreator {
                 LocalDateTime.of(2024,10,1,0,0,0),
                 LocalDateTime.of(2024,10,3,0,0,0),
                 List.of(1L,2L,3L)),
-            "이메일1"
+            "user1@google.com"
             );
     }
 }

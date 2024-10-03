@@ -45,4 +45,14 @@ public class UserService {
 
         return userMapper.toUserSimple(user);
     }
+
+    @Transactional
+    public UserEntity createUser(@Valid UserSimple simple) {
+        return userRepository.findByEmail(simple.getEmail())
+            .orElseGet(() -> userMapper.toEntity(
+                simple.getUsername(),
+                simple.getEmail(),
+                simple.getPicture()
+            ));
+    }
 }

@@ -4,18 +4,29 @@ import java.util.List;
 
 public class OptionDTO {
 
-    private List<String> optionNames;
+    public static class OptionCreate{
 
-    public OptionDTO(List<String> optionNames) {
-        this.optionNames = optionNames;
-    }
+        private String name;
 
-    public List<String> getOptionNames() {
-        return optionNames;
-    }
+        private String eventType;
 
-    public void setOptionNames(List<String> optionNames) {
-        this.optionNames = optionNames;
+        public OptionCreate() {
+
+        }
+
+        public OptionCreate(String name, String eventType) {
+            this.name = name;
+            this.eventType = eventType;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getEventType() {
+            return eventType;
+        }
+
     }
 
 }
