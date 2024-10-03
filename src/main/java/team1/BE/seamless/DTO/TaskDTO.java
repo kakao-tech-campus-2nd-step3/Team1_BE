@@ -33,12 +33,11 @@ public class TaskDTO {
     @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
     private LocalDateTime endDate;
 
-    public TaskDTO(String name, String remark, Integer progress, Boolean isDeleted, Long projectId,
-        Long ownerId, LocalDateTime startDate, LocalDateTime endDate) {
+    public TaskDTO(String name, String remark, Long projectId, Long ownerId, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.remark = remark;
-        this.progress = progress;
-        this.isDeleted = isDeleted;
+        this.progress = 0;
+        this.isDeleted = false;
         this.projectId = projectId;
         this.ownerId = ownerId;
         this.startDate = startDate;

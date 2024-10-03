@@ -42,10 +42,10 @@ public class TaskEntity {
     private String remark;
 
     @Column(name = "progress")
-    private Integer progress;
+    private Integer progress = 0;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -77,7 +77,7 @@ public class TaskEntity {
         return progress;
     }
 
-    public Boolean getIsDelete() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
