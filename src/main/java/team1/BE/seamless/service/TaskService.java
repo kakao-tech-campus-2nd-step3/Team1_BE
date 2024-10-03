@@ -7,6 +7,7 @@ import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
+import team1.BE.seamless.mapper.TaskMapper;
 import team1.BE.seamless.repository.MemberRepository;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.repository.TaskRepository;
@@ -18,12 +19,14 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
+    private final TaskMapper taskMapper;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, MemberRepository memberRepository) {
+    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, MemberRepository memberRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.memberRepository = memberRepository;
+        this.taskMapper = taskMapper;
     }
 
     public TaskEntity createTask(TaskDTO req) {
@@ -31,11 +34,9 @@ public class TaskService {
 
         MemberEntity memberEntity = memberRepository.findById(req.getOwnerId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
 
-        TaskEntity taskEntity = new TaskEntity(
+        TaskEntity taskEntity = taskMapper.toEntity(
             req.getName(),
             req.getRemark(),
-            req.getProgress(),
-            req.getIsDeleted(),
             projectEntity,
             memberEntity,
             req.getStartDate(),
