@@ -1,7 +1,6 @@
 package team1.BE.seamless.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import team1.BE.seamless.DTO.TaskDTO;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import team1.BE.seamless.util.page.ListResult;
 import team1.BE.seamless.util.page.SingleResult;
 
 @RestController
@@ -25,13 +23,14 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
+
     @PostMapping("/{projectId}/task")
     public SingleResult<TaskEntity> createTask(@Valid @RequestBody TaskDTO req) {
         return new SingleResult<>(taskService.createTask(req));
     }
 
-    @DeleteMapping
-    public void deleteTask(@PathVariable Long taskId) {
-        taskService.deleteTask(taskId);
+    @DeleteMapping("/task/{taskId}")
+    public SingleResult<Long> deleteTask(@PathVariable Long taskId) {
+        return new SingleResult<>(taskService.deleteTask(taskId));
     }
 }

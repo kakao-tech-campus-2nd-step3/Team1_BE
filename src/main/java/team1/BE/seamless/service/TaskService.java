@@ -7,6 +7,7 @@ import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
+import team1.BE.seamless.repository.MemberRepository;
 import team1.BE.seamless.repository.ProjectRepository;
 import team1.BE.seamless.repository.TaskRepository;
 import team1.BE.seamless.util.errorException.BaseHandler;
@@ -16,18 +17,19 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository) {
+    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, MemberRepository memberRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
+        this.memberRepository = memberRepository;
     }
 
     public TaskEntity createTask(TaskDTO req) {
         ProjectEntity projectEntity = projectRepository.findById(req.getProjectId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
-        // Guest 기능 구현 이전 이기 때문에 Mock 데이터로 구현
-        MemberEntity guestEntity = new MemberEntity("test@gmail.com", "1", 0, projectEntity);
+        MemberEntity memberEntity = memberRepository.findById(req.getOwnerId()).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
 
         TaskEntity taskEntity = new TaskEntity(
             req.getName(),
@@ -35,7 +37,7 @@ public class TaskService {
             req.getProgress(),
             req.getIsDeleted(),
             projectEntity,
-            guestEntity,
+            memberEntity,
             req.getStartDate(),
             req.getEndDate()
         );
@@ -44,10 +46,12 @@ public class TaskService {
         return taskEntity;
     }
 
-    public void deleteTask(Long taskId) {
+    public Long deleteTask(Long taskId) {
         TaskEntity taskEntity = taskRepository.findById(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
-
         taskRepository.delete(taskEntity);
+
+        return taskEntity.getId();
     }
+
 }
