@@ -31,6 +31,10 @@ public class TaskService {
         this.taskMapper = taskMapper;
     }
 
+    public TaskEntity getTask(Long taskId) {
+        return taskRepository.findById(taskId).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
+    }
+
     public List<TaskEntity> getTaskList(Long projectId) {
         ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 

@@ -27,6 +27,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    @GetMapping("/task/{taskId}")
+    public SingleResult<TaskEntity> getTask(@PathVariable Long taskId) {
+        return new SingleResult<>(taskService.getTask(taskId));
+    }
+
     @GetMapping("/{projectId}/task")
     public ListResult<TaskEntity> getTaskList(@PathVariable Long projectId) {
         return new ListResult<>(taskService.getTaskList(projectId));
