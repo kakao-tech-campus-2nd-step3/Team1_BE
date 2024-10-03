@@ -26,8 +26,8 @@ public class InitData {
     public void init() {
         //        테스트 생성
         testCreator.creator();
-        projectCreator.creator();
         userCreator.creator();
         optionCreator.creator();
+        projectCreator.creator();
     }
 }

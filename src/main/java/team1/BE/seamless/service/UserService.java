@@ -49,10 +49,11 @@ public class UserService {
     @Transactional
     public UserEntity createUser(@Valid UserSimple simple) {
         return userRepository.findByEmail(simple.getEmail())
-            .orElseGet(() -> userMapper.toEntity(
+            .orElseGet(() -> userRepository.save(
+                userMapper.toEntity(
                 simple.getUsername(),
                 simple.getEmail(),
                 simple.getPicture()
-            ));
+            )));
     }
 }
