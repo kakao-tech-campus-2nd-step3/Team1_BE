@@ -6,9 +6,8 @@ import java.util.UUID;
 @Service
 public class AttendURLService {
 
-    public String generateAttendURL() {
-        String generatedUrl = "https://example.com/" + UUID.randomUUID().toString();
+    public String generateAttendURL(String projectId, String expirationDate) {
+        String generatedUrl = "https://seamless.com/invite?code=" + UUID.randomUUID().toString() + "&project_id=" + projectId + "&expires=" + expirationDate;
         return generatedUrl;
     }
-
 }

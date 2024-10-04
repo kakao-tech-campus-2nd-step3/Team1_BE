@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,11 @@ public class ProjectEntity extends BaseEntity{
 
     }
 
-    public ProjectEntity(String name, Integer isDelete, User user,
+    public ProjectEntity(String name, UserEntity user,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
-        this.isDelete = isDelete;
+        this.isDelete = 0;
         this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -47,13 +48,16 @@ public class ProjectEntity extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<GuestEntity> guestEntities;
+    private List<MemberEntity> memberEntities;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
+    private TaskEntity taskEntity;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -75,16 +79,20 @@ public class ProjectEntity extends BaseEntity{
         return isDelete;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public List<GuestEntity> getGuests() {
-        return guestEntities;
+    public List<MemberEntity> getMemberEntities() {
+        return memberEntities;
     }
 
     public List<ProjectOption> getOptions() {
         return options;
+    }
+
+    public TaskEntity getTaskEntity() {
+        return taskEntity;
     }
 
     public LocalDateTime getStartDate() {
@@ -108,16 +116,20 @@ public class ProjectEntity extends BaseEntity{
         this.isDelete = isDelete;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public void setGuests(List<GuestEntity> guestEntities) {
-        this.guestEntities = guestEntities;
+    public void setMemberEntities(List<MemberEntity> memberEntities) {
+        this.memberEntities = memberEntities;
     }
 
     public void setOptions(List<ProjectOption> options) {
         this.options = options;
+    }
+
+    public void setTaskEntity(TaskEntity taskEntity) {
+        this.taskEntity = taskEntity;
     }
 
     public void setStartDate(LocalDateTime startDate) {
@@ -128,20 +140,11 @@ public class ProjectEntity extends BaseEntity{
         this.endDate = endDate;
     }
 
-    public void addGuest(GuestEntity guestEntity) {
-        if (this.guestEntities == null) {
-            this.guestEntities = new ArrayList<>();
-        }
-        this.guestEntities.add(guestEntity);
-        guestEntity.setProject(this);  // 양방향 관계 설정
-    }
-
-    public void addOption(ProjectOption option) {
-        if (this.options == null) {
-            this.options = new ArrayList<>();
-        }
-        this.options.add(option);
-        option.setProject(this);  // 양방향 관계 설정
+    public ProjectEntity update(String name, LocalDateTime startDate, LocalDateTime endDate) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        return this;
     }
 
 }

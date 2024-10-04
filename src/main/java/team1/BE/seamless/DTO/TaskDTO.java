@@ -19,7 +19,7 @@ public class TaskDTO {
 
     @Min(value = 0, message = "삭제 여부는 0 또는 1입니다.")
     @Max(value = 1, message = "삭제 여부는 0 또는 1입니다.")
-    private Integer isDeleted;
+    private Boolean isDeleted;
 
     @NotNull(message = "프로젝트 아아디는 필수 입력 사항입니다.")
     private Long projectId;
@@ -33,12 +33,11 @@ public class TaskDTO {
     @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
     private LocalDateTime endDate;
 
-    public TaskDTO(String name, String remark, Integer progress, Integer isDeleted, Long projectId,
-        Long ownerId, LocalDateTime startDate, LocalDateTime endDate) {
+    public TaskDTO(String name, String remark, Long projectId, Long ownerId, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.remark = remark;
-        this.progress = progress;
-        this.isDeleted = isDeleted;
+        this.progress = 0;
+        this.isDeleted = false;
         this.projectId = projectId;
         this.ownerId = ownerId;
         this.startDate = startDate;
@@ -57,7 +56,7 @@ public class TaskDTO {
         return progress;
     }
 
-    public Integer getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
