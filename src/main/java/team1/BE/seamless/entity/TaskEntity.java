@@ -29,19 +29,6 @@ public class TaskEntity {
         this.endDate = endDate;
     }
 
-    public TaskEntity(String name, String remark, Integer progress, Boolean isDeleted,
-        ProjectEntity projectEntity, MemberEntity owner, LocalDateTime startDate,
-        LocalDateTime endDate) {
-        this.name = name;
-        this.remark = remark;
-        this.progress = progress;
-        this.isDeleted = isDeleted;
-        this.projectEntity = projectEntity;
-        this.owner = owner;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "task_id")
@@ -59,7 +46,7 @@ public class TaskEntity {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
@@ -113,15 +100,27 @@ public class TaskEntity {
         this.owner = owner;
     }
 
-    public void setProject(ProjectEntity projectEntity) {
-        this.projectEntity = projectEntity;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public TaskEntity update(String name, String remark, Integer progress, Boolean isDeleted,
-        ProjectEntity projectEntity, MemberEntity owner, LocalDateTime startDate,
-        LocalDateTime endDate) {
-        return new TaskEntity(name, remark, progress, isDeleted, projectEntity, owner, startDate,
-            endDate);
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
 }
