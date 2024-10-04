@@ -10,7 +10,8 @@ public class OptionMapper {
     public OptionEntity toEntity(OptionCreate create) {
         return new OptionEntity(
             create.getName(),
-            create.getEventType()
+            create.getDescription(),
+            create.getOptionType()
         );
     }
 }
