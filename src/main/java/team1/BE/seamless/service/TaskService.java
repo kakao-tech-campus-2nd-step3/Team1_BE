@@ -48,7 +48,7 @@ public class TaskService {
         ProjectEntity projectEntity = projectRepository.findById(projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
-        return taskRepository.findByProjectEntity(projectEntity);
+        return projectEntity.getTaskEntity();
     }
 
     public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
