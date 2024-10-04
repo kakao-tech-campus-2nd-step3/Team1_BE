@@ -8,6 +8,7 @@ import team1.BE.seamless.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
+    Optional<UserEntity> findByEmail(String email);
     Optional<UserEntity> findByEmailAndIsDeleteFalse(String email);
 
     Optional<UserEntity> findByEmailAndIsDeleteFalse(String email, Integer isDelete);
