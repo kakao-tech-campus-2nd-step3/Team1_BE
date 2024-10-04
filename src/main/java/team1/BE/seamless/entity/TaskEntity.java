@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @Entity(name = "task")
@@ -18,12 +17,12 @@ public class TaskEntity {
 
     }
 
-    public TaskEntity(String name, String remark, Integer progress, Integer isDelete, ProjectEntity projectEntity,
-                      MemberEntity owner, LocalDateTime startDate, LocalDateTime endDate) {
+    public TaskEntity(String name, String remark, ProjectEntity projectEntity, MemberEntity owner,
+        LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.remark = remark;
-        this.progress = progress;
-        this.isDelete = isDelete;
+        this.progress = 0;
+        this.isDeleted = false;
         this.projectEntity = projectEntity;
         this.owner = owner;
         this.startDate = startDate;
@@ -42,17 +41,17 @@ public class TaskEntity {
     private String remark;
 
     @Column(name = "progress")
-    private Integer progress;
+    private Integer progress = 0;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id")
+    @JoinColumn(name = "member_id")
     private MemberEntity owner;
 
     @Column(name = "start_date")
@@ -77,8 +76,8 @@ public class TaskEntity {
         return progress;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public Boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public ProjectEntity getProject() {
@@ -101,8 +100,27 @@ public class TaskEntity {
         this.owner = owner;
     }
 
-    public void setProject(ProjectEntity projectEntity) {
-        this.projectEntity = projectEntity;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
 }

@@ -56,8 +56,8 @@ public class ProjectEntity extends BaseEntity{
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
     private List<ProjectOption> options;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
-    private TaskEntity taskEntity;
+    @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
+    private List<TaskEntity> taskEntity;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -91,7 +91,7 @@ public class ProjectEntity extends BaseEntity{
         return options;
     }
 
-    public TaskEntity getTaskEntity() {
+    public List<TaskEntity> getTaskEntity() {
         return taskEntity;
     }
 
@@ -103,10 +103,6 @@ public class ProjectEntity extends BaseEntity{
         return endDate;
     }
 
-    //Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -114,22 +110,6 @@ public class ProjectEntity extends BaseEntity{
 
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public void setMemberEntities(List<MemberEntity> memberEntities) {
-        this.memberEntities = memberEntities;
-    }
-
-    public void setOptions(List<ProjectOption> options) {
-        this.options = options;
-    }
-
-    public void setTaskEntity(TaskEntity taskEntity) {
-        this.taskEntity = taskEntity;
     }
 
     public void setStartDate(LocalDateTime startDate) {

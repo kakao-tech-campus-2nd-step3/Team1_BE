@@ -1,5 +1,6 @@
 package team1.BE.seamless.repository;
 
+import java.util.Optional;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.entity.ProjectEntity;
 import org.springframework.data.domain.Page;
@@ -12,4 +13,5 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Page<ProjectEntity> findAll(Pageable pageable);
 
     Page<ProjectPeriod> findAllBy(Pageable pageable);
+    Optional<ProjectEntity> findByIdAndUserEmail(Long id, String email);
 }
