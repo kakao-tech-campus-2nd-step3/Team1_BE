@@ -37,7 +37,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserSimple xupdateUser(HttpServletRequest req, @Valid UserUpdate update) {
+    public UserSimple updateUser(HttpServletRequest req, @Valid UserUpdate update) {
         UserEntity user = userRepository.findByEmail(parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
