@@ -10,25 +10,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "project")
-public class ProjectEntity extends BaseEntity{
+public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
-
+        memberEntities = new ArrayList<>();
+        projectOptions = new ArrayList<>();
+        taskEntities = new ArrayList<>();
     }
 
-    public ProjectEntity(String name, User user,
+    public ProjectEntity(String name, UserEntity userEntity, List<ProjectOption> projectOptions,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
-        this.isDelete = 0;
-        this.user = user;
+        this.isDeleted = false;
+        this.userEntity = userEntity;
+        this.projectOptions = projectOptions;
         this.startDate = startDate;
         this.endDate = endDate;
+        memberEntities = new ArrayList<>();
+        taskEntities = new ArrayList<>();
     }
 
     @Id
@@ -39,24 +44,21 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-//    @Column(name = "view_type")
-//    private Object viewType;
-
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<GuestEntity> guestEntities;
+    private List<MemberEntity> memberEntities;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<ProjectOption> options;
+    private List<ProjectOption> projectOptions;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEntity")
-    private TaskEntity taskEntity;
+    @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
+    private List<TaskEntity> taskEntities;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -64,7 +66,6 @@ public class ProjectEntity extends BaseEntity{
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    //Getters
     public Long getId() {
         return id;
     }
@@ -74,24 +75,24 @@ public class ProjectEntity extends BaseEntity{
     }
 
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public List<GuestEntity> getGuests() {
-        return guestEntities;
+    public List<MemberEntity> getMemberEntities() {
+        return memberEntities;
     }
 
-    public List<ProjectOption> getOptions() {
-        return options;
+    public List<ProjectOption> getProjectOptions() {
+        return projectOptions;
     }
 
-    public TaskEntity getTaskEntity() {
-        return taskEntity;
+    public List<TaskEntity> getTaskEntities() {
+        return taskEntities;
     }
 
     public LocalDateTime getStartDate() {
@@ -102,7 +103,6 @@ public class ProjectEntity extends BaseEntity{
         return endDate;
     }
 
-    //Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -111,24 +111,24 @@ public class ProjectEntity extends BaseEntity{
         this.name = name;
     }
 
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public void setGuests(List<GuestEntity> guestEntities) {
-        this.guestEntities = guestEntities;
+    public void setMemberEntities(List<MemberEntity> memberEntities) {
+        this.memberEntities = memberEntities;
     }
 
-    public void setOptions(List<ProjectOption> options) {
-        this.options = options;
+    public void setProjectOptions(List<ProjectOption> projectOptions) {
+        this.projectOptions = projectOptions;
     }
 
-    public void setTaskEntity(TaskEntity taskEntity) {
-        this.taskEntity = taskEntity;
+    public void setTaskEntity(List<TaskEntity> taskEntities) {
+        this.taskEntities = taskEntities;
     }
 
     public void setStartDate(LocalDateTime startDate) {

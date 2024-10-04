@@ -19,7 +19,7 @@ public class TaskEntity {
     }
 
     public TaskEntity(String name, String remark, Integer progress, Integer isDelete, ProjectEntity projectEntity,
-        GuestEntity owner, LocalDateTime startDate, LocalDateTime endDate) {
+                      MemberEntity owner, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.remark = remark;
         this.progress = progress;
@@ -47,13 +47,13 @@ public class TaskEntity {
     @Column(name = "is_delete")
     private Integer isDelete;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id")
-    private GuestEntity owner;
+    @JoinColumn(name = "member_id")
+    private MemberEntity owner;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -85,7 +85,7 @@ public class TaskEntity {
         return projectEntity;
     }
 
-    public GuestEntity getOwner() {
+    public MemberEntity getOwner() {
         return owner;
     }
 
@@ -97,7 +97,7 @@ public class TaskEntity {
         return endDate;
     }
 
-    public void setOwner(GuestEntity owner) {
+    public void setOwner(MemberEntity owner) {
         this.owner = owner;
     }
 
