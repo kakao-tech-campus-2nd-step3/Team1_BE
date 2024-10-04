@@ -10,13 +10,13 @@ public class OptionDTO {
 
         private String description;
 
-        private OptionType optionType;
+        private String optionType;
 
         public OptionCreate() {
 
         }
 
-        public OptionCreate(String name, String description, OptionType optionType) {
+        public OptionCreate(String name, String description, String optionType) {
             this.name = name;
             this.description = description;
             this.optionType = optionType;
@@ -30,7 +30,7 @@ public class OptionDTO {
             return description;
         }
 
-        public OptionType getOptionType() {
+        public String getOptionType() {
             return optionType;
         }
 
