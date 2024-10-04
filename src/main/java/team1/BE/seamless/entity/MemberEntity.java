@@ -20,11 +20,30 @@ public class MemberEntity extends BaseEntity{
 
     }
 
-    public MemberEntity(String email, String joinNumber, Integer isDelete, ProjectEntity projectEntity) {
+    public MemberEntity(String name, String role, String email, String imageURL) {
+        this.name = name;
+        this.role = role;
         this.email = email;
-        this.joinNumber = joinNumber;
-        this.isDelete = isDelete;
+        this.imageURL = imageURL;
+    }
+
+    public MemberEntity(String name, String role, String email, ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
+        this.name = name;
+        this.role = role;
+        this.email = email;
         this.projectEntity = projectEntity;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImageURL() {
+        return imageURL;
     }
 
     public void setEmail(String email) {
@@ -37,7 +56,7 @@ public class MemberEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "guest_id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "email")
@@ -49,11 +68,32 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "is_delete")
     private Integer isDelete;
 
+    @Column(name = "role")
+    private String role;
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "imageURL")
+    private String imageURL;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner")
     private List<TaskEntity> taskEntities;
 
     public Long getId() {
