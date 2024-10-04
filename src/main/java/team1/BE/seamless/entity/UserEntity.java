@@ -1,5 +1,8 @@
 package team1.BE.seamless.entity;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import team1.BE.seamless.entity.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +18,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity(name = "users")
+@Entity(name = "user_table")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
@@ -39,6 +42,9 @@ public class UserEntity {
     @NotNull
     @Column
     private Integer isDelete;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<ProjectEntity> projectEntities;
 
     @CreatedDate
     private LocalDateTime createdAt;

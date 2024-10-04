@@ -34,29 +34,13 @@ public class MemberEntity extends BaseEntity{
         this.projectEntity = projectEntity;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setJoinNumber(String joinNumber) {
-        this.joinNumber = joinNumber;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "member_id")
+    @Column(name = "guest_id")
     private Long id;
 
     @Column(name = "email")
@@ -70,18 +54,6 @@ public class MemberEntity extends BaseEntity{
 
     @Column(name = "role")
     private String role;
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
 
     @Column(name = "name")
     private String name;
@@ -104,10 +76,6 @@ public class MemberEntity extends BaseEntity{
         return email;
     }
 
-    public String getJoinNumber() {
-        return joinNumber;
-    }
-
     public Integer getIsDelete() {
         return isDelete;
     }
@@ -120,13 +88,13 @@ public class MemberEntity extends BaseEntity{
         return taskEntities;
     }
 
-    public void addTask(TaskEntity taskEntity) {
-        if (this.taskEntities == null) {
-            this.taskEntities = new ArrayList<>();
-        }
-        this.taskEntities.add(taskEntity);
-        taskEntity.setOwner(this);  // 양방향 관계 설정
-    }
+//    public void addTask(TaskEntity taskEntity) {
+//        if (this.taskEntities == null) {
+//            this.taskEntities = new ArrayList<>();
+//        }
+//        this.taskEntities.add(taskEntity);
+//        taskEntity.setOwner(this);  // 양방향 관계 설정
+//    }
 
     public void setProject(ProjectEntity projectEntity) {
         this.projectEntity = projectEntity;

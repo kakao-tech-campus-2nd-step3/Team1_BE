@@ -1,6 +1,5 @@
 package team1.BE.seamless.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,40 +8,45 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "project_option")
-public class ProjectOption extends BaseEntity{
+public class ProjectOption extends BaseEntity {
 
     public ProjectOption() {
 
     }
 
-    public ProjectOption(String name, Integer isDelete, ProjectEntity projectEntity) {
+    public ProjectOption(String name, OptionEntity optionEntity) {
         this.name = name;
-        this.isDelete = isDelete;
+        this.isDeleted = false;
+        this.optionEntity = optionEntity;
+    }
+
+    public ProjectOption(String name, ProjectEntity projectEntity, OptionEntity optionEntity) {
+        this.name = name;
+        this.isDeleted = false;
         this.projectEntity = projectEntity;
+        this.optionEntity = optionEntity;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "option_id")
+    @Column(name = "project_option_id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_delete")
-    private Integer isDelete;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private ProjectEntity projectEntity;
 
-    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL)
-    private List<ProjectOptionDetail> details;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "option_id")
+    private OptionEntity optionEntity;
 
     public Long getId() {
         return id;
@@ -52,28 +56,28 @@ public class ProjectOption extends BaseEntity{
         return name;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public ProjectEntity getProject() {
         return projectEntity;
     }
 
-    public List<ProjectOptionDetail> getDetails() {
-        return details;
+    public OptionEntity getOptionEntity() {
+        return optionEntity;
     }
 
-    public void addDetail(ProjectOptionDetail detail) {
-        if (this.details == null) {
-            this.details = new ArrayList<>();
-        }
-        this.details.add(detail);
-        detail.setOption(this);  // 양방향 관계 설정
-    }
-
-    public void setProject(ProjectEntity projectEntity) {
+    public void setProjectEntity(ProjectEntity projectEntity) {
         this.projectEntity = projectEntity;
+    }
+
+    public void setOptionEntity(OptionEntity optionEntity) {
+        this.optionEntity = optionEntity;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }
