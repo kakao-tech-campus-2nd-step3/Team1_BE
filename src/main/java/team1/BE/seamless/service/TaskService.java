@@ -92,7 +92,7 @@ public class TaskService {
             task.setOwner(member);
         }
 //        팀원
-        if (parsingPram.getRole(req).equals(Role.USER.toString())){
+        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())){
             if (!task.getOwner().getEmail().equals(parsingPram.getEmail(req))){
                 throw new BaseHandler(HttpStatus.UNAUTHORIZED,"태스크 수정 권한이 없습니다.");
             }
