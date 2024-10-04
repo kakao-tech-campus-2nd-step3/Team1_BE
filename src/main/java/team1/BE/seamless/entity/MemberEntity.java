@@ -20,19 +20,14 @@ public class MemberEntity extends BaseEntity{
 
     }
 
-    public MemberEntity(String email, String joinNumber, Integer isDelete, ProjectEntity projectEntity) {
+    public MemberEntity(String email, Integer isDelete, ProjectEntity projectEntity) {
         this.email = email;
-        this.joinNumber = joinNumber;
         this.isDelete = isDelete;
         this.projectEntity = projectEntity;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setJoinNumber(String joinNumber) {
-        this.joinNumber = joinNumber;
     }
 
     @Id
@@ -43,8 +38,8 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "join_number")
-    private String joinNumber;
+//    @Column(name = "join_number")
+//    private String joinNumber;
 
     @Column(name = "is_delete")
     private Integer isDelete;
@@ -64,10 +59,6 @@ public class MemberEntity extends BaseEntity{
         return email;
     }
 
-    public String getJoinNumber() {
-        return joinNumber;
-    }
-
     public Integer getIsDelete() {
         return isDelete;
     }
@@ -80,13 +71,13 @@ public class MemberEntity extends BaseEntity{
         return taskEntities;
     }
 
-    public void addTask(TaskEntity taskEntity) {
-        if (this.taskEntities == null) {
-            this.taskEntities = new ArrayList<>();
-        }
-        this.taskEntities.add(taskEntity);
-        taskEntity.setOwner(this);  // 양방향 관계 설정
-    }
+//    public void addTask(TaskEntity taskEntity) {
+//        if (this.taskEntities == null) {
+//            this.taskEntities = new ArrayList<>();
+//        }
+//        this.taskEntities.add(taskEntity);
+//        taskEntity.setOwner(this);  // 양방향 관계 설정
+//    }
 
     public void setProject(ProjectEntity projectEntity) {
         this.projectEntity = projectEntity;
