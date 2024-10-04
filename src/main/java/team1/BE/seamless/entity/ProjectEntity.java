@@ -18,9 +18,9 @@ import java.util.List;
 public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
-        memberEntities = new ArrayList<>();
-        projectOptions = new ArrayList<>();
-        taskEntities = new ArrayList<>();
+//        memberEntities = new ArrayList<>();
+//        projectOptions = new ArrayList<>();
+//        taskEntities = new ArrayList<>();
     }
 
     public ProjectEntity(String name, UserEntity userEntity, List<ProjectOption> projectOptions,
@@ -32,8 +32,8 @@ public class ProjectEntity extends BaseEntity {
         this.projectOptions = projectOptions;
         this.startDate = startDate;
         this.endDate = endDate;
-        memberEntities = new ArrayList<>();
-        taskEntities = new ArrayList<>();
+//        memberEntities = new ArrayList<>();
+//        taskEntities = new ArrayList<>();
     }
 
     @Id
@@ -52,13 +52,13 @@ public class ProjectEntity extends BaseEntity {
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<MemberEntity> memberEntities;
+    private List<MemberEntity> memberEntities = new ArrayList<>();
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<ProjectOption> projectOptions;
+    private List<ProjectOption> projectOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "projectEntity", cascade = CascadeType.ALL)
-    private List<TaskEntity> taskEntities;
+    private List<TaskEntity> taskEntities = new ArrayList<>();
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
