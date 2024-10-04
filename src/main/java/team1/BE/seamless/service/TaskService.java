@@ -50,7 +50,7 @@ public class TaskService {
     }
 
     public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
-        ProjectEntity project = projectRepository.findByIdAndUserEntityEmail(projectId,parsingPram.getEmail(req))
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId,parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
 //        태스크의 일정 검증
