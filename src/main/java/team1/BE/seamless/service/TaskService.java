@@ -48,11 +48,11 @@ public class TaskService {
         ProjectEntity projectEntity = projectRepository.findById(projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
-        return projectEntity.getTaskEntity();
+        return projectEntity.getTaskEntities();
     }
 
     public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
-        ProjectEntity project = projectRepository.findByIdAndUserEmail(projectId,parsingPram.getEmail(req))
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmail(projectId,parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
 //        태스크의 일정 검증
@@ -82,7 +82,7 @@ public class TaskService {
 //        수정 권한이 있는지 검증
 //        팀장
         if (parsingPram.getRole(req).equals(Role.USER.toString())){
-            if (!task.getProject().getUser().getEmail().equals(parsingPram.getEmail(req))){
+            if (!task.getProject().getUserEntity().getEmail().equals(parsingPram.getEmail(req))){
                 throw new BaseHandler(HttpStatus.UNAUTHORIZED,"태스크 수정 권한이 없습니다.");
             }
 //            멤버 변경
@@ -104,7 +104,7 @@ public class TaskService {
 
     @Transactional
     public Long deleteTask(HttpServletRequest req, Long taskId) {
-        TaskEntity task = taskRepository.findByIdAndProjectEntityUserEmail(taskId, parsingPram.getEmail(req))
+        TaskEntity task = taskRepository.findByIdAndProjectEntityUserEntityEmail(taskId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
         task.setDeleted(true);

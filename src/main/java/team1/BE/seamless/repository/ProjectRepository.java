@@ -13,7 +13,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Page<ProjectEntity> findAll(Pageable pageable);
 
     Page<ProjectPeriod> findAllBy(Pageable pageable);
-    Optional<ProjectEntity> findByIdAndUserEmail(Long id, String email);
+    Optional<ProjectEntity> findByIdAndUserEntityEmail(Long id, String email);
     Page<ProjectEntity> findAllByUserEntityEmail(Pageable pageable, String email);
 
     Optional<ProjectEntity> findById(Long id);
