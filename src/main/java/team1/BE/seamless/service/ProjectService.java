@@ -96,7 +96,7 @@ public class ProjectService {
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(create.getOptionIds());
 
         List<ProjectOption> projectOptions = optionEntities.stream()
-            .map(optionEntity -> new ProjectOption(optionEntity.getName(), optionEntity))
+            .map(optionEntity -> new ProjectOption(optionEntity))
             .toList();
 
         ProjectEntity projectEntity = projectRepository.save(
@@ -129,8 +129,7 @@ public class ProjectService {
         // 새로운 옵션 추가
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(update.getOptionIds());
         for (OptionEntity optionEntity : optionEntities) {
-            ProjectOption projectOption = new ProjectOption(optionEntity.getName(), projectEntity,
-                optionEntity);
+            ProjectOption projectOption = new ProjectOption(projectEntity, optionEntity);
             projectOptions.add(projectOption);
         }
 
