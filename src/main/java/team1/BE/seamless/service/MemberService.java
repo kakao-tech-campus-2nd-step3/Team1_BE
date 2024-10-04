@@ -31,7 +31,7 @@ public class MemberService {
     public MemberEntity updateMember(Long id, MemberEntity memberDetails) {
         MemberEntity member = memberRepository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
         member.setEmail(memberDetails.getEmail());
-        member.setJoinNumber(memberDetails.getJoinNumber());
+//        member.setJoinNumber(memberDetails.getJoinNumber());
         return memberRepository.save(member);
     }
 }
