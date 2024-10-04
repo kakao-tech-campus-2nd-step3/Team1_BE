@@ -41,7 +41,7 @@ public class UserEntity {
 
     @NotNull
     @Column
-    private Integer isDelete;
+    private Boolean isDelete;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<ProjectEntity> projectEntities;
@@ -60,7 +60,7 @@ public class UserEntity {
         this.name = name;
         this.email = email;
         this.picture = picture;
-        this.isDelete = 0;
+        this.isDelete = false;
         this.role = Role.USER;
     }
 
@@ -80,11 +80,11 @@ public class UserEntity {
         return picture;
     }
 
-    public @NotNull Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public @NotNull Integer getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
@@ -97,7 +97,7 @@ public class UserEntity {
     }
 
     public void setIsDelete() {
-        this.isDelete = 1;
+        this.isDelete = true;
     }
 
     public UserEntity update(String name, String picture) {
