@@ -30,7 +30,7 @@ public class AttendURLService {
     }
 
     public String generateAttendURL(HttpServletRequest req, @Valid Long projectId) {
-        ProjectEntity project = projectRepository.findByIdAndUserEntityEmail(projectId,
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId,
                 parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
