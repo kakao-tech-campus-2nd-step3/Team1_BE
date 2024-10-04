@@ -1,11 +1,11 @@
 package team1.BE.seamless.mapper;
 
+import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.UserDTO.UserDetails;
 import team1.BE.seamless.DTO.UserDTO.UserSimple;
 import team1.BE.seamless.DTO.UserDTO.UserUpdate;
 import team1.BE.seamless.entity.UserEntity;
 import team1.BE.seamless.util.Util;
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
