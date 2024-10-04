@@ -52,7 +52,15 @@
         - 이미지는 url 검사
           - url패턴을 어길 시 400
     - 유저 정보 삭제
+      - soft delete
     - 코드로 참여
+      - 코드로 인증 후 토큰 반환
+      - 코드는 멤버id를 aes256으로 암호화 해서 코드 생성
+      - 코드를 복호화해서 검증
+      - 인증 후 멤버 이메일로 토큰 생성
+    - 시큐리티 토큰 생성 예외처리
+      - 기존 방식으로(@RestControllerAdvice)는 스프링 시큐리티 예외처리가 안됨
+      - 다른 방법 찾는중(w5)
 - 프로젝트(김도헌)
   - 프로젝트 리스트 조회
   - 프로젝트 기간 리스트 조회
@@ -68,41 +76,44 @@
   - 프로젝트 내 게스트 추가
   - 프로젝트 코드 메일로 전달
 - 태스크(조서영)
+  - 태스크 리스트 조회(프로젝트 아이디를 이용)
+  - 태스트 단건 조회
   - 태스크 생성
-  - 태스크 삭제
+    - isDeleted와 progress 생성시 기본값인 0으로 설정
+    - 프로젝트id, 태스크를 수행할 멤버(팀원)id, 제목, 본문,시작일, 종료일을 입력받아서 ->
+      dto에서 시작일, 종료일 검증 ->
+      토큰내 이메일과 프로젝트id로 프로젝트를 불러오기 ->
+      멤버(팀원)존재 검증 ->
+      task객체 생성 (미완)
+      저장
   - 태스크 수정
+  - 태스트 삭제
 - 이벤트
   - 독려 이메일 전달
   - 각 게스트별 진행도 조회
   - 태스크별 진행도 조회
 - ...
 ---
-# Week4 이슈
-- 프로젝트 빌드 실패
-  - Task의 오류 
-    - 컴플리트 수행시 잘못된 수정(김도헌)
-      - 본인이 구현한 기능을 고려하지 않고 조서영이 작성한 Task(entity)로 대치
-    - @Column 부재(조서영)
-      - 작성한 엔티티에 @Column이 없어서 테이블 생성 실패
-    - taskRepository.deleteById의 구문 오류(조서영)
-      - 위 함수는 Task(entity)의 id만을 입력으로 받을 수 있다.
-      - 하지만 Long projectId, Long taskId라는 2개의 파라미터를 제공함으로서 JpaRepository가 빌드에 실패했다.
-  - projectEntity 오류
-    - projectEntity(entity)의 Column중 하나인 viewType의 자료형을 object로 구현
-      - Object로 구현시 Hibernate가 제대로 테이블을 생성할 수 없음
-  - 해결(김동혁)
-    - 기존 김도헌이 작성한 Task(entity)로 변경
-      - 기존(조서영)이 작성한 기능이 보다 김도헌이 작성한 기능의 복잡성을 고려함
-      - 기존에 구현한 Task(controller, service, repository)는 주석 처리
-    - projectEntity(entity)의 viewType은 삭제
-      - 다양한 차트의 형태(간트, 칸반, 플로우...)의 상태를 정의하기 위해 고려한 컬럼
-      - 하지만 기능의 모호성과 차후 업데이트로 반영할 수 있다는 점을 고려해 삭제
-  - 당부사항(김동혁)
-    - 제발 빌드 및 실행에 대한 테스트를 진행하고 커밋을 진행할 것
-    - Test(entity,controller,service,repository 등)을 참조해서 구현할 것
-    - 파일의 명명 규칙을 준수할 것
-      - Task(x)
-      - TaskEntity(0)
+# 피드백
+- [3주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/13)
+- [3주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/11)
+- [4주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/17)
+- [4주차 멘토링](https://quickest-asterisk-75d.notion.site/Back-end_-323b0e20ae2b405189ffe5b7c4242e00)
 ---
-# Week4 질문사항
-- 
+# Issue
+- [week4 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/27)
+---
+# 질문사항
+- week3
+  - 팀원마다 코드스타일이 다른경우 통일을 하나요?
+  - 프로젝트 시작 시 세팅은 어느정도로 하나요?
+  - 현재 팀원마다 각각 domain을 1개씩 담당하여 작업을 하고 있습니다. 이러한 경우 다른 팀원이 만들어야 하는 객체를 참조해야 되는 상황일 때,(저는 그냥 구현을 해버려서 conflict가 발생했습니다.) 구현을하지 않고 mock 혹은 fake 객체를 만들어 두고 작업을 하는 편인가요?
+  - 보통 이 정도 규모의 프로젝트를 분업하게 되면 어떠한 기준으로 작업을 분배하나요?
+  - conflict resolve시의 기준이 있나요?
+- week4(멘토링)
+  - 유저 삭제시 인증 구현 방식
+  - 다양한 소셜 로그인의 유저를 특정하는 방법
+  - 메일 발송 방법
+  - 코드 스타일
+  - 동시성 처리
+- week5

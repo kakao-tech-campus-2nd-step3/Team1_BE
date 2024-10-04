@@ -1,79 +1,113 @@
 package team1.BE.seamless.DTO;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
+import team1.BE.seamless.util.errorException.BaseHandler;
+import team1.BE.seamless.util.page.PageParam;
 
 public class TaskDTO {
 
-    @NotBlank(message = "이름은 필수 입력 사항입니다.")
-    private String name;
+    public static class getList extends PageParam {
 
-    private String remark;
-
-    @Min(value = 0, message = "진행률의 최솟값은 0입니다.")
-    @Max(value = 100, message = "진행률의 최댓값은 100입니다.")
-    private Integer progress;
-
-    @Min(value = 0, message = "삭제 여부는 0 또는 1입니다.")
-    @Max(value = 1, message = "삭제 여부는 0 또는 1입니다.")
-    private Integer isDeleted;
-
-    @NotNull(message = "프로젝트 아아디는 필수 입력 사항입니다.")
-    private Long projectId;
-
-    @NotNull(message = "프로젝트 담당자 아이디는 필수 입력 사항입니다.")
-    private Long ownerId; // 프로젝트 담당자
-
-    @NotNull(message = "시작 시간은 필수 입력 사항입니다.")
-    private LocalDateTime startDate;
-
-    @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
-    private LocalDateTime endDate;
-
-    public TaskDTO(String name, String remark, Integer progress, Integer isDeleted, Long projectId,
-        Long ownerId, LocalDateTime startDate, LocalDateTime endDate) {
-        this.name = name;
-        this.remark = remark;
-        this.progress = progress;
-        this.isDeleted = isDeleted;
-        this.projectId = projectId;
-        this.ownerId = ownerId;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
-    public String getName() {
-        return name;
+    public static class Create {
+
+        @NotBlank(message = "이름은 필수 입력 사항입니다.")
+        private String name;
+
+        private String remark;
+
+        private Long memberId;
+
+        @NotNull(message = "시작 시간은 필수 입력 사항입니다.")
+        private LocalDateTime startDate;
+
+        @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
+        private LocalDateTime endDate;
+
+        public Create(String name, String remark, Long memberId, LocalDateTime startDate,
+            LocalDateTime endDate) {
+            if (startDate.isBefore(endDate)) {
+                throw new BaseHandler(HttpStatus.FORBIDDEN, "종료시간은 시작시간보다 이전일 수 없습니다.");
+            }
+            this.name = name;
+            this.remark = remark;
+            this.memberId = memberId;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public @NotBlank(message = "이름은 필수 입력 사항입니다.") String getName() {
+            return name;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public Long getMemberId() {
+            return memberId;
+        }
+
+        public @NotNull(message = "시작 시간은 필수 입력 사항입니다.") LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public @NotNull(message = "종료 시간은 필수 입력 사항입니다.") LocalDateTime getEndDate() {
+            return endDate;
+        }
     }
 
-    public String getRemark() {
-        return remark;
-    }
+    public static class Update {
 
-    public Integer getProgress() {
-        return progress;
-    }
+        private String name;
 
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
+        private String remark;
 
-    public Long getProjectId() {
-        return projectId;
-    }
+        private Integer progress;
 
-    public Long getOwnerId() {
-        return ownerId;
-    }
+        private Long memberId;
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
+        private LocalDateTime startDate;
 
-    public LocalDateTime getEndDate() {
-        return endDate;
+        private LocalDateTime endDate;
+
+        public Update(String name, String remark, Integer progress, Long memberId,
+            LocalDateTime startDate,
+            LocalDateTime endDate) {
+            this.name = name;
+            this.remark = remark;
+            this.progress = progress;
+            this.memberId = memberId;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public Integer getProgress() {
+            return progress;
+        }
+
+        public Long getMemberId() {
+            return memberId;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
     }
 }

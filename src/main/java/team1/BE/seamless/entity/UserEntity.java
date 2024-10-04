@@ -1,6 +1,6 @@
 package team1.BE.seamless.entity;
 
-import team1.BE.seamless.entity.enums.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -9,13 +9,16 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import team1.BE.seamless.entity.enums.Role;
 
-@Entity(name = "users")
+@Entity(name = "user_table")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
@@ -38,7 +41,10 @@ public class UserEntity {
 
     @NotNull
     @Column
-    private Integer isDelete;
+    private Boolean isDelete;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<ProjectEntity> projectEntities;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -54,7 +60,7 @@ public class UserEntity {
         this.name = name;
         this.email = email;
         this.picture = picture;
-        this.isDelete = 0;
+        this.isDelete = false;
         this.role = Role.USER;
     }
 
@@ -74,11 +80,11 @@ public class UserEntity {
         return picture;
     }
 
-    public @NotNull Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public @NotNull Integer getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
@@ -91,7 +97,7 @@ public class UserEntity {
     }
 
     public void setIsDelete() {
-        this.isDelete = 1;
+        this.isDelete = true;
     }
 
     public UserEntity update(String name, String picture) {
