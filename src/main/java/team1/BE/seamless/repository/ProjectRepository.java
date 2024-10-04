@@ -10,13 +10,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
-    Page<ProjectEntity> findAll(Pageable pageable);
 
-    Page<ProjectPeriod> findAllBy(Pageable pageable);
-    Optional<ProjectEntity> findByIdAndUserEntityEmail(Long id, String email);
-    Page<ProjectEntity> findAllByUserEntityEmail(Pageable pageable, String email);
+    Page<ProjectPeriod> findAllByIsDeletedFalse(Pageable pageable);
+    Optional<ProjectEntity> findByIdAndUserEntityEmailAndIsDeletedFalse(Long id, String email);
+    Page<ProjectEntity> findAllByUserEntityEmailAndIsDeletedFalse(Pageable pageable, String email);
 
-    Optional<ProjectEntity> findById(Long id);
+    Optional<ProjectEntity> findByIdAndIsDeletedFalse(Long id);
 
-    Page<ProjectPeriod> findByUserEntityEmail(Pageable pageable, String email);
+    Page<ProjectPeriod> findByUserEntityEmailAndIsDeletedFalse(Pageable pageable, String email);
 }

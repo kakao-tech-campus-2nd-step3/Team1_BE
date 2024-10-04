@@ -39,7 +39,7 @@ public class ProjectService {
     }
 
     public Page<ProjectEntity> getProjectList(ProjectDTO.getList param, String email) {
-        return projectRepository.findAllByUserEntityEmail(param.toPageable(), email);
+        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
     }
 
     public ProjectEntity getProject(long id) {
@@ -54,13 +54,14 @@ public class ProjectService {
     }
 
     public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param, String email) {
-        return projectRepository.findByUserEntityEmail(param.toPageable(), email);
+        return projectRepository.findByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
     }
 
     @Transactional
     public ProjectEntity createProject(ProjectCreate create, String email) {
-        UserEntity userEntity = userRepository.findByEmail(email)
+        UserEntity userEntity = userRepository.findByEmailAndIsDeleteFalse(email)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "사용자가 존재하지 않음"));
+
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(create.getOptionIds());
 
         List<ProjectOption> projectOptions = optionEntities.stream()
