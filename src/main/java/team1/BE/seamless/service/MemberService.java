@@ -1,7 +1,6 @@
 package team1.BE.seamless.service;
 
 import jakarta.validation.Valid;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.MemberRequestDTO.CreateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.UpdateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.getMemberList;
-import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.mapper.MemberMapper;
@@ -28,7 +26,8 @@ public class MemberService {
     private final ProjectRepository projectRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, ProjectRepository projectRepository) {
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper,
+        ProjectRepository projectRepository) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
         this.projectRepository = projectRepository;
@@ -43,11 +42,13 @@ public class MemberService {
 //            throw new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음");
 //        }
         return memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
-            .orElseThrow(()-> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
     }
 
-    public Page<MemberEntity> getMemberList(@Valid Long projectId, getMemberList memberListRequestDTO) {
-        return memberRepository.findAllByProjectEntityIdAndIsDeleteFalse(projectId, memberListRequestDTO.toPageable());
+    public Page<MemberEntity> getMemberList(@Valid Long projectId,
+        getMemberList memberListRequestDTO) {
+        return memberRepository.findAllByProjectEntityIdAndIsDeleteFalse(projectId,
+            memberListRequestDTO.toPageable());
     }
 
     public MemberEntity createMember(Long projectId, CreateMember create) {
@@ -64,7 +65,7 @@ public class MemberService {
 //            throw new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 프로젝트가 존재하지 않습니다.");
 //        }
         ProjectEntity project = projectRepository.findById(projectId)
-            .orElseThrow(()-> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
 
         MemberEntity member = memberMapper.toEntity(create, project);
         memberRepository.save(member);
@@ -84,14 +85,15 @@ public class MemberService {
 //        else {
 //            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
 //        }
-        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
-            .orElseThrow(()-> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
+        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
+                projectId)
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
-        memberMapper.toUpdate(member,update);
+        memberMapper.toUpdate(member, update);
         return member;
     }
 
-@Transactional
+    @Transactional
     public MemberEntity deleteMember(Long projectId, Long memberId) {
 //        Optional<MemberEntity> existingMemberEntity = memberRepository.findById(memberId);
 //        if(existingMemberEntity.isPresent()) {
@@ -102,8 +104,9 @@ public class MemberService {
 //        else {
 //            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
 //        }
-        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
-            .orElseThrow(()-> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
+        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
+                projectId)
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
         member.setDelete(true);
 

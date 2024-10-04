@@ -50,18 +50,20 @@ public class TaskService {
     }
 
     public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
-        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId,parsingPram.getEmail(req))
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
+                projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
 //        태스크의 일정 검증
-        if (project.getStartDate().isBefore(create.getStartDate()) || project.getStartDate().isAfter(create.getEndDate())){
-            throw new BaseHandler(HttpStatus.FORBIDDEN,"태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+        if (project.getStartDate().isBefore(create.getStartDate()) || project.getStartDate()
+            .isAfter(create.getEndDate())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
         MemberEntity member = memberRepository.findById(create.getMemberId())
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
 
-        TaskEntity taskEntity = taskMapper.toEntity(project,member,create);
+        TaskEntity taskEntity = taskMapper.toEntity(project, member, create);
 
         taskRepository.save(taskEntity);
         return taskEntity;
@@ -73,15 +75,16 @@ public class TaskService {
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
 //        태스크의 일정 검증
-        if (task.getProject().getStartDate().isBefore(update.getStartDate()) || task.getProject().getStartDate().isAfter(update.getEndDate())){
-            throw new BaseHandler(HttpStatus.FORBIDDEN,"태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+        if (task.getProject().getStartDate().isBefore(update.getStartDate()) || task.getProject()
+            .getStartDate().isAfter(update.getEndDate())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
 //        수정 권한이 있는지 검증
 //        팀장
-        if (parsingPram.getRole(req).equals(Role.USER.toString())){
-            if (!task.getProject().getUserEntity().getEmail().equals(parsingPram.getEmail(req))){
-                throw new BaseHandler(HttpStatus.UNAUTHORIZED,"태스크 수정 권한이 없습니다.");
+        if (parsingPram.getRole(req).equals(Role.USER.toString())) {
+            if (!task.getProject().getUserEntity().getEmail().equals(parsingPram.getEmail(req))) {
+                throw new BaseHandler(HttpStatus.UNAUTHORIZED, "태스크 수정 권한이 없습니다.");
             }
 //            멤버 변경
             MemberEntity member = memberRepository.findById(update.getMemberId())
@@ -90,19 +93,20 @@ public class TaskService {
             task.setOwner(member);
         }
 //        팀원
-        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())){
-            if (!task.getOwner().getEmail().equals(parsingPram.getEmail(req))){
-                throw new BaseHandler(HttpStatus.UNAUTHORIZED,"태스크 수정 권한이 없습니다.");
+        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
+            if (!task.getOwner().getEmail().equals(parsingPram.getEmail(req))) {
+                throw new BaseHandler(HttpStatus.UNAUTHORIZED, "태스크 수정 권한이 없습니다.");
             }
         }
 
-        taskMapper.toUpdate(task,update);
+        taskMapper.toUpdate(task, update);
         return task;
     }
 
     @Transactional
     public Long deleteTask(HttpServletRequest req, Long taskId) {
-        TaskEntity task = taskRepository.findByIdAndProjectEntityUserEntityEmail(taskId, parsingPram.getEmail(req))
+        TaskEntity task = taskRepository.findByIdAndProjectEntityUserEntityEmail(taskId,
+                parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
         task.setDeleted(true);

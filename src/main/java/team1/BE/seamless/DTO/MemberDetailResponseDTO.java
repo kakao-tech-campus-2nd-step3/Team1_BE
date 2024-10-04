@@ -1,11 +1,11 @@
 package team1.BE.seamless.DTO;
 
+import java.util.List;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
 
-import java.util.List;
-
 public class MemberDetailResponseDTO {
+
     private String email;
     private String role;
     private String name;
@@ -14,7 +14,7 @@ public class MemberDetailResponseDTO {
     private List<TaskEntity> taskEntities;
 
     public MemberDetailResponseDTO(String email, String role, String name,
-                                   String imageURL, ProjectEntity projectEntity, List<TaskEntity> taskEntities) {
+        String imageURL, ProjectEntity projectEntity, List<TaskEntity> taskEntities) {
         this.email = email;
         this.role = role;
         this.name = name;

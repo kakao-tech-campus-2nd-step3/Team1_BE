@@ -3,6 +3,7 @@ package team1.BE.seamless.util.errorException;
 import org.springframework.http.HttpStatus;
 
 public class RuntimeHandler extends RuntimeException {
+
     private final HttpStatus status;
     private final String message;
 

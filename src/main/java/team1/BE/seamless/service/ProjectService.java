@@ -39,7 +39,8 @@ public class ProjectService {
     }
 
     public Page<ProjectEntity> getProjectList(ProjectDTO.getList param, String email) {
-        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
+        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(),
+            email);
     }
 
     public ProjectEntity getProject(long id) {

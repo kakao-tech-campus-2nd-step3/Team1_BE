@@ -36,7 +36,8 @@ public class AttendURLService {
 
 //        코드는 프로젝트id + exp로 구성
 //        exp는 1일로 가정
-        String code = aesEncrypt.encrypt(project.getId() +" " + LocalDateTime.now().plusDays(1).toString());
+        String code = aesEncrypt.encrypt(
+            project.getId() + " " + LocalDateTime.now().plusDays(1).toString());
         return DEFAULTURL + "invite?code=" + code;
     }
 

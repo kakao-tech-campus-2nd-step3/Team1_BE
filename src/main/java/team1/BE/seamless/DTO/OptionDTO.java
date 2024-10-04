@@ -1,10 +1,8 @@
 package team1.BE.seamless.DTO;
 
-import java.util.List;
-
 public class OptionDTO {
 
-    public static class OptionCreate{
+    public static class OptionCreate {
 
         private String name;
 

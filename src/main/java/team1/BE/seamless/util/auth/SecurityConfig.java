@@ -48,21 +48,20 @@ public class SecurityConfig {
             .headers(c -> c.frameOptions().disable())
             .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-
             .authorizeHttpRequests(request -> request
 //                swagger
-                .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
-                    "/api-docs/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/login/**", "/api/auth/**", "/oauth2/**")
-                .permitAll()
+                    .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
+                        "/api-docs/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers("/login/**", "/api/auth/**", "/oauth2/**")
+                    .permitAll()
 //                확장자
-                .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif",
-                    "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
-                .permitAll()
+                    .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif",
+                        "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
+                    .permitAll()
 //                인증, h2
-                .requestMatchers( "/h2-console/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .anyRequest()
+                    .authenticated()
             )
 
             .oauth2Login(oauth -> oauth

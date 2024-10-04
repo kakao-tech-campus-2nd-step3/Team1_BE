@@ -16,6 +16,6 @@ public class UserCreator {
     }
 
     public void creator() {
-        userService.createUser(new UserSimple("사용자1","user1@google.com","user1Image.jpg"));
+        userService.createUser(new UserSimple("사용자1", "user1@google.com", "user1Image.jpg"));
     }
 }

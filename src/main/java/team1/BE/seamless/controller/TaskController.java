@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.entity.TaskEntity;
 import team1.BE.seamless.service.TaskService;
-import team1.BE.seamless.util.page.ListResult;
 import team1.BE.seamless.util.page.PageMapper;
 import team1.BE.seamless.util.page.PageResult;
 import team1.BE.seamless.util.page.SingleResult;
@@ -41,13 +40,14 @@ public class TaskController {
 
     @Operation(summary = "프로젝트 아이디로 태스크 리스트 조회 ")
     @GetMapping("/{projectId}/task")
-    public PageResult<TaskEntity> getTaskList(@PathVariable Long projectId, @Valid TaskDTO.getList param) {
+    public PageResult<TaskEntity> getTaskList(@PathVariable Long projectId,
+        @Valid TaskDTO.getList param) {
         return PageMapper.toPageResult(taskService.getTaskList(projectId, param));
     }
 
     /**
      * 팀장만 태스크를 생성할 수 있음
-     * */
+     */
     @Operation(summary = "태스크 생성")
     @PostMapping("/{projectId}/task")
     public SingleResult<TaskEntity> createTask(HttpServletRequest req,
@@ -56,20 +56,19 @@ public class TaskController {
     }
 
     /**
-     * 멤버도 코드로 프로젝트 참여에 성공하면 토큰을 반환함
-     * 태스크 수정은 팀장, 태스크를 수행하고 있는 팀원이 가능함
-     * 태스크의 멤버를 수정하는 건 팀장만 가능
-     * */
+     * 멤버도 코드로 프로젝트 참여에 성공하면 토큰을 반환함 태스크 수정은 팀장, 태스크를 수행하고 있는 팀원이 가능함 태스크의 멤버를 수정하는 건 팀장만 가능
+     */
     @Operation(summary = "태스크 수정")
     @PutMapping("/task/{taskId}")
-    public SingleResult<TaskEntity> updateTask(HttpServletRequest req, @Valid @PathVariable Long taskId,
+    public SingleResult<TaskEntity> updateTask(HttpServletRequest req,
+        @Valid @PathVariable Long taskId,
         @Valid @RequestBody TaskDTO.Update update) {
         return new SingleResult<>(taskService.updateTask(req, taskId, update));
     }
 
     /**
      * 팀장만 태스크를 삭제할 수 있음
-     * */
+     */
     @Operation(summary = "태스크 삭제")
     @DeleteMapping("/task/{taskId}")
     public SingleResult<Long> deleteTask(HttpServletRequest req, @PathVariable Long taskId) {

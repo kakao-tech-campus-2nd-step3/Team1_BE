@@ -1,9 +1,9 @@
 package team1.BE.seamless.init;
 
-import team1.BE.seamless.DTO.TestDTO.create;
-import team1.BE.seamless.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import team1.BE.seamless.DTO.TestDTO.create;
+import team1.BE.seamless.service.TestService;
 
 @Component
 public class TestCreator {

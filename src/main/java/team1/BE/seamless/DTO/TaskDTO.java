@@ -8,6 +8,7 @@ import team1.BE.seamless.util.errorException.BaseHandler;
 import team1.BE.seamless.util.page.PageParam;
 
 public class TaskDTO {
+
     public static class getList extends PageParam {
 
     }

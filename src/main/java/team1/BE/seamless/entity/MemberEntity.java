@@ -1,6 +1,5 @@
 package team1.BE.seamless.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "member")
-public class MemberEntity extends BaseEntity{
+public class MemberEntity extends BaseEntity {
 
     public MemberEntity() {
 
@@ -27,7 +26,8 @@ public class MemberEntity extends BaseEntity{
 //        this.imageURL = imageURL;
 //    }
 
-    public MemberEntity(String name, String role, String email, String imageURL,ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
+    public MemberEntity(String name, String role, String email, String imageURL,
+        ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
         this.name = name;
         this.role = role;
         this.email = email;

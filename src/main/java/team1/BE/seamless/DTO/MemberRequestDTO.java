@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Size;
 import team1.BE.seamless.util.page.PageParam;
 
 public class MemberRequestDTO {
+
     public static class getMemberList extends PageParam {
 
     }
 
     public static class CreateMember {
+
         @NotBlank(message = "이름은 필수 입력 사항입니다.")
         @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
         private String name;
@@ -53,6 +55,7 @@ public class MemberRequestDTO {
     }
 
     public static class UpdateMember {
+
         @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
         private String name;
 

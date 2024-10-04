@@ -11,7 +11,8 @@ import team1.BE.seamless.entity.UserEntity;
 @Component
 public class ProjectMapper {
 
-    public ProjectEntity toEntity(ProjectDTO.ProjectCreate create, UserEntity userEntity, List<ProjectOption> projectOptions) {
+    public ProjectEntity toEntity(ProjectDTO.ProjectCreate create, UserEntity userEntity,
+        List<ProjectOption> projectOptions) {
         return new ProjectEntity(
             create.getName(),
             userEntity,

@@ -92,7 +92,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public Token memberCodeJoin(@Valid String memberCode) {
 //        decode
-        String code=aesEncrypt.decrypt(memberCode);
+        String code = aesEncrypt.decrypt(memberCode);
 
 //        프로젝트, member가 존재하는지 검증
         MemberEntity member = memberRepository.findById(Long.parseLong(code))
@@ -106,7 +106,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public String memberCodeCreate(@Valid String memberCode) {
 //        ENCODE
-        String code=aesEncrypt.encrypt(memberCode);
+        String code = aesEncrypt.encrypt(memberCode);
         return code;
     }
 }

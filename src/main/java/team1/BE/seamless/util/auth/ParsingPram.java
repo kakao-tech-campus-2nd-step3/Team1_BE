@@ -3,7 +3,6 @@ package team1.BE.seamless.util.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import team1.BE.seamless.entity.enums.Role;
 
 @Component
 public class ParsingPram {

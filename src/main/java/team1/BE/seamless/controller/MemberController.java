@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.MemberRequestDTO;
-import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.service.MemberService;
 import team1.BE.seamless.util.page.PageMapper;

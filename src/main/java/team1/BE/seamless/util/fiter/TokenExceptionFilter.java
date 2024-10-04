@@ -1,6 +1,5 @@
 package team1.BE.seamless.util.fiter;
 
-import team1.BE.seamless.util.errorException.BaseHandler;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import team1.BE.seamless.util.errorException.BaseHandler;
 
 @Component
 public class TokenExceptionFilter extends OncePerRequestFilter {
