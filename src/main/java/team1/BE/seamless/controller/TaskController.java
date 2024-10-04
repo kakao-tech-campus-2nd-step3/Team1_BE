@@ -17,6 +17,8 @@ import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.entity.TaskEntity;
 import team1.BE.seamless.service.TaskService;
 import team1.BE.seamless.util.page.ListResult;
+import team1.BE.seamless.util.page.PageMapper;
+import team1.BE.seamless.util.page.PageResult;
 import team1.BE.seamless.util.page.SingleResult;
 
 @Tag(name = "태스크")
@@ -39,8 +41,8 @@ public class TaskController {
 
     @Operation(summary = "프로젝트 아이디로 태스크 리스트 조회 ")
     @GetMapping("/{projectId}/task")
-    public ListResult<TaskEntity> getTaskList(@PathVariable Long projectId) {
-        return new ListResult<>(taskService.getTaskList(projectId));
+    public PageResult<TaskEntity> getTaskList(@PathVariable Long projectId, @Valid TaskDTO.getList param) {
+        return PageMapper.toPageResult(taskService.getTaskList(projectId, param));
     }
 
     /**

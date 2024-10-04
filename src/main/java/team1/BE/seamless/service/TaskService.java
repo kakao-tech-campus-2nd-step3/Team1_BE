@@ -2,13 +2,14 @@ package team1.BE.seamless.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.TaskDTO.Create;
 import team1.BE.seamless.DTO.TaskDTO.Update;
+import team1.BE.seamless.DTO.TaskDTO.getList;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
@@ -40,15 +41,12 @@ public class TaskService {
     }
 
     public TaskEntity getTask(Long taskId) {
-        return taskRepository.findById(taskId)
+        return taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
     }
 
-    public List<TaskEntity> getTaskList(Long projectId) {
-        ProjectEntity projectEntity = projectRepository.findById(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
-
-        return projectEntity.getTaskEntities();
+    public Page<TaskEntity> getTaskList(Long projectId, getList param) {
+        return taskRepository.findAllByProjectIdAndIsDeletedFalse(projectId, param.toPageable());
     }
 
     public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
@@ -71,7 +69,7 @@ public class TaskService {
 
     @Transactional
     public TaskEntity updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
-        TaskEntity task = taskRepository.findById(taskId)
+        TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
 //        태스크의 일정 검증

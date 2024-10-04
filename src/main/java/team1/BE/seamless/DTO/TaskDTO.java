@@ -5,8 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import team1.BE.seamless.util.errorException.BaseHandler;
+import team1.BE.seamless.util.page.PageParam;
 
 public class TaskDTO {
+    public static class getList extends PageParam {
+
+    }
 
     public static class Create {
 
