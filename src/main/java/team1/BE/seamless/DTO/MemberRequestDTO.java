@@ -10,58 +10,84 @@ public class MemberRequestDTO {
 
     }
 
-    @NotBlank(message = "이름은 필수 입력 사항입니다.")
-    @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
-    private String name;
+    public static class CreateMember {
+        @NotBlank(message = "이름은 필수 입력 사항입니다.")
+        @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
+        private String name;
 
-    @NotBlank(message = "역할은 필수 입력 사항입니다.")
-    @Size(max = 15, message = "역할은 공백 포함 최대 15글자까지 가능합니다.")
-    private String role;
+        @NotBlank(message = "역할은 필수 입력 사항입니다.")
+        @Size(max = 15, message = "역할은 공백 포함 최대 15글자까지 가능합니다.")
+        private String role;
 
-    @Email(message = "유효한 이메일 주소를 입력해주세요.")
-    @NotBlank(message = "이메일은 필수 입력 사항입니다.")
-    private String email;
+        @Email(message = "유효한 이메일 주소를 입력해주세요.")
+        @NotBlank(message = "이메일은 필수 입력 사항입니다.")
+        private String email;
 
-    private String imageURL;
+        private String imageURL;
 
-    public MemberRequestDTO() {}
+        public CreateMember() {
+        }
 
-    public MemberRequestDTO(String name, String role, String email, String imageURL) {
-        this.name = name;
-        this.role = role;
-        this.email = email;
-        this.imageURL = imageURL;
+        public CreateMember(String name, String role, String email, String imageURL) {
+            this.name = name;
+            this.role = role;
+            this.email = email;
+            this.imageURL = imageURL;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getImageURL() {
+            return imageURL;
+        }
     }
 
-    public String getName() {
-        return name;
-    }
+    public static class UpdateMember {
+        @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
+        private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        @Size(max = 15, message = "역할은 공백 포함 최대 15글자까지 가능합니다.")
+        private String role;
 
-    public String getRole() {
-        return role;
-    }
+        @Email(message = "유효한 이메일 주소를 입력해주세요.")
+        private String email;
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+        private String imageURL;
 
-    public String getEmail() {
-        return email;
-    }
+        public UpdateMember() {
+        }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+        public UpdateMember(String name, String role, String email, String imageURL) {
+            this.name = name;
+            this.role = role;
+            this.email = email;
+            this.imageURL = imageURL;
+        }
 
-    public String getImageURL() {
-        return imageURL;
-    }
+        public String getName() {
+            return name;
+        }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+        public String getRole() {
+            return role;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getImageURL() {
+            return imageURL;
+        }
     }
 }

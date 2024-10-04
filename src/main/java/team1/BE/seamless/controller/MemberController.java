@@ -2,13 +2,20 @@ package team1.BE.seamless.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.MemberRequestDTO;
 import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
 import team1.BE.seamless.util.page.PageMapper;
 import team1.BE.seamless.util.page.PageResult;
 import team1.BE.seamless.util.page.SingleResult;
@@ -28,40 +35,43 @@ public class MemberController {
 
     @Operation(summary = "팀원 개별 조회")
     @GetMapping("/{member_id}")
-    public SingleResult<MemberEntity> getMember(@PathVariable("member_id") Long memberId) {
-        return new SingleResult<>(memberService.getMember(memberId));
+    public SingleResult<MemberEntity> getMember(@Valid @PathVariable("project_id") Long projectId,
+        @Valid @PathVariable("member_id") Long memberId) {
+        return new SingleResult<>(memberService.getMember(projectId, memberId));
     }
 
     @Operation(summary = "팀원 전체 조회")
     @GetMapping
-    public PageResult<MemberEntity> getMemberList(@Valid MemberRequestDTO.getMemberList memberListRequestDTO) {
-        return PageMapper.toPageResult(memberService.getMemberList(memberListRequestDTO));
+    public PageResult<MemberEntity> getMemberList(@Valid @PathVariable("project_id") Long projectId,
+        @Valid MemberRequestDTO.getMemberList memberListRequestDTO) {
+        return PageMapper.toPageResult(
+            memberService.getMemberList(projectId, memberListRequestDTO));
     }
 
 
     @Operation(summary = "새 팀원 추가")
     @PostMapping
-    public SingleResult<MemberResponseDTO> createMember(
-            @PathVariable("project_id") Long projectId,
-            @Valid @RequestBody MemberRequestDTO memberRequestDTO) {
-
-        MemberResponseDTO newMember = memberService.createMember(memberRequestDTO, projectId);
-        return new SingleResult<>(newMember);
+    public SingleResult<MemberEntity> createMember(
+        @PathVariable("project_id") Long projectId,
+        @Valid @RequestBody MemberRequestDTO.CreateMember Create) {
+        return new SingleResult<>(memberService.createMember(projectId, Create));
     }
 
     @Operation(summary = "팀원 정보 수정")
     @PutMapping("/{member_id}")
-    public SingleResult<MemberResponseDTO> updateMember(
-            @PathVariable("member_id") Long memberId
-            , @RequestBody MemberRequestDTO memberRequestDTO) {
-        MemberResponseDTO updatedMember = memberService.updateMember(memberId, memberRequestDTO);
-        return new SingleResult<>(updatedMember);
+    public SingleResult<MemberEntity> updateMember(
+        @PathVariable("project_id") Long projectId,
+        @PathVariable("member_id") Long memberId
+        , @RequestBody MemberRequestDTO.UpdateMember update) {
+        return new SingleResult<>(memberService.updateMember(projectId, memberId, update));
     }
 
-        @Operation(summary = "팀원 삭제")
+    @Operation(summary = "팀원 삭제")
     @DeleteMapping("/{member_id}")
-    public SingleResult<MemberResponseDTO> deleteMember(@PathVariable("member_id") Long memberId) {
-        MemberResponseDTO memberResponseDTO = memberService.deleteMember(memberId);
-        return new SingleResult<>(memberResponseDTO);
+    public SingleResult<MemberEntity> deleteMember(
+        @PathVariable("project_id") Long projectId,
+        @PathVariable("member_id") Long memberId) {
+
+        return new SingleResult<>(memberService.deleteMember(projectId, memberId));
     }
 }

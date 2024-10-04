@@ -20,22 +20,20 @@ public class MemberEntity extends BaseEntity{
 
     }
 
-    public MemberEntity(String name, String role, String email, String imageURL) {
+//    public MemberEntity(String name, String role, String email, String imageURL) {
+//        this.name = name;
+//        this.role = role;
+//        this.email = email;
+//        this.imageURL = imageURL;
+//    }
+
+    public MemberEntity(String name, String role, String email, String imageURL,ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
         this.name = name;
         this.role = role;
         this.email = email;
         this.imageURL = imageURL;
-    }
-
-    public MemberEntity(String name, String role, String email, ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
-        this.name = name;
-        this.role = role;
-        this.email = email;
         this.projectEntity = projectEntity;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.isDelete = false;
     }
 
     @Id
@@ -46,11 +44,8 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "join_number")
-    private String joinNumber;
-
     @Column(name = "is_delete")
-    private Integer isDelete;
+    private Boolean isDelete;
 
     @Column(name = "role")
     private String role;
@@ -66,7 +61,7 @@ public class MemberEntity extends BaseEntity{
     private ProjectEntity projectEntity;
 
     @OneToMany(mappedBy = "owner")
-    private List<TaskEntity> taskEntities;
+    private List<TaskEntity> taskEntities = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -76,28 +71,58 @@ public class MemberEntity extends BaseEntity{
         return email;
     }
 
-    public Integer getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public ProjectEntity getProject() {
+    public String getRole() {
+        return role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public ProjectEntity getProjectEntity() {
         return projectEntity;
     }
 
-    public List<TaskEntity> getTasks() {
+    public List<TaskEntity> getTaskEntities() {
         return taskEntities;
     }
 
-//    public void addTask(TaskEntity taskEntity) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    //    public void addTask(TaskEntity taskEntity) {
 //        if (this.taskEntities == null) {
 //            this.taskEntities = new ArrayList<>();
 //        }
 //        this.taskEntities.add(taskEntity);
 //        taskEntity.setOwner(this);  // 양방향 관계 설정
 //    }
-
-    public void setProject(ProjectEntity projectEntity) {
-        this.projectEntity = projectEntity;
-    }
-
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 }

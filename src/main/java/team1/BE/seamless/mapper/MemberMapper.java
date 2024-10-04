@@ -1,32 +1,33 @@
 package team1.BE.seamless.mapper;
 
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.MemberRequestDTO;
+import team1.BE.seamless.DTO.MemberRequestDTO.CreateMember;
+import team1.BE.seamless.DTO.MemberRequestDTO.UpdateMember;
 import team1.BE.seamless.entity.MemberEntity;
-import java.util.Optional;
+import team1.BE.seamless.entity.ProjectEntity;
 
 @Component
 public class MemberMapper {
 
-    public MemberEntity toMemberEntity(MemberRequestDTO memberRequestDTO) {
+    public MemberEntity toEntity(CreateMember create, ProjectEntity project) {
 
-        MemberEntity memberEntity = new MemberEntity(
-                memberRequestDTO.getName(),
-                memberRequestDTO.getRole(),
-                memberRequestDTO.getEmail(),
-                memberRequestDTO.getImageURL()
-                );
-
-        return memberEntity;
+        return new MemberEntity(
+            create.getName(),
+            create.getRole(),
+            create.getEmail(),
+            create.getImageURL(),
+            project
+        );
     }
 
-    public MemberEntity toMemberUpdateEntity(MemberRequestDTO memberRequestDTO, Optional<MemberEntity> existingMemberEntity) {
-        MemberEntity updatedMember = existingMemberEntity.get(); // 이걸 먼저 해야 정보가 먼저 변경됨.
-        updatedMember.setName(memberRequestDTO.getName()); // 세터없이 구현이 어렵다고 판단함. -> 기존 멤버의 정보를 유지해야하기 때문.
-        updatedMember.setRole(memberRequestDTO.getRole());
-        updatedMember.setEmail(memberRequestDTO.getEmail());
-        updatedMember.setImageURL(memberRequestDTO.getImageURL());
-        return updatedMember;
+    public MemberEntity toUpdate(MemberEntity member, UpdateMember update) {
+        member.setEmail(update.getEmail());
+        member.setImageURL(update.getImageURL());
+        member.setRole(update.getRole());
+        member.setName(update.getName());
+        return member;
     }
 
 }
