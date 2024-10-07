@@ -1,14 +1,13 @@
 package team1.BE.seamless.DTO;
 
-import team1.BE.seamless.entity.MemberEntity;
-import team1.BE.seamless.entity.MemberEntity;
-import team1.BE.seamless.entity.ProjectOption;
-import team1.BE.seamless.entity.UserEntity;
-import team1.BE.seamless.entity.UserEntity;
-import team1.BE.seamless.util.page.PageParam;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import team1.BE.seamless.util.page.PageParam;
 
 public class ProjectDTO {
 
@@ -20,48 +19,42 @@ public class ProjectDTO {
 
         private String name;
 
-        private UserEntity user;
+        private Long userId;
 
-        private List<MemberEntity> guests;
+        private List<Long> optionIds;
 
-        private List<ProjectOption> options;
-
+        @NotNull
+        @FutureOrPresent
         private LocalDateTime startDate;
 
+        @NotNull
         private LocalDateTime endDate;
 
         public ProjectCreate() {
-            this.guests = new ArrayList<>();
-            this.options = new ArrayList<>();
+            this.optionIds = new ArrayList<>();
         }
 
-        public ProjectCreate(String name, UserEntity user,
+        public ProjectCreate(String name, Long userId,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<MemberEntity> guests,
-            List<ProjectOption> options) {
+            List<Long> optionIds) {
             this.name = name;
-            this.user = user;
+            this.userId = userId;
             this.startDate = startDate;
             this.endDate = endDate;
-            this.guests = guests;
-            this.options = options;
+            this.optionIds = optionIds;
         }
 
         public String getName() {
             return name;
         }
 
-        public UserEntity getUser() {
-            return user;
+        public Long getUserId() {
+            return userId;
         }
 
-        public List<MemberEntity> getGuests() {
-            return guests;
-        }
-
-        public List<ProjectOption> getOptions() {
-            return options;
+        public List<Long> getOptionIds() {
+            return optionIds;
         }
 
         public LocalDateTime getStartDate() {
@@ -70,6 +63,16 @@ public class ProjectDTO {
 
         public LocalDateTime getEndDate() {
             return endDate;
+        }
+
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
         }
 
     }
@@ -78,39 +81,32 @@ public class ProjectDTO {
 
         private String name;
 
-        private List<MemberEntity> guests;
+        private List<Long> optionIds;
 
-        private List<ProjectOption> options;
-
+        @NotNull
+        @FutureOrPresent
         private LocalDateTime startDate;
 
+        @NotNull
         private LocalDateTime endDate;
 
         public ProjectUpdate() {
         }
 
-        public ProjectUpdate(String name,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            List<MemberEntity> guests,
-            List<ProjectOption> options) {
+        public ProjectUpdate(String name, List<Long> optionIds, LocalDateTime startDate,
+            LocalDateTime endDate) {
             this.name = name;
+            this.optionIds = optionIds;
             this.startDate = startDate;
             this.endDate = endDate;
-            this.guests = guests;
-            this.options = options;
         }
 
         public String getName() {
             return name;
         }
 
-        public List<MemberEntity> getGuests() {
-            return guests;
-        }
-
-        public List<ProjectOption> getOptions() {
-            return options;
+        public List<Long> getOptionIds() {
+            return optionIds;
         }
 
         public LocalDateTime getStartDate() {
@@ -121,51 +117,66 @@ public class ProjectDTO {
             return endDate;
         }
 
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
+        }
+
     }
 
-//    public static class ProjectPeriod {
-//
-//        private Long id;
-//
-//        private String name;
-//
-//        private LocalDateTime startDate;
-//
-//        private LocalDateTime endDate;
-//
-//        public ProjectPeriod() {
-//        }
-//
-//        public ProjectPeriod(Long id,String name, LocalDateTime startDate, LocalDateTime endDate) {
-//            this.id = id;
-//            this.name = name;
-//            this.startDate = startDate;
-//            this.endDate = endDate;
-//        }
-//
-//        public Long getId() {
-//            return id;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-//
-//        public LocalDateTime getStartDate() {
-//            return startDate;
-//        }
-//
-//        public LocalDateTime getEndDate() {
-//            return endDate;
-//        }
-//
-//    }
+    public static class ProjectPeriod {
 
-    public interface ProjectPeriod {
-        Long getId();
-        String getName();
-        LocalDateTime getStartDate();
-        LocalDateTime getEndDate();
+        private Long id;
+
+        private String name;
+
+        @NotNull
+        @FutureOrPresent
+        private LocalDateTime startDate;
+
+        @NotNull
+        private LocalDateTime endDate;
+
+        public ProjectPeriod() {
+        }
+
+        public ProjectPeriod(String name, LocalDateTime startDate, LocalDateTime endDate) {
+            this.name = name;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
+
+        @AssertTrue
+        public boolean isEndDateAfterStartDate() {
+            return endDate.isAfter(startDate);
+        }
+
+        @AssertTrue
+        public boolean isAtLeastOneDayDifference() {
+            return Duration.between(startDate, endDate).toDays() >= 1;
+        }
+
     }
 
 }

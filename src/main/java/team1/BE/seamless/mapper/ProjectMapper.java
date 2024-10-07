@@ -1,15 +1,25 @@
 package team1.BE.seamless.mapper;
 
-import java.time.LocalDateTime;
+
+import java.util.List;
 import org.springframework.stereotype.Component;
+import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.entity.ProjectEntity;
+import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.entity.UserEntity;
 
 @Component
 public class ProjectMapper {
 
-    public ProjectEntity toEntity(String name, UserEntity user, LocalDateTime startDate, LocalDateTime endDate) {
-        return new ProjectEntity(name, user, startDate, endDate);
+    public ProjectEntity toEntity(ProjectDTO.ProjectCreate create, UserEntity userEntity,
+        List<ProjectOption> projectOptions) {
+        return new ProjectEntity(
+            create.getName(),
+            userEntity,
+            projectOptions,
+            create.getStartDate(),
+            create.getEndDate()
+        );
     }
 
 }

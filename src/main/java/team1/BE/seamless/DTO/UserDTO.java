@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 
 public class UserDTO {
 
-    public static class UserUpdate{
+    public static class UserUpdate {
+
         private String username;
 
         @Pattern(regexp = "^(https?:\\/\\/)?([a-zA-Z0-9_-]+\\.)+[a-zA-Z]{2,6}(:[0-9]{1,5})?(\\/.*)?$",
-        message = "사진은 URL이여야 합니다.")
+            message = "사진은 URL이여야 합니다.")
         private String picture;
 
         public UserUpdate() {
