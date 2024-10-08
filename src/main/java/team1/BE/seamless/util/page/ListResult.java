@@ -1,9 +1,9 @@
 package team1.BE.seamless.util.page;
 
-import team1.BE.seamless.util.errorException.BaseResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import team1.BE.seamless.util.errorException.BaseResult;
 
 public class ListResult<T> extends BaseResult {
 

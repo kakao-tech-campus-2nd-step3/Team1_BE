@@ -105,4 +105,9 @@ public class JwtToken {
         return claims.get("email", String.class);
     }
 
+    public String getRole(String token) {
+        Claims claims = validateToken(token);
+        return claims.get("authentication", String.class);
+    }
+
 }
