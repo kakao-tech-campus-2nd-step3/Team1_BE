@@ -34,13 +34,6 @@ public class MemberService {
     }
 
     public MemberEntity getMember(Long projectId, Long memberId) {
-//        Optional<MemberEntity> memberEntity = memberRepository.findById(memberId);
-//        if (memberEntity.isPresent()) {
-//            return memberEntity.get();
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음");
-//        }
         return memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
     }
@@ -52,18 +45,6 @@ public class MemberService {
     }
 
     public MemberEntity createMember(Long projectId, CreateMember create) {
-//        Optional<ProjectEntity> projectEntity = projectRepository.findById(projectId);
-//        if(projectEntity.isPresent()) {
-//            MemberEntity memberEntity = memberMapper.toMemberEntity(memberRequestDTO);
-//            memberEntity.setProject(projectEntity.get()); // 코드 구조상 어쩔 수 없이 setter 사용..(get메서드가 Optional기능이라 이렇게 함)
-//            memberRepository.save(memberEntity);
-//            // memberRepository.save(memberEntity) 리턴값은 MemberEntity임 JPA 기능임!
-//            MemberResponseDTO memberResponseDTO = new MemberResponseDTO("팀원이 추가되었습니다.");
-//            return memberResponseDTO;
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 프로젝트가 존재하지 않습니다.");
-//        }
         ProjectEntity project = projectRepository.findById(projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
 
@@ -75,16 +56,6 @@ public class MemberService {
 
     @Transactional
     public MemberEntity updateMember(Long projectId, Long memberId, UpdateMember update) {
-//        Optional<MemberEntity> existingMemberEntity = memberRepository.findById(memberId);
-//        if(existingMemberEntity.isPresent()) {
-//            MemberEntity updatedMember = memberMapper.toMemberUpdateEntity(memberRequestDTO,existingMemberEntity);
-//            memberRepository.save(updatedMember);
-//            MemberResponseDTO memberResponseDTO = new MemberResponseDTO("팀원 정보가 성공적으로 변경되었습니다.");
-//            return memberResponseDTO;
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
-//        }
         MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
                 projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
@@ -95,15 +66,6 @@ public class MemberService {
 
     @Transactional
     public MemberEntity deleteMember(Long projectId, Long memberId) {
-//        Optional<MemberEntity> existingMemberEntity = memberRepository.findById(memberId);
-//        if(existingMemberEntity.isPresent()) {
-//            String name = existingMemberEntity.get().getName();
-//            memberRepository.delete(existingMemberEntity.get());
-//            return new MemberResponseDTO("팀원 (" + name + ")이 팀에서 삭제되었습니다.");
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
-//        }
         MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
                 projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
