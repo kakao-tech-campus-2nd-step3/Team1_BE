@@ -33,6 +33,7 @@ public class MemberService {
         this.projectRepository = projectRepository;
     }
 
+    
     public MemberEntity getMember(Long projectId, Long memberId) {
         return memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
