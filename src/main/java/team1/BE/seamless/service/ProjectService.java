@@ -39,7 +39,7 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
 
-    /*
+    /**
     * @param param : 페이지네이션에 관한 parameter
     * @param email : 유저 토큰에서 추출한 email 정보
     * @return : 페이지네이션된 프로젝트들에 대한 정보
@@ -50,7 +50,7 @@ public class ProjectService {
 
     }
 
-    /*
+    /**
     * @param id : 프로젝트 Id
     * @return : 해당 Id의 프로젝트의 정보를 반환
     * repository 조회시 존재 하지 않을 경우 Throw Not Found
@@ -61,7 +61,7 @@ public class ProjectService {
         return projectMapper.toDetail(projectEntity);
     }
 
-    /*
+    /**
     * @param id : 프로젝트 Id
     * @return : 해당 id를 가진 프로젝트에 참여한 팀원들의 목록
     * */
@@ -71,7 +71,7 @@ public class ProjectService {
         return projectEntity.getMemberEntities();
     }
 
-    /*
+    /**
     * @param param : 페이지네이션에 관한 parameter
     * @param email : 유저 토큰에서 추출한 email 정보
     * @return : 프로젝트의 Id, name, startDate, endDate 정보를 페이지네이션*/
@@ -79,7 +79,7 @@ public class ProjectService {
         return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email).map(projectMapper::toPeriod);
     }
 
-    /*
+    /**
     * @param create : 프로젝트 생성 시 필요한 정보를 담은 DTO
     * @param email : 유저 토큰에서 추출한 email 정보
     * @return : 생성한 프로젝트의 정보
@@ -108,7 +108,7 @@ public class ProjectService {
         return projectMapper.toDetail(projectEntity);
     }
 
-    /*
+    /**
     * @param id : 프로젝트 Id
     * @param update : 프로젝트 업데이트 시 필요한 정보를 담은 DTO
     * @return : 수정한 프로젝트의 정보
@@ -144,7 +144,7 @@ public class ProjectService {
         return projectMapper.toDetail(projectEntity);
     }
 
-    /*
+    /**
     * @param id : 프로젝트 Id
     * @return : 삭제한 프로젝트의 Id
     * 프로젝트의 존재 검증 후 존재 시 삭제
