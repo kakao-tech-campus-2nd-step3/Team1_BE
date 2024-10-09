@@ -113,4 +113,59 @@ public class TaskDTO {
             return endDate;
         }
     }
+
+    public static class TaskDetail {
+        private Long id;
+
+        private String name;
+
+        private String remark;
+
+        private Long memberId;
+
+        private Integer progress;
+
+        private LocalDateTime startDate;
+
+        private LocalDateTime endDate;
+
+        public TaskDetail(Long id, String name, String remark, Long memberId, Integer progress,
+            LocalDateTime startDate, LocalDateTime endDate) {
+            this.id = id;
+            this.name = name;
+            this.remark = remark;
+            this.memberId = memberId;
+            this.progress = progress;
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public Long getMemberId() {
+            return memberId;
+        }
+
+        public Integer getProgress() {
+            return progress;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
+    }
 }

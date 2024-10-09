@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.TaskDTO.Create;
+import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
 import team1.BE.seamless.DTO.TaskDTO.Update;
 import team1.BE.seamless.DTO.TaskDTO.getList;
 import team1.BE.seamless.entity.MemberEntity;
@@ -40,16 +41,18 @@ public class TaskService {
         this.parsingPram = parsingPram;
     }
 
-    public TaskEntity getTask(Long taskId) {
-        return taskRepository.findByIdAndIsDeletedFalse(taskId)
+    public TaskDetail getTask(Long taskId) {
+        TaskEntity taskEntity = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
+
+        return taskMapper.toDetail(taskEntity);
     }
 
     public Page<TaskEntity> getTaskList(Long projectId, getList param) {
         return taskRepository.findAllByProjectIdAndIsDeletedFalse(projectId, param.toPageable());
     }
 
-    public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
+    public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
         ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
@@ -66,11 +69,12 @@ public class TaskService {
         TaskEntity taskEntity = taskMapper.toEntity(project, member, create);
 
         taskRepository.save(taskEntity);
-        return taskEntity;
+
+        return taskMapper.toDetail(taskEntity);
     }
 
     @Transactional
-    public TaskEntity updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
+    public TaskDetail updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
@@ -100,7 +104,8 @@ public class TaskService {
         }
 
         taskMapper.toUpdate(task, update);
-        return task;
+
+        return taskMapper.toDetail(task);
     }
 
     @Transactional
