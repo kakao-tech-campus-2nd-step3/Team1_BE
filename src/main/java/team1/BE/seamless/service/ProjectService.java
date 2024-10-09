@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
 import team1.BE.seamless.entity.MemberEntity;
@@ -44,9 +45,9 @@ public class ProjectService {
     * @return : 페이지네이션된 프로젝트들에 대한 정보
     * ProjectEntity에 매핑된 UserEntity의 email 정보가 일치하고 isDeleted가 false인 프로젝트를 페이지네이션 형식으로 반환
     * */
-    public Page<ProjectEntity> getProjectList(ProjectDTO.getList param, String email) {
-        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(),
-            email);
+    public Page<ProjectDetail> getProjectList(ProjectDTO.getList param, String email) {
+        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email).map(projectMapper::toDetail);
+
     }
 
     /*
@@ -54,9 +55,10 @@ public class ProjectService {
     * @return : 해당 Id의 프로젝트의 정보를 반환
     * repository 조회시 존재 하지 않을 경우 Throw Not Found
     * */
-    public ProjectEntity getProject(long id) {
-        return projectRepository.findById(id)
+    public ProjectDetail getProject(long id) {
+        ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+        return projectMapper.toDetail(projectEntity);
     }
 
     /*
@@ -74,7 +76,7 @@ public class ProjectService {
     * @param email : 유저 토큰에서 추출한 email 정보
     * @return : 프로젝트의 Id, name, startDate, endDate 정보를 페이지네이션*/
     public Page<ProjectPeriod> getProjectPeriod(ProjectDTO.getList param, String email) {
-        return projectRepository.findByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
+        return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email).map(projectMapper::toPeriod);
     }
 
     /*
@@ -89,7 +91,7 @@ public class ProjectService {
     * 각 ProjectOption의 ProjectEntity field를 생성한 ProjectEntity로 설정
     * */
     @Transactional
-    public ProjectEntity createProject(ProjectCreate create, String email) {
+    public ProjectDetail createProject(ProjectCreate create, String email) {
         UserEntity userEntity = userRepository.findByEmailAndIsDeleteFalse(email)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "사용자가 존재하지 않음"));
 
@@ -103,7 +105,7 @@ public class ProjectService {
             projectMapper.toEntity(create, userEntity, projectOptions));
         projectOptions.forEach(
             option -> option.setProjectEntity(projectEntity)); //ProjectOption에 Project 매핑
-        return projectEntity;
+        return projectMapper.toDetail(projectEntity);
     }
 
     /*
@@ -119,7 +121,7 @@ public class ProjectService {
     * 나머지 정보 업데이트 후 저장
     * */
     @Transactional
-    public ProjectEntity updateProject(long id, ProjectUpdate update) {
+    public ProjectDetail updateProject(long id, ProjectUpdate update) {
         ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
         // 기존 옵션 목록
@@ -139,8 +141,7 @@ public class ProjectService {
             update.getEndDate()
         );
 
-        projectRepository.save(projectEntity);
-        return projectEntity;
+        return projectMapper.toDetail(projectEntity);
     }
 
     /*

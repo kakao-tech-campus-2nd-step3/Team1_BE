@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.ProjectDTO;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -40,15 +41,14 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 리스트 조회")
     @GetMapping
-    public PageResult<ProjectEntity> getProjectList(@Valid ProjectDTO.getList param,
+    public PageResult<ProjectDetail> getProjectList(@Valid ProjectDTO.getList param,
         HttpServletRequest req) {
-        return PageMapper.toPageResult(
-            projectService.getProjectList(param, parsingPram.getEmail(req)));
+        return PageMapper.toPageResult(projectService.getProjectList(param, parsingPram.getEmail(req)));
     }
 
     @Operation(summary = "프로젝트 조회")
     @GetMapping("/{project-id}")
-    public SingleResult<ProjectEntity> getProject(@Valid @PathVariable long id) {
+    public SingleResult<ProjectDetail> getProject(@Valid @PathVariable long id) {
         return new SingleResult<>(projectService.getProject(id));
     }
 
@@ -68,14 +68,14 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 생성")
     @PostMapping
-    public SingleResult<ProjectEntity> createProject(
+    public SingleResult<ProjectDetail> createProject(
         @Valid @RequestBody ProjectDTO.ProjectCreate create, HttpServletRequest req) {
         return new SingleResult<>(projectService.createProject(create, parsingPram.getEmail(req)));
     }
 
     @Operation(summary = "프로젝트 설정 수정")
     @PutMapping("/{project-id}")
-    public SingleResult<ProjectEntity> updateProject(
+    public SingleResult<ProjectDetail> updateProject(
         @Valid @RequestBody ProjectDTO.ProjectUpdate update,
         @PathVariable long id) {
         return new SingleResult<>(projectService.updateProject(id, update));

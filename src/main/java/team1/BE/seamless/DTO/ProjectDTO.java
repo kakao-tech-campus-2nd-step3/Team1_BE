@@ -173,5 +173,51 @@ public class ProjectDTO {
 
     }
 
+    public static class ProjectDetail{
+        private Long id;
+
+        private String name;
+
+        private LocalDateTime startDate;
+
+        private LocalDateTime endDate;
+
+        private List<Long> optionIds;
+
+        public ProjectDetail() {
+        }
+
+        public ProjectDetail(Long id, String name,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            List<Long> optionIds) {
+            this.id = id;
+            this.name = name;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.optionIds = optionIds;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public LocalDateTime getEndDate() {
+            return endDate;
+        }
+
+        public List<Long> getOptionIds() {
+            return optionIds;
+        }
+    }
+
 }
 
