@@ -59,7 +59,7 @@ public class SecurityConfig {
                         "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                     .permitAll()
 //                인증, h2
-                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/h2-console/**", "/auth/**").permitAll()
                     .anyRequest()
                     .authenticated()
             )
