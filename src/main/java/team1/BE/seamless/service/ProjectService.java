@@ -153,7 +153,8 @@ public class ProjectService {
     public Long deleteProject(long id) {
         ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
-        projectRepository.deleteById(projectEntity.getId());
+
+        projectEntity.setIsDeleted(true);
         return projectEntity.getId();
     }
 
