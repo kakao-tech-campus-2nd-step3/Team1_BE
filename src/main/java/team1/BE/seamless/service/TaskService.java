@@ -75,8 +75,8 @@ public class TaskService {
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
 //        태스크의 일정 검증
-        if (task.getProject().getStartDate().isBefore(update.getStartDate()) || task.getProject()
-            .getStartDate().isAfter(update.getEndDate())) {
+        if (task.getProject().getStartDate().isAfter(update.getStartDate()) || task.getProject()
+            .getEndDate().isBefore(update.getEndDate())) {
             throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
