@@ -129,7 +129,7 @@ jobs:
               sleep 5
             fi
 
-            DEPLOY_PATH=/home/ubuntu/kakao2-6/deploy/
+            DEPLOY_PATH=/home/ubuntu/seamless/deploy/
             cp $BUILD_PATH $DEPLOY_PATH
             cd $DEPLOY_PATH
 
