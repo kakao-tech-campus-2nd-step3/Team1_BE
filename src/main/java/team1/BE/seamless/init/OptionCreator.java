@@ -17,8 +17,8 @@ public class OptionCreator {
     }
 
     public void creator() {
-        optionService.createOption(new OptionCreate("옵션1", "긍정적 옵션1", OptionType.POSITIVE.toString()));
-        optionService.createOption(new OptionCreate("옵션2", "긍정적 옵션2", OptionType.POSITIVE.toString()));
-        optionService.createOption(new OptionCreate("옵션3", "부정적 옵션1", OptionType.NEGATIVE.toString()));
+        optionService.createOption(new OptionCreate("옵션1", "긍정적 옵션1", OptionType.POSITIVE.getKey()));
+        optionService.createOption(new OptionCreate("옵션2", "긍정적 옵션2", OptionType.POSITIVE.getKey()));
+        optionService.createOption(new OptionCreate("옵션3", "부정적 옵션1", OptionType.NEGATIVE.getKey()));
     }
 }
