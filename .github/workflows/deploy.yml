@@ -130,6 +130,7 @@ jobs:
             fi
 
             DEPLOY_PATH=/home/ubuntu/seamless/deploy/
+            mkdir $DEPLOY_PATH
             cp $BUILD_PATH $DEPLOY_PATH
             cd $DEPLOY_PATH
 
