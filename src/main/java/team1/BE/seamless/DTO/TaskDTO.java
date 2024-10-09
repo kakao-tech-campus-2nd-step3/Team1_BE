@@ -30,7 +30,7 @@ public class TaskDTO {
 
         public Create(String name, String remark, Long memberId, LocalDateTime startDate,
             LocalDateTime endDate) {
-            if (startDate.isBefore(endDate)) {
+            if (endDate.isBefore(startDate)) {
                 throw new BaseHandler(HttpStatus.FORBIDDEN, "종료시간은 시작시간보다 이전일 수 없습니다.");
             }
             this.name = name;
