@@ -78,6 +78,9 @@ public class TaskDTO {
         public Update(String name, String remark, Integer progress, Long memberId,
             LocalDateTime startDate,
             LocalDateTime endDate) {
+            if (endDate.isBefore(startDate)) {
+                throw new BaseHandler(HttpStatus.FORBIDDEN, "종료시간은 시작시간보다 이전일 수 없습니다.");
+            }
             this.name = name;
             this.remark = remark;
             this.progress = progress;
