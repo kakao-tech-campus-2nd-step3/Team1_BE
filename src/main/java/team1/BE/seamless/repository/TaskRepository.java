@@ -12,7 +12,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     Optional<TaskEntity> findByIdAndIsDeletedFalse(Long id);
 
-    Page<TaskEntity> findAllByProjectIdAndIsDeletedFalse(Long projectId, Pageable pageable);
+    Page<TaskEntity> findAllByProjectEntityIdAndIsDeletedFalse(Long projectId, Pageable pageable);
 
     Optional<TaskEntity> findByIdAndProjectEntityUserEntityEmail(Long id, String email);
 }

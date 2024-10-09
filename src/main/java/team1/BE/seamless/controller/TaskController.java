@@ -41,7 +41,7 @@ public class TaskController {
 
     @Operation(summary = "프로젝트 아이디로 태스크 리스트 조회 ")
     @GetMapping("/{projectId}/task")
-    public PageResult<TaskEntity> getTaskList(@PathVariable Long projectId,
+    public PageResult<TaskDetail> getTaskList(@PathVariable Long projectId,
         @Valid TaskDTO.getList param) {
         return PageMapper.toPageResult(taskService.getTaskList(projectId, param));
     }

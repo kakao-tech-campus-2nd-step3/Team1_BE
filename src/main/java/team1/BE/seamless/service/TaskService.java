@@ -48,8 +48,10 @@ public class TaskService {
         return taskMapper.toDetail(taskEntity);
     }
 
-    public Page<TaskEntity> getTaskList(Long projectId, getList param) {
-        return taskRepository.findAllByProjectIdAndIsDeletedFalse(projectId, param.toPageable());
+    public Page<TaskDetail> getTaskList(Long projectId, getList param) {
+        Page<TaskEntity> taskEntities = taskRepository.findAllByProjectEntityIdAndIsDeletedFalse(projectId, param.toPageable());
+
+        return taskEntities.map(taskMapper::toDetail);
     }
 
     public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
