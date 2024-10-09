@@ -48,7 +48,7 @@ public class UserService {
 
     @Transactional
     public UserSimple deleteUser(HttpServletRequest req) {
-        UserEntity user = userRepository.findByEmailAndIsDeleteFalse(parsingPram.getEmail(req), 0)
+        UserEntity user = userRepository.findByEmailAndIsDeleteFalse(parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
         user.setIsDelete();
