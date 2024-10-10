@@ -69,7 +69,9 @@ jobs:
               ssl:
                 enabled: true
                 key-store: /etc/letsencrypt/live/seamlessup.com/keystore.p12
-                key-store-password: seamless
+                key-store-password: ${{
+                  secrets.KEYSTORE_PASSWORD
+                }}
                 key-store-type: PKCS12
                 key-alias: tomcat
           EOF
