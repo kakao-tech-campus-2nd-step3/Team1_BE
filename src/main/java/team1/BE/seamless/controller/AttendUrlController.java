@@ -39,9 +39,10 @@ public class AttendUrlController {
      * less)
      */
     @Operation(summary = "팀원초대 링크 생성")
-    @PostMapping("/api/project/{project_id}/invite-link")
+    @PostMapping("/api/project/{project_id}/invite-link/{user-id}")
     public SingleResult<String> generateInviteLink(HttpServletRequest req,
-        @Valid @PathVariable("project_id") Long projectId) {
-        return new SingleResult<>(attendURLService.generateAttendURL(req, projectId));
+        @Valid @PathVariable("project_id") Long projectId,
+        @Valid @PathVariable("user-id") Long userId) {
+        return new SingleResult<>(attendURLService.generateAttendURL(req, projectId, userId));
     }
 }
