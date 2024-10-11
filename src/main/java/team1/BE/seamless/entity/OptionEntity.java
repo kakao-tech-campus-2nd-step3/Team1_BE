@@ -3,11 +3,14 @@ package team1.BE.seamless.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
+import team1.BE.seamless.entity.enums.OptionType;
 
 @Entity(name = "option")
 public class OptionEntity extends BaseEntity {
@@ -16,9 +19,10 @@ public class OptionEntity extends BaseEntity {
 
     }
 
-    public OptionEntity(String name, String eventType) {
+    public OptionEntity(String name, String description, OptionType optionType) {
         this.name = name;
-        this.eventType = eventType;
+        this.description = description;
+        this.optionType = optionType;
         this.isDeleted = false;
     }
 
@@ -30,8 +34,12 @@ public class OptionEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "event_type")
-    private String eventType;
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "option_type")
+    @Enumerated(EnumType.STRING)
+    private OptionType optionType;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -47,8 +55,12 @@ public class OptionEntity extends BaseEntity {
         return name;
     }
 
-    public String getEventType() {
-        return eventType;
+    public String getDescription() {
+        return description;
+    }
+
+    public OptionType getOptionType() {
+        return optionType;
     }
 
     public boolean getIsDeleted() {

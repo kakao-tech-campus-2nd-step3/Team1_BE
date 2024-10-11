@@ -23,6 +23,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.AuthDTO.PrincipalDetails;
 import team1.BE.seamless.entity.MemberEntity;
+import team1.BE.seamless.entity.UserEntity;
 import team1.BE.seamless.entity.enums.Role;
 import team1.BE.seamless.util.errorException.RuntimeHandler;
 
@@ -66,6 +67,24 @@ public class JwtToken {
         Claims claims = Jwts.claims();
         claims.put("authentication", Role.MEMBER.toString());
         claims.put("email", member.getEmail());
+        return Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(Date.from(now.toInstant()))
+            .setExpiration(Date.from(expirationDateTime.toInstant()))
+            .signWith(secretKey, SignatureAlgorithm.HS256)
+            .compact();
+    }
+
+    /**
+     * 테스트외 절대 사용 금지
+     * */
+    public String createUserToken(UserEntity user) {
+        ZonedDateTime now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
+
+        Claims claims = Jwts.claims();
+        claims.put("authentication", Role.MEMBER.toString());
+        claims.put("email", user.getEmail());
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(Date.from(now.toInstant()))
