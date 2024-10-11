@@ -22,4 +22,10 @@ public class ParsingPram {
         return jwtToken.getEmail(token);
     }
 
+    public String getRole(HttpServletRequest request) {
+        String token = request.getHeader(AUTHORIZATION_HEADER);
+        token = token.substring(7);
+        return jwtToken.getRole(token);
+    }
+
 }
