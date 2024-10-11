@@ -16,14 +16,12 @@ public class ProjectOption extends BaseEntity {
 
     }
 
-    public ProjectOption(String name, OptionEntity optionEntity) {
-        this.name = name;
+    public ProjectOption(OptionEntity optionEntity) {
         this.isDeleted = false;
         this.optionEntity = optionEntity;
     }
 
-    public ProjectOption(String name, ProjectEntity projectEntity, OptionEntity optionEntity) {
-        this.name = name;
+    public ProjectOption(ProjectEntity projectEntity, OptionEntity optionEntity) {
         this.isDeleted = false;
         this.projectEntity = projectEntity;
         this.optionEntity = optionEntity;
@@ -33,9 +31,6 @@ public class ProjectOption extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "project_option_id")
     private Long id;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -52,15 +47,11 @@ public class ProjectOption extends BaseEntity {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public ProjectEntity getProject() {
+    public ProjectEntity getProjectEntity() {
         return projectEntity;
     }
 
