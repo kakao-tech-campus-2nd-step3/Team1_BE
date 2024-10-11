@@ -29,8 +29,29 @@ public class MemberMapper {
         return member;
     }
 
-    public MemberResponseDTO toResponseDTO(MemberEntity memberEntity) {
+    public MemberResponseDTO toGetResponseDTO(MemberEntity memberEntity) {
         return new MemberResponseDTO("성공적으로 조회되었습니다.",
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail());
+    }
+
+    public MemberResponseDTO toDeleteResponseDTO(MemberEntity memberEntity) {
+        return new MemberResponseDTO("성공적으로 삭제되었습니다.",
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail());
+    }
+
+    public MemberResponseDTO toCreateResponseDTO(MemberEntity memberEntity) {
+        return new MemberResponseDTO("성공적으로 생성되었습니다.",
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail());
+    }
+
+    public MemberResponseDTO toPutResponseDTO(MemberEntity memberEntity) {
+        return new MemberResponseDTO("성공적으로 수정되었습니다.",
                 memberEntity.getName(),
                 memberEntity.getRole(),
                 memberEntity.getEmail());

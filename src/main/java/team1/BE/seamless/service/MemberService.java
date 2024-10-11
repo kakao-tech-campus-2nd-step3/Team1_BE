@@ -37,34 +37,25 @@ public class MemberService {
         this.parsingPram = parsingPram;
     }
 
-    public MemberResponseDTO getMember(Long projectId, HttpServletRequest req) {
-        // 팀원인지 확인
-        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"조회 권한이 없습니다.");
-        }
+    public MemberResponseDTO getMember(Long projectId, Long memberId, HttpServletRequest req) {
+        // 팀원인지 확인.. 삭제함
 
-        MemberEntity memberEntity = memberRepository.findByProjectEntityIdAndEmailAndIsDeleteFalse(projectId, parsingPram.getEmail(req))
+        MemberEntity memberEntity = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(projectId, memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
-        return memberMapper.toResponseDTO(memberEntity);
+        return memberMapper.toGetResponseDTO(memberEntity);
     }
 
     public Page<MemberEntity> getMemberList(@Valid Long projectId,
         getMemberList memberListRequestDTO, HttpServletRequest req) {
-        // 팀원인지 확인
-        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"조회 권한이 없습니다.");
-        }
+        // 팀원인지 확인.. 삭제함
 
         return memberRepository.findAllByProjectEntityIdAndIsDeleteFalse(projectId,
             memberListRequestDTO.toPageable());
     }
 
     public MemberResponseDTO createMember(Long projectId, CreateMember create, HttpServletRequest req) {
-        // 팀원인지 확인
-        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"등록 권한이 없습니다.");
-        }
+        // 팀원인지 확인.. 삭제함
 
         ProjectEntity project = projectRepository.findById(projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
@@ -72,7 +63,7 @@ public class MemberService {
         MemberEntity member = memberMapper.toEntity(create, project);
         memberRepository.save(member);
 
-        return memberMapper.toResponseDTO(member);
+        return memberMapper.toCreateResponseDTO(member);
     }
 
     public MemberResponseDTO createMember(Long projectId, CreateMember create) {
@@ -84,37 +75,37 @@ public class MemberService {
         MemberEntity member = memberMapper.toEntity(create, project);
         memberRepository.save(member);
 
-        return memberMapper.toResponseDTO(member);
+        return memberMapper.toCreateResponseDTO(member);
     }
 
     @Transactional
-    public MemberResponseDTO updateMember(Long projectId, UpdateMember update, HttpServletRequest req) {
+    public MemberResponseDTO updateMember(Long projectId, Long memberId, UpdateMember update, HttpServletRequest req) {
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
         if (parsingPram.getRole(req).equals(Role.USER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
         }
 
-        MemberEntity member = memberRepository.findByProjectEntityIdAndEmailAndIsDeleteFalse(
-                projectId, parsingPram.getEmail(req))
+        MemberEntity member = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(
+                projectId,memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
         MemberEntity memberEntity = memberMapper.toUpdate(member, update);
-        return memberMapper.toResponseDTO(memberEntity);
+        return memberMapper.toPutResponseDTO(memberEntity);
     }
 
     @Transactional
-    public MemberResponseDTO deleteMember(Long projectId, HttpServletRequest req) {
+    public MemberResponseDTO deleteMember(Long projectId, Long memberId, HttpServletRequest req) {
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
         if (parsingPram.getRole(req).equals(Role.USER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
         }
 
-        MemberEntity member = memberRepository.findByProjectEntityIdAndEmailAndIsDeleteFalse(
-                projectId, parsingPram.getEmail(req))
+        MemberEntity member = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(
+                projectId, memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
         member.setDelete(true);
 
-        return memberMapper.toResponseDTO(member);
+        return memberMapper.toDeleteResponseDTO(member);
     }
 }

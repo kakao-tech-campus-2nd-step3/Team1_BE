@@ -39,9 +39,9 @@ public class MemberController {
     @Operation(summary = "팀원 개별 조회")
     @GetMapping("/{member_id}")
     public SingleResult<MemberResponseDTO> getMember(@Valid @PathVariable("project_id") Long projectId,
-                                                     @Valid @PathVariable("")
+                                                     @Valid @PathVariable("member_id") Long memberId,
                                                      HttpServletRequest req) {
-        return new SingleResult<>(memberService.getMember(projectId, req));
+        return new SingleResult<>(memberService.getMember(projectId, memberId, req));
     }
 
     @Operation(summary = "팀원 전체 조회")
@@ -66,18 +66,20 @@ public class MemberController {
     @Operation(summary = "팀원 정보 수정")
     @PutMapping("/{member_id}")
     public SingleResult<MemberResponseDTO> updateMember(
-        @PathVariable("project_id") Long projectId
+        @PathVariable("project_id") Long projectId,
+        @PathVariable("member_id") Long memberId
         , @RequestBody MemberRequestDTO.UpdateMember update,
         HttpServletRequest req) {
-        return new SingleResult<>(memberService.updateMember(projectId, update, req));
+        return new SingleResult<>(memberService.updateMember(projectId, memberId, update, req));
     }
 
     @Operation(summary = "팀원 삭제")
     @DeleteMapping("/{member_id}")
     public SingleResult<MemberResponseDTO> deleteMember(
         @PathVariable("project_id") Long projectId,
+        @PathVariable("member_id") Long memberId,
         HttpServletRequest req) {
 
-        return new SingleResult<>(memberService.deleteMember(projectId, req));
+        return new SingleResult<>(memberService.deleteMember(projectId, memberId, req));
     }
 }
