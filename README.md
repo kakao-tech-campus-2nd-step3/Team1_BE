@@ -63,12 +63,34 @@
       - 다른 방법 찾는중(w5)
 - 프로젝트(김도헌)
   - 프로젝트 리스트 조회
+    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들을 페이지네이션을 통해 보여줌 
   - 프로젝트 기간 리스트 조회
+    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들의 일정 정보를 페이지네이션을 통해 보여줌
   - 프로젝트 조회
+    - 프로젝트 Id를 통한 단일 조회
   - 프로젝트 멤버 조회
+    - 프로젝트 Id를 통해 해당 프로젝트의 멤버들의 정보를 조회
+    - 현재 객체를 통해 정보를 받아 오는 것으로 되어있지만, 추후 fetch join을 활용한 방법으로 수정 예정
   - 프로젝트 생성
+    - 프로젝트를 생성함
+    - 플로우 : 
+      - email을 통해 유저가 존재하는 지 검증 ->
+      - DTO에 담긴 optionEntity들의 id 정보들을 통해 OptionEntity조회 ->
+      - OptionEntity을 ProjectOption으로 매핑 ->
+      - 해당 정보를 가진 ProjectEntity를 생성 후 Repo에 save ->
+      - 각 ProjectOption의 ProjectEntity field를 생성한 ProjectEntity로 설정
   - 프로젝트 설정 수정
+    - 해당하는 Id의 프로젝트를 수정
+    - 플로우 : 
+      - 프로젝트가 존재하는지 검증 ->
+      - 기존의 ProjectOption 리스트 초기화->
+      - DTO에 담긴 Option id들을 통해 OptionEntity 조회 ->
+      - OptionEntity를 ProjectOption으로 매핑 ->
+      - ProjectOption 리스트에 추가 ->
+      - 나머지 정보 업데이트 후 저장
   - 프로젝트 삭제
+    - 해당하는 Id의 프로젝트 삭제
+    - 현재는 그냥 삭제를 하지만, 추후 Soft Delete 방식으로 재구현 예정
 - 게스트(권순호)
   - 게스트 생성
   - 게스트 수정

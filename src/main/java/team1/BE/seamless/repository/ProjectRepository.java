@@ -11,7 +11,6 @@ import team1.BE.seamless.entity.ProjectEntity;
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
-    Page<ProjectPeriod> findAllByIsDeletedFalse(Pageable pageable);
 
     Optional<ProjectEntity> findByIdAndUserEntityEmailAndIsDeletedFalse(Long id, String email);
 
@@ -19,5 +18,4 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     Optional<ProjectEntity> findByIdAndIsDeletedFalse(Long id);
 
-    Page<ProjectPeriod> findByUserEntityEmailAndIsDeletedFalse(Pageable pageable, String email);
 }
