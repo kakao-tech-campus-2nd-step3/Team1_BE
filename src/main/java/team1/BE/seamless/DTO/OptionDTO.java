@@ -1,30 +1,37 @@
 package team1.BE.seamless.DTO;
 
-import java.util.List;
+import team1.BE.seamless.entity.enums.OptionType;
 
 public class OptionDTO {
 
-    public static class OptionCreate{
+    public static class OptionCreate {
 
         private String name;
 
-        private String eventType;
+        private String description;
+
+        private String optionType;
 
         public OptionCreate() {
 
         }
 
-        public OptionCreate(String name, String eventType) {
+        public OptionCreate(String name, String description, String optionType) {
             this.name = name;
-            this.eventType = eventType;
+            this.description = description;
+            this.optionType = optionType;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getEventType() {
-            return eventType;
+        public String getDescription() {
+            return description;
+        }
+
+        public String getOptionType() {
+            return optionType;
         }
 
     }

@@ -1,6 +1,7 @@
 package team1.BE.seamless.DTO;
 
 public class MemberResponseDTO {
+
     private String message;
 
     public MemberResponseDTO(String message) {
