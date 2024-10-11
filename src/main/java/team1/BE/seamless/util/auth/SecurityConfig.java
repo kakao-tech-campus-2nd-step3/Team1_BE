@@ -60,7 +60,7 @@ public class SecurityConfig {
                         "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                     .permitAll()
 //                인증, h2
-                    .requestMatchers("/h2-console/**", "/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**", "/auth/**","/api/test/**").permitAll()
 //                멤버 생성
                     .requestMatchers(HttpMethod.POST,"/api/project/{project_id}/member/**").permitAll()
                     .anyRequest()
