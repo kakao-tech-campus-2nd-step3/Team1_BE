@@ -4,8 +4,18 @@ public class MemberResponseDTO {
 
     private String message;
 
-    public MemberResponseDTO(String message) {
+    private String name;
+
+    private String role;
+
+    private String email;
+
+
+    public MemberResponseDTO(String message, String name, String role, String email) {
         this.message = message;
+        this.name = name;
+        this.role = role;
+        this.email = email;
     }
 
     public String getMessage() {

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.MemberRequestDTO.CreateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.UpdateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.getMemberList;
+import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.enums.Role;
@@ -36,14 +37,16 @@ public class MemberService {
         this.parsingPram = parsingPram;
     }
 
-    public MemberEntity getMember(Long projectId, HttpServletRequest req) {
+    public MemberResponseDTO getMember(Long projectId, HttpServletRequest req) {
         // 팀원인지 확인
         if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"조회 권한이 없습니다.");
         }
 
-        return memberRepository.findByProjectEntityIdAndEmailAndIsDeleteFalse(projectId, parsingPram.getEmail(req))
+        MemberEntity memberEntity = memberRepository.findByProjectEntityIdAndEmailAndIsDeleteFalse(projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
+
+        return memberMapper.toResponseDTO(memberEntity);
     }
 
     public Page<MemberEntity> getMemberList(@Valid Long projectId,
@@ -57,7 +60,7 @@ public class MemberService {
             memberListRequestDTO.toPageable());
     }
 
-    public MemberEntity createMember(Long projectId, CreateMember create, HttpServletRequest req) {
+    public MemberResponseDTO createMember(Long projectId, CreateMember create, HttpServletRequest req) {
         // 팀원인지 확인
         if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"등록 권한이 없습니다.");
@@ -69,11 +72,23 @@ public class MemberService {
         MemberEntity member = memberMapper.toEntity(create, project);
         memberRepository.save(member);
 
-        return member;
+        return memberMapper.toResponseDTO(member);
+    }
+
+    public MemberResponseDTO createMember(Long projectId, CreateMember create) {
+        // 테스트용 오버로딩임. 삭제 금지
+
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+        MemberEntity member = memberMapper.toEntity(create, project);
+        memberRepository.save(member);
+
+        return memberMapper.toResponseDTO(member);
     }
 
     @Transactional
-    public MemberEntity updateMember(Long projectId, UpdateMember update, HttpServletRequest req) {
+    public MemberResponseDTO updateMember(Long projectId, UpdateMember update, HttpServletRequest req) {
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
         if (parsingPram.getRole(req).equals(Role.USER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
@@ -83,12 +98,12 @@ public class MemberService {
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
-        memberMapper.toUpdate(member, update);
-        return member;
+        MemberEntity memberEntity = memberMapper.toUpdate(member, update);
+        return memberMapper.toResponseDTO(memberEntity);
     }
 
     @Transactional
-    public MemberEntity deleteMember(Long projectId, HttpServletRequest req) {
+    public MemberResponseDTO deleteMember(Long projectId, HttpServletRequest req) {
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
         if (parsingPram.getRole(req).equals(Role.USER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
@@ -100,6 +115,6 @@ public class MemberService {
 
         member.setDelete(true);
 
-        return member;
+        return memberMapper.toResponseDTO(member);
     }
 }
