@@ -55,7 +55,7 @@ jobs:
                       }}
                       redirect-uri: "https://${{
                         secrets.LIGHT_SAIL_IP
-                      }}/login/oauth2/code/google"
+                      }}
                       scope:
                         - email
                         - profile
