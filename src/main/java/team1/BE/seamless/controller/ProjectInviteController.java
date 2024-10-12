@@ -18,6 +18,7 @@ import team1.BE.seamless.util.page.SingleResult;
 @RequestMapping("/api/project")
 public class ProjectInviteController {
 
+    
     @Autowired
     private ProjectInviteService inviteService;
 
