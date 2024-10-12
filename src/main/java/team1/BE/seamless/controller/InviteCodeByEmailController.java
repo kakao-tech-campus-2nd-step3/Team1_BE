@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.InviteRequestDTO;
-import team1.BE.seamless.service.ProjectInviteService;
+import team1.BE.seamless.service.InviteCodeByEmailService;
 import team1.BE.seamless.util.page.SingleResult;
 
 @Tag(name = "이메일 전송")
 @RestController
 @RequestMapping("/api/project")
-public class ProjectInviteController {
+public class InviteCodeByEmailController {
 
     @Autowired
-    private ProjectInviteService inviteService;
+    private InviteCodeByEmailService inviteService;
 
     @Operation(summary = "이메일로 참여코드 전송하기")
     @PostMapping("/invite")
