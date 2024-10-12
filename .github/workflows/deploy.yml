@@ -64,16 +64,6 @@ jobs:
                       authorization-uri: https://accounts.google.com/o/oauth2/auth
                       token-uri: https://oauth2.googleapis.com/token
                       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-            server:
-              port: 443
-              ssl:
-                enabled: true
-                key-store: /etc/letsencrypt/live/seamlessup.com/keystore.p12
-                key-store-password: ${{
-                  secrets.KEYSTORE_PASSWORD
-                }}
-                key-store-type: PKCS12
-                key-alias: tomcat
           EOF
 
       # Gradle 캐시 설정
