@@ -47,7 +47,7 @@ public class ProjectEntity extends BaseEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

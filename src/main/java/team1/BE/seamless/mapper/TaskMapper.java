@@ -1,7 +1,9 @@
 package team1.BE.seamless.mapper;
 
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.TaskDTO.Create;
+import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
 import team1.BE.seamless.DTO.TaskDTO.Update;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -32,5 +34,10 @@ public class TaskMapper {
             Util.isNull(update.getEndDate().toString()) ? task.getEndDate() : update.getEndDate());
 
         return task;
+    }
+
+
+    public TaskDetail toDetail(TaskEntity task) {
+        return new TaskDetail(task.getId(), task.getName(), task.getRemark(), task.getOwner().getId(), task.getProgress(), task.getStartDate(), task.getEndDate());
     }
 }
