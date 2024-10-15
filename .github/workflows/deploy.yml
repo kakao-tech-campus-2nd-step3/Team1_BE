@@ -124,11 +124,12 @@ jobs:
               sleep 1
             else
               kill -15 $CURRENT_PID
+              wait $CURRENT_PID
               sleep 10
             fi
 
             DEPLOY_PATH=/home/ubuntu/seamless/deploy/
-            mkdir $DEPLOY_PATH
+            mkdir -p $DEPLOY_PATH
             cp $BUILD_PATH $DEPLOY_PATH
             cd $DEPLOY_PATH
 
