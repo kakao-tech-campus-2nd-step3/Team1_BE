@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import team1.BE.seamless.entity.enums.OptionType;
 
-@Entity(name = "option")
+@Entity(name = "optionss")
 public class OptionEntity extends BaseEntity {
 
     public OptionEntity() {
