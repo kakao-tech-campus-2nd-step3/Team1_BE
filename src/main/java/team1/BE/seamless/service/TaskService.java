@@ -54,7 +54,7 @@ public class TaskService {
         return taskEntities.map(taskMapper::toDetail);
     }
 
-    public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
+    public TaskDetail createTask(HttpServletRequest req, Long projectId, Create create) {
         ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
@@ -76,7 +76,7 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskDetail updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
+    public TaskDetail updateTask(HttpServletRequest req, Long taskId, Update update) {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
