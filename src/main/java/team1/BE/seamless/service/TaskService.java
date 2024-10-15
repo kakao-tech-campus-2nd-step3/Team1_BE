@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.TaskDTO.Create;
+import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
 import team1.BE.seamless.DTO.TaskDTO.Update;
 import team1.BE.seamless.DTO.TaskDTO.getList;
 import team1.BE.seamless.entity.MemberEntity;
@@ -40,23 +41,27 @@ public class TaskService {
         this.parsingPram = parsingPram;
     }
 
-    public TaskEntity getTask(Long taskId) {
-        return taskRepository.findByIdAndIsDeletedFalse(taskId)
+    public TaskDetail getTask(Long taskId) {
+        TaskEntity taskEntity = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
+
+        return taskMapper.toDetail(taskEntity);
     }
 
-    public Page<TaskEntity> getTaskList(Long projectId, getList param) {
-        return taskRepository.findAllByProjectIdAndIsDeletedFalse(projectId, param.toPageable());
+    public Page<TaskDetail> getTaskList(Long projectId, getList param) {
+        Page<TaskEntity> taskEntities = taskRepository.findAllByProjectEntityIdAndIsDeletedFalse(projectId, param.toPageable());
+
+        return taskEntities.map(taskMapper::toDetail);
     }
 
-    public TaskEntity createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
+    public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
         ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
 //        태스크의 일정 검증
-        if (project.getStartDate().isBefore(create.getStartDate()) || project.getStartDate()
-            .isAfter(create.getEndDate())) {
+        if (project.getStartDate().isAfter(create.getStartDate()) || project.getEndDate()
+            .isBefore(create.getEndDate())) {
             throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
@@ -66,17 +71,18 @@ public class TaskService {
         TaskEntity taskEntity = taskMapper.toEntity(project, member, create);
 
         taskRepository.save(taskEntity);
-        return taskEntity;
+
+        return taskMapper.toDetail(taskEntity);
     }
 
     @Transactional
-    public TaskEntity updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
+    public TaskDetail updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
 //        태스크의 일정 검증
-        if (task.getProject().getStartDate().isBefore(update.getStartDate()) || task.getProject()
-            .getStartDate().isAfter(update.getEndDate())) {
+        if (task.getProject().getStartDate().isAfter(update.getStartDate()) || task.getProject()
+            .getEndDate().isBefore(update.getEndDate())) {
             throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
@@ -100,7 +106,8 @@ public class TaskService {
         }
 
         taskMapper.toUpdate(task, update);
-        return task;
+
+        return taskMapper.toDetail(task);
     }
 
     @Transactional

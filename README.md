@@ -63,12 +63,34 @@
       - 다른 방법 찾는중(w5)
 - 프로젝트(김도헌)
   - 프로젝트 리스트 조회
+    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들을 페이지네이션을 통해 보여줌 
   - 프로젝트 기간 리스트 조회
+    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들의 일정 정보를 페이지네이션을 통해 보여줌
   - 프로젝트 조회
+    - 프로젝트 Id를 통한 단일 조회
   - 프로젝트 멤버 조회
+    - 프로젝트 Id를 통해 해당 프로젝트의 멤버들의 정보를 조회
+    - 현재 객체를 통해 정보를 받아 오는 것으로 되어있지만, 추후 fetch join을 활용한 방법으로 수정 예정
   - 프로젝트 생성
+    - 프로젝트를 생성함
+    - 플로우 : 
+      - email을 통해 유저가 존재하는 지 검증 ->
+      - DTO에 담긴 optionEntity들의 id 정보들을 통해 OptionEntity조회 ->
+      - OptionEntity을 ProjectOption으로 매핑 ->
+      - 해당 정보를 가진 ProjectEntity를 생성 후 Repo에 save ->
+      - 각 ProjectOption의 ProjectEntity field를 생성한 ProjectEntity로 설정
   - 프로젝트 설정 수정
+    - 해당하는 Id의 프로젝트를 수정
+    - 플로우 : 
+      - 프로젝트가 존재하는지 검증 ->
+      - 기존의 ProjectOption 리스트 초기화->
+      - DTO에 담긴 Option id들을 통해 OptionEntity 조회 ->
+      - OptionEntity를 ProjectOption으로 매핑 ->
+      - ProjectOption 리스트에 추가 ->
+      - 나머지 정보 업데이트 후 저장
   - 프로젝트 삭제
+    - 해당하는 Id의 프로젝트 삭제
+    - 현재는 그냥 삭제를 하지만, 추후 Soft Delete 방식으로 재구현 예정
 - 게스트(권순호)
   - 게스트 생성
   - 게스트 수정
@@ -99,9 +121,18 @@
 - [3주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/11)
 - [4주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/17)
 - [4주차 멘토링](https://quickest-asterisk-75d.notion.site/Back-end_-323b0e20ae2b405189ffe5b7c4242e00)
+- [5주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/31)
 ---
 # Issue
 - [week4 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/27)
+- [week6 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/39)
+- [week6 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/41)
+- [week6 멤버 생성 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/42)
+- [week6 pathvaliable로 값 파싱 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/43)
+- [week6 task 날짜 validation 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/44)
+- [week6 aws server 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/45)
+- [week6 멤버 생성 권한 수정](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/46)
+- [week6 task 조회 쿼리 문법 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/47)
 ---
 # 질문사항
 - week3
@@ -117,3 +148,6 @@
   - 코드 스타일
   - 동시성 처리
 - week5
+  - softDelete의 구현 방법
+  - 연결괸 객체의 정보를 가져오는 방법
+- week6
