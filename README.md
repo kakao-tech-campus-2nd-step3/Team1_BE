@@ -4,7 +4,8 @@
 
 # 프로젝트 구조도
 
-![seamless.png](..%2F..%2FDownloads%2Fseamless.png)
+![seamless](https://github.com/user-attachments/assets/5d4c9a76-8c25-4af9-bcb4-c598d98e4de3)
+
 
 ---
 
