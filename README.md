@@ -2,9 +2,9 @@
 
 ---
 
-# 그라운드 룰
+# 프로젝트 구조도
 
-- 추가 요망
+![seamless.png](..%2F..%2FDownloads%2Fseamless.png)
 
 ---
 
