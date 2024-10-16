@@ -62,7 +62,7 @@ public class TaskService {
 //        태스크의 일정 검증
         if (project.getStartDate().isAfter(create.getStartDate()) || project.getEndDate()
             .isBefore(create.getEndDate())) {
-            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
         MemberEntity member = memberRepository.findById(create.getMemberId())
@@ -85,7 +85,7 @@ public class TaskService {
 //        태스크의 일정 검증
         if (project.getStartDate().isAfter(create.getStartDate()) || project.getEndDate()
             .isBefore(create.getEndDate())) {
-            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
         MemberEntity member = memberRepository.findById(create.getMemberId())
@@ -107,7 +107,7 @@ public class TaskService {
 //        태스크의 일정 검증
         if (task.getProject().getStartDate().isAfter(update.getStartDate()) || task.getProject()
             .getEndDate().isBefore(update.getEndDate())) {
-            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
 //        수정 권한이 있는지 검증

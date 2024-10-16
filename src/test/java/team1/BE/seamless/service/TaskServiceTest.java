@@ -24,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.TaskDTO.Create;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.repository.MemberRepository;
@@ -42,6 +43,7 @@ class TaskServiceTest {
     private HttpHeaders headers = new HttpHeaders();
 
     private TaskService taskService;
+    private ProjectService projectService;
     private ProjectRepository projectRepository;
     private UserRepository userRepository;
     private MemberRepository memberRepository;
@@ -73,28 +75,24 @@ class TaskServiceTest {
 
     @Test
     public void 태스크_시작_시간이_프로젝트_일정_범위보다_이를_경우_실패() {
-        Optional<ProjectEntity> project = projectRepository.findByIdAndIsDeletedFalse(1L);
-
-        Create body = new Create("태스크1", "첫번째 태스크입니다.", 1L, LocalDateTime.of(2024, 10, 10, 0, 0), LocalDateTime.of(2026, 5, 3, 1, 0, 0));
+        Create body = new Create("태스크1", "첫번째 태스크입니다.", 1L, LocalDateTime.of(2001, 10, 10, 0, 0), LocalDateTime.of(2025, 5, 3, 1, 0, 0));
 
         HttpEntity<Long> requestEntity = new HttpEntity(body, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/project/1/task", POST, requestEntity, String.class);
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(FORBIDDEN);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
     @Test
     public void 태스크_마감_시간이_프로젝트_일정_범위보다_늦을_경우_실패() {
-        Optional<ProjectEntity> project = projectRepository.findByIdAndIsDeletedFalse(1L);
-
-        Create body = new Create("태스크1", "첫번째 태스크입니다.", 1L, LocalDateTime.of(2023, 12, 1, 0, 0), LocalDateTime.of(2024, 5, 3, 1, 0, 0));
+        Create body = new Create("태스크1", "첫번째 태스크입니다.", 1L, LocalDateTime.of(2024, 12, 1, 0, 0), LocalDateTime.of(2100, 5, 3, 1, 0, 0));
 
         HttpEntity<Long> requestEntity = new HttpEntity(body, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/project/1/task", POST, requestEntity, String.class);
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(FORBIDDEN);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
     }
 
 }
