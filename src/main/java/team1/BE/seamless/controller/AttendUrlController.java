@@ -35,10 +35,8 @@ public class AttendUrlController {
 
     /**
      * 팉장의 토큰과 프로젝트id로 프로젝트 존재 검증 프로젝트id + " " + exp로 코드 생성 코드를 양방향 암호화 ex)
-     * http://localhost:8080/api/memverInvite?code="123456" 검증시 코드를 복호화 해서 프로젝트id와 exp를 검증(server
-     * less)
      */
-    @Operation(summary = "팀원초대 링크 생성")
+    @Operation(summary = "팀원초대 코드 생성")
     @PostMapping("/api/project/{projectId}/invite-link/{userId}")
     public SingleResult<String> generateInviteLink(HttpServletRequest req,
         @Valid @PathVariable("projectId") Long projectId,

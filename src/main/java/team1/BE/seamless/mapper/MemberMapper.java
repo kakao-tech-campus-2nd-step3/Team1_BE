@@ -13,10 +13,10 @@ public class MemberMapper {
     public MemberEntity toEntity(CreateMember create, ProjectEntity project) {
 
         return new MemberEntity(
-            create.getName(),
-            create.getRole(),
+            "guest",
+            "",
             create.getEmail(),
-            create.getImageURL(),
+            "",
             project
         );
     }
