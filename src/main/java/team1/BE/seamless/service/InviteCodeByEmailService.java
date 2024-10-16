@@ -47,7 +47,7 @@ public class InviteCodeByEmailService {
         String message = "안녕하세요,\n\n" +
                 "프로젝트 '" + project.getName() + "'에 초대되었습니다.\n" +
                 "참여 코드는 다음과 같습니다: " + participationCode + "\n\n" +
-                "프로젝트에 참여하려면 초대 코드를 사용하여 등록해주세요.\n\n" +
+                "프로젝트에 참여하려면 초대 코드를 사용하여 입장해주세요.\n\n" +
                 "감사합니다.";
 
 
