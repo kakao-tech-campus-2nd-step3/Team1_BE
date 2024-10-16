@@ -54,7 +54,7 @@ public class TaskService {
         return taskEntities.map(taskMapper::toDetail);
     }
 
-    public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
+    public TaskDetail createTask(HttpServletRequest req, Long projectId, Create create) {
         ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
@@ -75,8 +75,32 @@ public class TaskService {
         return taskMapper.toDetail(taskEntity);
     }
 
+    // 테스트용 오버로딩
+    public TaskDetail createTask(Long projectId, Create create) {
+
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
+                projectId, "user1@google.com")
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
+
+//        태스크의 일정 검증
+        if (project.getStartDate().isAfter(create.getStartDate()) || project.getEndDate()
+            .isBefore(create.getEndDate())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
+        }
+
+        MemberEntity member = memberRepository.findById(create.getMemberId())
+            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
+
+        TaskEntity taskEntity = taskMapper.toEntity(project, member, create);
+
+        taskRepository.save(taskEntity);
+
+        return taskMapper.toDetail(taskEntity);
+
+    }
+
     @Transactional
-    public TaskDetail updateTask(HttpServletRequest req, @Valid Long taskId, @Valid Update update) {
+    public TaskDetail updateTask(HttpServletRequest req, Long taskId, Update update) {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
