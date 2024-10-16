@@ -27,11 +27,8 @@ public class InviteCodeByEmailController {
     @PostMapping("/invite")
     public SingleResult<String> inviteMemberToProject(@RequestBody InviteRequestDTO inviteRequest) {
         try {
-            String message =
-                "You have been invited to join the project with ID: " + inviteRequest.getProjectId()
-                    + "\nAnd Participation code: 참여코드 들어가야함";
-            inviteService.sendProjectInvite(inviteRequest.getEmail(), message, inviteRequest.getProjectId());
-            return new SingleResult<>("이메일로 프로젝트 초대코드 전송이 성공적으로 처리되었습니다.");
+            inviteService.sendProjectInvite(inviteRequest.getEmail(), inviteRequest.getProjectId());
+            return new SingleResult<>("팀원의 이메일로 프로젝트 초대코드 전송이 성공적으로 처리되었습니다.");
         } catch (Exception e) {
             throw new BaseHandler(HttpStatus.BAD_REQUEST,"이메일로 프로젝트 초대코드 전송이 실패되었습니다. : " + e.getMessage());
         }
