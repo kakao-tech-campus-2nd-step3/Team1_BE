@@ -121,9 +121,18 @@
 - [3주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/11)
 - [4주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/17)
 - [4주차 멘토링](https://quickest-asterisk-75d.notion.site/Back-end_-323b0e20ae2b405189ffe5b7c4242e00)
+- [5주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/31)
 ---
 # Issue
 - [week4 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/27)
+- [week6 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/39)
+- [week6 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/41)
+- [week6 멤버 생성 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/42)
+- [week6 pathvaliable로 값 파싱 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/43)
+- [week6 task 날짜 validation 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/44)
+- [week6 aws server 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/45)
+- [week6 멤버 생성 권한 수정](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/46)
+- [week6 task 조회 쿼리 문법 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/47)
 ---
 # 질문사항
 - week3
@@ -139,3 +148,6 @@
   - 코드 스타일
   - 동시성 처리
 - week5
+  - softDelete의 구현 방법
+  - 연결괸 객체의 정보를 가져오는 방법
+- week6
