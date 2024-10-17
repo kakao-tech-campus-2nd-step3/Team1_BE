@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
 import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
-import team1.BE.seamless.DTO.TaskDTO.Update;
+import team1.BE.seamless.DTO.TaskDTO.TaskUpdate;
 import team1.BE.seamless.DTO.TaskDTO.getList;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
@@ -105,7 +105,7 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskDetail updateTask(HttpServletRequest req, Long taskId, Update update) {
+    public TaskDetail updateTask(HttpServletRequest req, Long taskId, TaskUpdate update) {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 

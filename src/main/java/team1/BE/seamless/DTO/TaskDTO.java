@@ -61,7 +61,7 @@ public class TaskDTO {
         }
     }
 
-    public static class Update {
+    public static class TaskUpdate {
 
         private String name;
 
@@ -75,7 +75,7 @@ public class TaskDTO {
 
         private LocalDateTime endDate;
 
-        public Update(String name, String remark, Integer progress, Long memberId,
+        public TaskUpdate(String name, String remark, Integer progress, Long memberId,
             LocalDateTime startDate,
             LocalDateTime endDate) {
             if (endDate.isBefore(startDate)) {
