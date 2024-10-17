@@ -109,10 +109,16 @@ class TaskServiceTest {
             taskService.getTask(1L);
         });
 
+        String expectedMessage = "존재하지 않는 프로젝트";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
         HttpEntity<Long> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/project/task/1", GET, requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);
     }
+
 }
