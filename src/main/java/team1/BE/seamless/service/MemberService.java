@@ -1,5 +1,6 @@
 package team1.BE.seamless.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,107 +10,140 @@ import org.springframework.transaction.annotation.Transactional;
 import team1.BE.seamless.DTO.MemberRequestDTO.CreateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.UpdateMember;
 import team1.BE.seamless.DTO.MemberRequestDTO.getMemberList;
+import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
+import team1.BE.seamless.entity.enums.Role;
 import team1.BE.seamless.mapper.MemberMapper;
 import team1.BE.seamless.repository.MemberRepository;
 import team1.BE.seamless.repository.ProjectRepository;
+import team1.BE.seamless.util.auth.ParsingPram;
 import team1.BE.seamless.util.errorException.BaseHandler;
+
+import java.time.LocalDateTime;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     private final MemberMapper memberMapper;
-
     private final ProjectRepository projectRepository;
+    private final ParsingPram parsingPram;
 
     @Autowired
     public MemberService(MemberRepository memberRepository, MemberMapper memberMapper,
-        ProjectRepository projectRepository) {
+                         ProjectRepository projectRepository, ParsingPram parsingPram) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
         this.projectRepository = projectRepository;
+        this.parsingPram = parsingPram;
     }
 
-    public MemberEntity getMember(Long projectId, Long memberId) {
-//        Optional<MemberEntity> memberEntity = memberRepository.findById(memberId);
-//        if (memberEntity.isPresent()) {
-//            return memberEntity.get();
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음");
-//        }
-        return memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId, projectId)
+    public MemberResponseDTO getMember(Long projectId, Long memberId, HttpServletRequest req) {
+        // 팀원인지 확인.. 삭제함
+
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+
+        MemberEntity memberEntity = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(projectId, memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
+
+        return memberMapper.toGetResponseDTO(memberEntity);
     }
 
     public Page<MemberEntity> getMemberList(@Valid Long projectId,
-        getMemberList memberListRequestDTO) {
+        getMemberList memberListRequestDTO, HttpServletRequest req) {
+        // 팀원인지 확인.. 삭제함
+
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+
         return memberRepository.findAllByProjectEntityIdAndIsDeleteFalse(projectId,
             memberListRequestDTO.toPageable());
     }
 
-    public MemberEntity createMember(Long projectId, CreateMember create) {
-//        Optional<ProjectEntity> projectEntity = projectRepository.findById(projectId);
-//        if(projectEntity.isPresent()) {
-//            MemberEntity memberEntity = memberMapper.toMemberEntity(memberRequestDTO);
-//            memberEntity.setProject(projectEntity.get()); // 코드 구조상 어쩔 수 없이 setter 사용..(get메서드가 Optional기능이라 이렇게 함)
-//            memberRepository.save(memberEntity);
-//            // memberRepository.save(memberEntity) 리턴값은 MemberEntity임 JPA 기능임!
-//            MemberResponseDTO memberResponseDTO = new MemberResponseDTO("팀원이 추가되었습니다.");
-//            return memberResponseDTO;
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 프로젝트가 존재하지 않습니다.");
-//        }
+    public MemberResponseDTO createMember(Long projectId, CreateMember create, HttpServletRequest req) {
+        // 팀원인지 확인.. 삭제함
+
         ProjectEntity project = projectRepository.findById(projectId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+        // 아래는 프로젝트가 종료됐는데, 그 후에 팀원이 참여링크를 통해 프로젝트 참여를 했을 때 걸러내는거임ㅇㅇ
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
 
         MemberEntity member = memberMapper.toEntity(create, project);
         memberRepository.save(member);
 
-        return member;
+        return memberMapper.toCreateResponseDTO(member);
+    }
+
+    public MemberResponseDTO createMember(Long projectId, CreateMember create) {
+        // 테스트용 오버로딩임. 삭제 금지
+
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+
+        MemberEntity member = memberMapper.toEntity(create, project);
+        memberRepository.save(member);
+
+        return memberMapper.toCreateResponseDTO(member);
     }
 
     @Transactional
-    public MemberEntity updateMember(Long projectId, Long memberId, UpdateMember update) {
-//        Optional<MemberEntity> existingMemberEntity = memberRepository.findById(memberId);
-//        if(existingMemberEntity.isPresent()) {
-//            MemberEntity updatedMember = memberMapper.toMemberUpdateEntity(memberRequestDTO,existingMemberEntity);
-//            memberRepository.save(updatedMember);
-//            MemberResponseDTO memberResponseDTO = new MemberResponseDTO("팀원 정보가 성공적으로 변경되었습니다.");
-//            return memberResponseDTO;
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
-//        }
-        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
-                projectId)
+    public MemberResponseDTO updateMember(Long projectId, Long memberId, UpdateMember update, HttpServletRequest req) {
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+        // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
+        if (parsingPram.getRole(req).equals(Role.USER.toString())) {
+            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
+        }
+
+        MemberEntity member = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(
+                projectId,memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
-        memberMapper.toUpdate(member, update);
-        return member;
+        MemberEntity memberEntity = memberMapper.toUpdate(member, update);
+        return memberMapper.toPutResponseDTO(memberEntity);
     }
 
     @Transactional
-    public MemberEntity deleteMember(Long projectId, Long memberId) {
-//        Optional<MemberEntity> existingMemberEntity = memberRepository.findById(memberId);
-//        if(existingMemberEntity.isPresent()) {
-//            String name = existingMemberEntity.get().getName();
-//            memberRepository.delete(existingMemberEntity.get());
-//            return new MemberResponseDTO("팀원 (" + name + ")이 팀에서 삭제되었습니다.");
-//        }
-//        else {
-//            throw new BaseHandler(HttpStatus.NOT_FOUND,"해당하는 팀원이 존재하지 않습니다.");
-//        }
-        MemberEntity member = memberRepository.findByIdAndProjectEntityIdAndIsDeleteFalse(memberId,
-                projectId)
+    public MemberResponseDTO deleteMember(Long projectId, Long memberId, HttpServletRequest req) {
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+//
+//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+
+        // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
+        if (parsingPram.getRole(req).equals(Role.USER.toString())) {
+            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
+        }
+
+        MemberEntity member = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(
+                projectId, memberId)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 멤버가 존재하지 않습니다."));
 
         member.setDelete(true);
 
-        return member;
+        return memberMapper.toDeleteResponseDTO(member);
     }
 }

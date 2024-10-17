@@ -2,6 +2,7 @@ package team1.BE.seamless.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.MemberRequestDTO;
+import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.service.MemberService;
 import team1.BE.seamless.util.page.PageMapper;
 import team1.BE.seamless.util.page.PageResult;
 import team1.BE.seamless.util.page.SingleResult;
+
+import java.lang.reflect.Member;
 
 
 @Tag(name = "팀원 관리")
@@ -34,43 +38,48 @@ public class MemberController {
 
     @Operation(summary = "팀원 개별 조회")
     @GetMapping("/{member_id}")
-    public SingleResult<MemberEntity> getMember(@Valid @PathVariable("project_id") Long projectId,
-        @Valid @PathVariable("member_id") Long memberId) {
-        return new SingleResult<>(memberService.getMember(projectId, memberId));
+    public SingleResult<MemberResponseDTO> getMember(@Valid @PathVariable("project_id") Long projectId,
+                                                     @Valid @PathVariable("member_id") Long memberId,
+                                                     HttpServletRequest req) {
+        return new SingleResult<>(memberService.getMember(projectId, memberId, req));
     }
 
     @Operation(summary = "팀원 전체 조회")
     @GetMapping
     public PageResult<MemberEntity> getMemberList(@Valid @PathVariable("project_id") Long projectId,
-        @Valid MemberRequestDTO.getMemberList memberListRequestDTO) {
+        @Valid MemberRequestDTO.getMemberList memberListRequestDTO,
+        HttpServletRequest req) {
         return PageMapper.toPageResult(
-            memberService.getMemberList(projectId, memberListRequestDTO));
+            memberService.getMemberList(projectId, memberListRequestDTO, req));
     }
 
 
     @Operation(summary = "새 팀원 추가")
     @PostMapping
-    public SingleResult<MemberEntity> createMember(
+    public SingleResult<MemberResponseDTO> createMember(
         @PathVariable("project_id") Long projectId,
-        @Valid @RequestBody MemberRequestDTO.CreateMember Create) {
-        return new SingleResult<>(memberService.createMember(projectId, Create));
+        @Valid @RequestBody MemberRequestDTO.CreateMember Create,
+        HttpServletRequest req) {
+        return new SingleResult<>(memberService.createMember(projectId, Create, req));
     }
 
     @Operation(summary = "팀원 정보 수정")
     @PutMapping("/{member_id}")
-    public SingleResult<MemberEntity> updateMember(
+    public SingleResult<MemberResponseDTO> updateMember(
         @PathVariable("project_id") Long projectId,
         @PathVariable("member_id") Long memberId
-        , @RequestBody MemberRequestDTO.UpdateMember update) {
-        return new SingleResult<>(memberService.updateMember(projectId, memberId, update));
+        , @RequestBody MemberRequestDTO.UpdateMember update,
+        HttpServletRequest req) {
+        return new SingleResult<>(memberService.updateMember(projectId, memberId, update, req));
     }
 
     @Operation(summary = "팀원 삭제")
     @DeleteMapping("/{member_id}")
-    public SingleResult<MemberEntity> deleteMember(
+    public SingleResult<MemberResponseDTO> deleteMember(
         @PathVariable("project_id") Long projectId,
-        @PathVariable("member_id") Long memberId) {
+        @PathVariable("member_id") Long memberId,
+        HttpServletRequest req) {
 
-        return new SingleResult<>(memberService.deleteMember(projectId, memberId));
+        return new SingleResult<>(memberService.deleteMember(projectId, memberId, req));
     }
 }

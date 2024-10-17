@@ -20,4 +20,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Optional<ProjectEntity> findByIdAndIsDeletedFalse(Long id);
 
     Page<ProjectPeriod> findByUserEntityEmailAndIsDeletedFalse(Pageable pageable, String email);
+
+    Optional<ProjectEntity> findByIdAndUserEntityIdAndIsDeletedFalse(Long projectId, Long userId);
+
 }
