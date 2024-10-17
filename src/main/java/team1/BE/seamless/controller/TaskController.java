@@ -51,8 +51,8 @@ public class TaskController {
     @Operation(summary = "태스크 생성")
     @PostMapping("/{projectId}/task")
     public SingleResult<TaskDetail> createTask(HttpServletRequest req,
-        @Valid @PathVariable Long projectId, @Valid @RequestBody TaskDTO.Create create) {
-        return new SingleResult<>(taskService.createTask(req, projectId, create));
+        @Valid @PathVariable Long projectId, @Valid @RequestBody TaskDTO.TaskCreate taskCreate) {
+        return new SingleResult<>(taskService.createTask(req, projectId, taskCreate));
     }
 
     /**

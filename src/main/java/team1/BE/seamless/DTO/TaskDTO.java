@@ -13,7 +13,7 @@ public class TaskDTO {
 
     }
 
-    public static class Create {
+    public static class TaskCreate {
 
         @NotBlank(message = "이름은 필수 입력 사항입니다.")
         private String name;
@@ -28,7 +28,7 @@ public class TaskDTO {
         @NotNull(message = "종료 시간은 필수 입력 사항입니다.")
         private LocalDateTime endDate;
 
-        public Create(String name, String remark, Long memberId, LocalDateTime startDate,
+        public TaskCreate(String name, String remark, Long memberId, LocalDateTime startDate,
             LocalDateTime endDate) {
             if (endDate.isBefore(startDate)) {
                 throw new BaseHandler(HttpStatus.BAD_REQUEST, "종료시간은 시작시간보다 이전일 수 없습니다.");
