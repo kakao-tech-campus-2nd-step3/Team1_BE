@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.TaskDTO;
 import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
-import team1.BE.seamless.entity.TaskEntity;
 import team1.BE.seamless.service.TaskService;
 import team1.BE.seamless.util.page.PageMapper;
 import team1.BE.seamless.util.page.PageResult;
