@@ -32,11 +32,11 @@ public class ProjectDTO {
         private List<@Positive Long> optionIds = new ArrayList<>();
 
         @NotNull
-        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime startDate;
 
         @NotNull
-        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime endDate;
 
         public ProjectCreate() {
