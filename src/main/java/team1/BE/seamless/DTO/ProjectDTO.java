@@ -90,10 +90,10 @@ public class ProjectDTO {
         @Valid
         private List<@Positive Long> optionIds = new ArrayList<>();
 
-        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime startDate;
 
-        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
+//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime endDate;
 
         public ProjectUpdate() {
