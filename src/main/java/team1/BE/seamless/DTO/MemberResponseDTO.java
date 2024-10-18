@@ -10,11 +10,21 @@ public class MemberResponseDTO {
 
     private String email;
 
+    private String code;
+
     public MemberResponseDTO(String message, String name, String role, String email) {
         this.message = message;
         this.name = name;
         this.role = role;
         this.email = email;
+    }
+
+    public MemberResponseDTO(String message, String name, String role, String email, String code) {
+        this.message = message;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.code = code;
     }
 
     public String getRole() {
@@ -47,5 +57,9 @@ public class MemberResponseDTO {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getCode() {
+        return code;
     }
 }

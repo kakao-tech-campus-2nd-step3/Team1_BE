@@ -2,9 +2,11 @@
 
 ---
 
-# 그라운드 룰
+# 프로젝트 구조도
 
-- 추가 요망
+![seamless](https://github.com/user-attachments/assets/98d62cf5-8755-4980-9bea-a5ada9719ee7)
+
+
 
 ---
 
@@ -122,6 +124,7 @@
 - [4주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/17)
 - [4주차 멘토링](https://quickest-asterisk-75d.notion.site/Back-end_-323b0e20ae2b405189ffe5b7c4242e00)
 - [5주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/31)
+- [6주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/58)
 ---
 # Issue
 - [week4 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/27)

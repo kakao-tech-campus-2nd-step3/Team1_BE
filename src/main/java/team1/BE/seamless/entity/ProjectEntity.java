@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "project")
+@Entity(name = "projectss")
 public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
