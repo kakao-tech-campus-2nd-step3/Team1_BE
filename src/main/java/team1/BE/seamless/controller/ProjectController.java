@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
@@ -62,7 +63,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 멤버 조회")
     @GetMapping("/{project-id}/members")
-    public ListResult<MemberEntity> getProjectMembers(@Valid @PathVariable("project-id") Long id) {
+    public ListResult<MemberResponseDTO> getProjectMembers(@Valid @PathVariable("project-id") Long id) {
         return new ListResult<>(projectService.getProjectMembers(id));
     }
 

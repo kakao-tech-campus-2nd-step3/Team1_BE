@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "project")
+@Entity(name = "projectss")
 public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
@@ -47,7 +47,7 @@ public class ProjectEntity extends BaseEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
