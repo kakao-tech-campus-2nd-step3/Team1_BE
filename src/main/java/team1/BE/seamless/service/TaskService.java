@@ -7,10 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
-import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
-import team1.BE.seamless.DTO.TaskDTO.TaskUpdate;
-import team1.BE.seamless.DTO.TaskDTO.getList;
+import team1.BE.seamless.DTO.TaskDTO.*;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
@@ -60,7 +57,7 @@ public class TaskService {
         return taskEntities.map(taskMapper::toDetail);
     }
 
-    public TaskDetail createTask(HttpServletRequest req, @Valid Long projectId, Create create) {
+    public TaskDetail createTask(HttpServletRequest req, Long projectId, TaskCreate taskCreate) {
         ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(
                 projectId, parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
