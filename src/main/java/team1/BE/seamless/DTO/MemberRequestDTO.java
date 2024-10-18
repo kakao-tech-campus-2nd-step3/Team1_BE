@@ -70,6 +70,14 @@ public class MemberRequestDTO {
         public UpdateMember() {
         }
 
+        public UpdateMember(String name, String role, String email, String imageURL, boolean test) {
+            this.name = name;
+            this.role = role;
+            this.email = email;
+            this.imageURL = imageURL;
+
+        }
+
         public UpdateMember(String name, String role, String email, String imageURL) {
             this.name = name;
             this.role = role;
