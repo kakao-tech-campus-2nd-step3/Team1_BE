@@ -157,6 +157,9 @@ public class ProjectService {
         ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
+        if(projectEntity.getIsDeleted()) {
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "해당 프로젝트는 지워진 상태 입니다.");
+        }
         projectEntity.setIsDeleted(true);
         return projectEntity.getId();
     }
