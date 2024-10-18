@@ -37,7 +37,7 @@ public class InviteCodeByEmailService {
 //            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
 //        } // 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
 
-        // 팀원인지 팀장인지 검증은 필요없음.
+        // 팀원인지 팀장인지 검증은 필요없음.(어차피 이 post요청은 아무 권한 없는 사람이 보내는 것 취급임) ㄴ
 
 
         // 참여코드 생성 (UUID 기반 + 현재 시간)
