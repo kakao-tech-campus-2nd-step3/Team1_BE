@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ week6 ]
+    branches: [ develop ]
     pull_request:
-      branches: [ week6 ]
+      branches: [ develop ]
 
 env:
   LIGHTSAIL_USERNAME: ubuntu
