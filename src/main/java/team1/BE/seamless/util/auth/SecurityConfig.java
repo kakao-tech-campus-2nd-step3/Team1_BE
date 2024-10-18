@@ -3,6 +3,7 @@ package team1.BE.seamless.util.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -59,7 +60,11 @@ public class SecurityConfig {
                         "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                     .permitAll()
 //                인증, h2
-                    .requestMatchers("/h2-console/**", "/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**", "/auth/**","/api/test/**").permitAll()
+//                멤버 생성
+                    .requestMatchers(HttpMethod.POST,"/api/project/{project_id}/member/**").permitAll()
+//                멤버 조회
+                    .requestMatchers(HttpMethod.GET,"/api/project/{project_id}/member/**").permitAll()
                     .anyRequest()
                     .authenticated()
             )
