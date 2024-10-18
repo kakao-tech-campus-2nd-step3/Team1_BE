@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ week6 ]
+    branches: [ develop ]
     pull_request:
-      branches: [ week6 ]
+      branches: [ develop ]
 
 env:
   LIGHTSAIL_USERNAME: ubuntu
@@ -53,9 +53,7 @@ jobs:
                       client-secret: ${{
                         secrets.GOOGLE_CLIENT_SECRET
                       }}
-                      redirect-uri: "https://${{
-                        secrets.LIGHT_SAIL_IP
-                      }}/login/oauth2/code/google"
+                      redirect-uri: https://seamlessup.com/login/oauth2/code/google
                       scope:
                         - email
                         - profile
@@ -64,16 +62,6 @@ jobs:
                       authorization-uri: https://accounts.google.com/o/oauth2/auth
                       token-uri: https://oauth2.googleapis.com/token
                       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-            server:
-              port: 443
-              ssl:
-                enabled: true
-                key-store: /etc/letsencrypt/live/seamlessup.com/keystore.p12
-                key-store-password: ${{
-                  secrets.KEYSTORE_PASSWORD
-                }}
-                key-store-type: PKCS12
-                key-alias: tomcat
           EOF
 
       # Gradle 캐시 설정
@@ -131,16 +119,17 @@ jobs:
 
             CURRENT_PID=$(pgrep -f $JAR_NAME)
 
-            if [ -z $CURRENT_PID ]
+            if [ -n $CURRENT_PID ]
             then
               sleep 1
             else
               kill -15 $CURRENT_PID
-              sleep 5
+              wait $CURRENT_PID
+              sleep 10
             fi
 
             DEPLOY_PATH=/home/ubuntu/seamless/deploy/
-            mkdir $DEPLOY_PATH
+            mkdir -p $DEPLOY_PATH
             cp $BUILD_PATH $DEPLOY_PATH
             cd $DEPLOY_PATH
 

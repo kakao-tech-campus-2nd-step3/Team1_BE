@@ -1,6 +1,7 @@
 package team1.BE.seamless.service;
 
 import jakarta.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,7 +91,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return userRepository.save(user);
     }
 
-    public Token memberCodeJoin(@Valid String memberCode) {
+    public Token memberCodeJoin(String memberCode) {
 //        decode
         String code = aesEncrypt.decrypt(memberCode);
 
@@ -104,9 +105,10 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new Token(token);
     }
 
-    public String memberCodeCreate(@Valid String memberCode) {
+    public String memberCodeCreate(String memberCode) {
 //        ENCODE
-        String code = aesEncrypt.encrypt(memberCode);
+        String code = aesEncrypt.encrypt(
+            1 + "_" + LocalDateTime.now().plusDays(1000));
         return code;
     }
 }

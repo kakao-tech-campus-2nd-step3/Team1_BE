@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity(name = "project_option")
+@Entity(name = "project_optionss")
 public class ProjectOption extends BaseEntity {
 
     public ProjectOption() {
