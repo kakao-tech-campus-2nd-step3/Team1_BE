@@ -74,22 +74,22 @@ public class MemberService {
             memberListRequestDTO.toPageable());
     }
 
-    public MemberResponseDTO createMember(Long projectId, CreateMember create, HttpServletRequest req) {
-        // 팀원인지 확인.. 삭제함
-
-        ProjectEntity project = projectRepository.findById(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
-
-        // 아래는 프로젝트가 종료됐는데, 그 후에 팀원이 참여링크를 통해 프로젝트 참여를 했을 때 걸러내는거임ㅇㅇ
-//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
-//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
-//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
-
-        MemberEntity member = memberMapper.toEntity(create, project);
-        memberRepository.save(member);
-
-        return memberMapper.toCreateResponseDTO(member);
-    }
+//    public MemberResponseDTO createMember(Long projectId, CreateMember create, HttpServletRequest req) {
+//        // 팀원인지 확인.. 삭제함
+//
+//        ProjectEntity project = projectRepository.findById(projectId)
+//            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
+//
+//        // 아래는 프로젝트가 종료됐는데, 그 후에 팀원이 참여링크를 통해 프로젝트 참여를 했을 때 걸러내는거임ㅇㅇ
+////        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+////            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+////        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+//
+//        MemberEntity member = memberMapper.toEntity(create, project);
+//        memberRepository.save(member);
+//
+//        return memberMapper.toCreateResponseDTO(member);
+//    }
 
     @Transactional
     public MemberResponseDTO createMember(CreateMember create) {
@@ -124,7 +124,7 @@ public class MemberService {
 
 //        이메일로 코드 전달(추가 요망)
 
-        return memberMapper.toCreateResponseDTO(member);
+        return memberMapper.toCreateResponseDTO(member, code);
     }
 
     @Transactional
@@ -158,8 +158,8 @@ public class MemberService {
 //        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
 
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
-        if (parsingPram.getRole(req).equals(Role.USER.toString())) {
-            throw new BaseHandler(HttpStatus.UNAUTHORIZED,"수정 권한이 없습니다.");
+        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN,"수정 권한이 없습니다.");
         }
 
         MemberEntity member = memberRepository.findByProjectEntityIdAndIdAndIsDeleteFalse(
