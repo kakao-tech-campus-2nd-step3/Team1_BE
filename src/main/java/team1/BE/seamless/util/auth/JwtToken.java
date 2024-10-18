@@ -83,7 +83,7 @@ public class JwtToken {
         ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
 
         Claims claims = Jwts.claims();
-        claims.put("authentication", Role.MEMBER.toString());
+        claims.put("authentication", Role.USER.toString());
         claims.put("email", user.getEmail());
         return Jwts.builder()
             .setClaims(claims)
