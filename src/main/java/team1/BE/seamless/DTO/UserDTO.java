@@ -2,6 +2,7 @@ package team1.BE.seamless.DTO;
 
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import org.hibernate.validator.constraints.URL;
 
 public class UserDTO {
 
@@ -9,8 +10,7 @@ public class UserDTO {
 
         private String username;
 
-        @Pattern(regexp = "^(https?:\\/\\/)?([a-zA-Z0-9_-]+\\.)+[a-zA-Z]{2,6}(:[0-9]{1,5})?(\\/.*)?$",
-            message = "사진은 URL이여야 합니다.")
+        @URL(protocol = "https", message = "사진은 URL이여야 합니다.")
         private String picture;
 
         public UserUpdate() {

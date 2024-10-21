@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "member")
+@Entity(name = "memberss")
 public class MemberEntity extends BaseEntity {
 
     public MemberEntity() {

@@ -18,7 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import team1.BE.seamless.entity.enums.Role;
 
-@Entity(name = "user_table")
+@Entity(name = "userss")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 

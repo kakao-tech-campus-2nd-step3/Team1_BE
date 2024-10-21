@@ -6,16 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team1.BE.seamless.DTO.MemberResponseDTO;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectCreate;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectUpdate;
-import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.OptionEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.entity.UserEntity;
+import team1.BE.seamless.mapper.MemberMapper;
 import team1.BE.seamless.mapper.ProjectMapper;
 import team1.BE.seamless.repository.OptionRepository;
 import team1.BE.seamless.repository.ProjectRepository;
@@ -29,14 +30,16 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final OptionRepository optionRepository;
     private final ProjectMapper projectMapper;
+    private final MemberMapper memberMapper;
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository, UserRepository userRepository,
-        OptionRepository optionRepository, ProjectMapper projectMapper) {
+        OptionRepository optionRepository, ProjectMapper projectMapper, MemberMapper memberMapper) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.optionRepository = optionRepository;
         this.projectMapper = projectMapper;
+        this.memberMapper = memberMapper;
     }
 
     /**
@@ -65,10 +68,10 @@ public class ProjectService {
     * @param id : 프로젝트 Id
     * @return : 해당 id를 가진 프로젝트에 참여한 팀원들의 목록
     * */
-    public List<MemberEntity> getProjectMembers(long id) {
+    public List<MemberResponseDTO> getProjectMembers(long id) {
         ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
-        return projectEntity.getMemberEntities();
+        return projectEntity.getMemberEntities().stream().map( entity -> memberMapper.toGetResponseDTO(entity)).toList();
     }
 
     /**
@@ -154,6 +157,9 @@ public class ProjectService {
         ProjectEntity projectEntity = projectRepository.findById(id)
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
+        if(projectEntity.getIsDeleted()) {
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "해당 프로젝트는 지워진 상태 입니다.");
+        }
         projectEntity.setIsDeleted(true);
         return projectEntity.getId();
     }

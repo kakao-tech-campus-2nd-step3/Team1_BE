@@ -56,11 +56,8 @@ public class MemberController {
 
     @Operation(summary = "새 팀원 추가")
     @PostMapping
-    public SingleResult<MemberResponseDTO> createMember(
-        @PathVariable("project_id") Long projectId,
-        @Valid @RequestBody MemberRequestDTO.CreateMember Create,
-        HttpServletRequest req) {
-        return new SingleResult<>(memberService.createMember(projectId, Create, req));
+    public SingleResult<MemberResponseDTO> createMember(@Valid @RequestBody MemberRequestDTO.CreateMember Create) {
+        return new SingleResult<>(memberService.createMember(Create));
     }
 
     @Operation(summary = "팀원 정보 수정")

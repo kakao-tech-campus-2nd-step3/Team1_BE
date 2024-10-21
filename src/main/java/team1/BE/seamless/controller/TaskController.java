@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.DTO.TaskDTO;
+import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
+import team1.BE.seamless.DTO.TaskDTO.TaskUpdate;
 import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
-import team1.BE.seamless.entity.TaskEntity;
 import team1.BE.seamless.service.TaskService;
 import team1.BE.seamless.util.page.PageMapper;
 import team1.BE.seamless.util.page.PageResult;
@@ -52,8 +53,8 @@ public class TaskController {
     @Operation(summary = "태스크 생성")
     @PostMapping("/{projectId}/task")
     public SingleResult<TaskDetail> createTask(HttpServletRequest req,
-        @Valid @PathVariable Long projectId, @Valid @RequestBody TaskDTO.Create create) {
-        return new SingleResult<>(taskService.createTask(req, projectId, create));
+        @Valid @PathVariable Long projectId, @Valid @RequestBody TaskCreate taskCreate) {
+        return new SingleResult<>(taskService.createTask(req, projectId, taskCreate));
     }
 
     /**
@@ -63,7 +64,7 @@ public class TaskController {
     @PutMapping("/task/{taskId}")
     public SingleResult<TaskDetail> updateTask(HttpServletRequest req,
         @Valid @PathVariable Long taskId,
-        @Valid @RequestBody TaskDTO.Update update) {
+        @Valid @RequestBody TaskUpdate update) {
         return new SingleResult<>(taskService.updateTask(req, taskId, update));
     }
 

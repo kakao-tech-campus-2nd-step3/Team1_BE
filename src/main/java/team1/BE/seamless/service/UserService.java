@@ -37,7 +37,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserSimple updateUser(HttpServletRequest req, @Valid UserUpdate update) {
+    public UserSimple updateUser(HttpServletRequest req, UserUpdate update) {
         UserEntity user = userRepository.findByEmailAndIsDeleteFalse(parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
@@ -57,7 +57,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity createUser(@Valid UserSimple simple) {
+    public UserEntity createUser( UserSimple simple) {
         return userRepository.findByEmailAndIsDeleteFalse(simple.getEmail())
             .orElseGet(() -> userRepository.save(
                 userMapper.toEntity(

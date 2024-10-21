@@ -4,22 +4,32 @@ package team1.BE.seamless.DTO;
 // 요청을 보낼 때의 DTO
 public class InviteRequestDTO {
 
-    private Integer projectId;
+    private Long projectId;
     private String email;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public InviteRequestDTO() {
     }
 
-    public InviteRequestDTO(Integer projectId, String email) {
+    public InviteRequestDTO(Long projectId, String email, String name) {
         this.projectId = projectId;
         this.email = email;
+        this.name = name;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

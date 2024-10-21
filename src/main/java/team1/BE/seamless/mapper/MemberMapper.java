@@ -13,10 +13,10 @@ public class MemberMapper {
     public MemberEntity toEntity(CreateMember create, ProjectEntity project) {
 
         return new MemberEntity(
-            create.getName(),
-            create.getRole(),
+            "guest",
+            "",
             create.getEmail(),
-            create.getImageURL(),
+            "",
             project
         );
     }
@@ -43,11 +43,12 @@ public class MemberMapper {
                 memberEntity.getEmail());
     }
 
-    public MemberResponseDTO toCreateResponseDTO(MemberEntity memberEntity) {
+    public MemberResponseDTO toCreateResponseDTO(MemberEntity memberEntity, String code) {
         return new MemberResponseDTO("성공적으로 생성되었습니다.",
                 memberEntity.getName(),
                 memberEntity.getRole(),
-                memberEntity.getEmail());
+                memberEntity.getEmail(),
+                code);
     }
 
     public MemberResponseDTO toPutResponseDTO(MemberEntity memberEntity) {

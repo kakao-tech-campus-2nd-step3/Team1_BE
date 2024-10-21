@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.ProjectDTO;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectDetail;
 import team1.BE.seamless.DTO.ProjectDTO.ProjectPeriod;
+import team1.BE.seamless.entity.OptionEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.ProjectOption;
 import team1.BE.seamless.entity.UserEntity;
@@ -30,7 +31,7 @@ public class ProjectMapper {
             projectEntity.getName(),
             projectEntity.getStartDate(),
             projectEntity.getEndDate(),
-            projectEntity.getProjectOptions().stream().map(ProjectOption::getId).toList()
+            projectEntity.getProjectOptions().stream().map(ProjectOption::getOptionEntity).map(OptionEntity::getId).toList()
         );
     }
 
