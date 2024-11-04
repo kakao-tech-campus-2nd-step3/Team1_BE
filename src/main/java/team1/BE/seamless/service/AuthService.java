@@ -1,6 +1,5 @@
 package team1.BE.seamless.service;
 
-import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
 //        로그인 플랫폼 확인
 //        추후 다른 OAuth2를 추가할 경우 사용
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+//        String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
 //        OAuth2 로그인 진행 시 키가 되는 필드 값
         String userNameAttributeName = userRequest.getClientRegistration()
@@ -79,7 +78,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
      * 유저 정보가 존재하지 않으면 파라미터로 유저 생성 유저 정보가 있으면 로그인 삭제여부는 서비스에서 검증
      */
     @Transactional
-    protected UserEntity saveOrUpdate(OAuthAttributes attributes) {
+    public UserEntity saveOrUpdate(OAuthAttributes attributes) {
         UserEntity user = userRepository.findByEmail(attributes.getEmail())
             // 구글 사용자 정보 업데이트(이미 가입된 사용자) => 업데이트
 //            .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
@@ -105,10 +104,16 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new Token(token);
     }
 
-    public String memberCodeCreate(String memberCode) {
+    public String memberCodeCreate() {
 //        ENCODE
         String code = aesEncrypt.encrypt(
-            1 + "_" + LocalDateTime.now().plusDays(1000));
+            1 + "_" + LocalDateTime.now().plusDays(1000).withNano(0));
+        return code;
+    }
+
+    public String memberCodeDecode(String memberCode) {
+//        ENCODE
+        String code = aesEncrypt.decrypt(memberCode);
         return code;
     }
 }

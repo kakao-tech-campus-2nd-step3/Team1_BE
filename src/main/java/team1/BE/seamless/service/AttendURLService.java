@@ -30,19 +30,17 @@ public class AttendURLService {
         this.aesEncrypt = aesEncrypt;
     }
 
-    public String generateAttendURL(HttpServletRequest req, @Valid Long projectId, @Valid Long userId) {
-//        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId,
-//                parsingPram.getEmail(req)) 토큰에서 이메일 찾는 로직 테스트 안 돼서, 일단 프로젝트 id+유저id 로 찾는 로직으로 해놓음(추후 다시 수정 예정)
-        ProjectEntity project = projectRepository.findByIdAndUserEntityIdAndIsDeletedFalse(projectId,userId)
+    public String generateAttendURL(HttpServletRequest req, Long projectId) {
+        ProjectEntity project = projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId,parsingPram.getEmail(req))
             .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
-        // 현재 시간이 프로젝트 종료 기한을 넘어섰는지 체크
-//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
-//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
-//        } 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+         //현재 시간이 프로젝트 종료 기한을 넘어섰는지 체크
+        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+        }
 
         // 팀장인지 확인(팀원인지 굳이 한번 더 확인하지 않음. 팀장인지만 검증.)
-        if (parsingPram.getRole(req).equals(Role.USER.toString())) {
+        if (parsingPram.getRole(req).equals(Role.MEMBER.toString())) {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED,"생성 권한이 없습니다.");
         }
 
@@ -50,8 +48,8 @@ public class AttendURLService {
 //        코드는 프로젝트id + exp로 구성
 //        exp는 1일로 가정
         String code = aesEncrypt.encrypt(
-            project.getId() + " " + LocalDateTime.now().plusDays(1));
-        return DEFAULTURL + "invite?code=" + code;
+            project.getId() + "_" + LocalDateTime.now().plusDays(1).withNano(0));
+        return code;
     }
 
 //    public String generateAttendURL(String projectId, String expirationDate) {

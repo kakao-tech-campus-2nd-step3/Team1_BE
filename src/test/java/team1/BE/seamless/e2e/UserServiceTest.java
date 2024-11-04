@@ -1,4 +1,4 @@
-package team1.BE.seamless.service;
+package team1.BE.seamless.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import team1.BE.seamless.DTO.UserDTO.UserUpdate;
+import team1.BE.seamless.service.UserService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserServiceTest {

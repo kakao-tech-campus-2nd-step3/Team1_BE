@@ -2,6 +2,8 @@ package team1.BE.seamless.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,24 +11,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import team1.BE.seamless.entity.enums.Priority;
 
 @Entity(name = "taskss")
 public class TaskEntity {
 
-    public TaskEntity() {
-
-    }
-
-    public TaskEntity(String name, String remark, ProjectEntity projectEntity, MemberEntity owner,
-        LocalDateTime startDate, LocalDateTime endDate) {
+    public TaskEntity(String name, String description, Priority priority, ProjectEntity project, MemberEntity member, LocalDateTime startDate, LocalDateTime endDate, Integer progress, Integer status) {
         this.name = name;
-        this.remark = remark;
-        this.progress = 0;
+        this.description = description;
+        this.progress = progress;
+        this.status = status;
+        this.priority = priority;
         this.isDeleted = false;
-        this.projectEntity = projectEntity;
-        this.owner = owner;
+        this.projectEntity = project;
+        this.owner = member;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public TaskEntity() {
+
     }
 
     @Id
@@ -37,11 +41,18 @@ public class TaskEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "remark")
-    private String remark;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "progress")
     private Integer progress = 0;
+
+    @Column(name = "status")
+    private Integer status = 0;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
+    private Priority priority;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
@@ -68,12 +79,20 @@ public class TaskEntity {
         return name;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getDescription() {
+        return description;
     }
 
     public Integer getProgress() {
         return progress;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public Priority getPriority() {
+        return priority;
     }
 
     public Boolean getIsDeleted() {
@@ -104,8 +123,8 @@ public class TaskEntity {
         this.name = name;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setProgress(Integer progress) {
@@ -122,5 +141,13 @@ public class TaskEntity {
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 }

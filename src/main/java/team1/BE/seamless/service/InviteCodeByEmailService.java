@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.repository.ProjectRepository;
@@ -18,12 +19,12 @@ import java.util.UUID;
 @Service
 public class InviteCodeByEmailService {
 
-    private JavaMailSender mailSender;
-    private ProjectRepository projectRepository;
+    private final JavaMailSender mailSender;
+    private final ProjectRepository projectRepository;
 
     @Autowired
-    InviteCodeByEmailService(JavaMailSender mailSender, ProjectRepository projectRepository) {
-        this.mailSender = mailSender;
+    InviteCodeByEmailService(ProjectRepository projectRepository) {
+        this.mailSender = new JavaMailSenderImpl();
         this.projectRepository = projectRepository;
     }
 
@@ -32,12 +33,12 @@ public class InviteCodeByEmailService {
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."));
 
-//        프로젝트 종료 기간 검증
-//        if (project.getEndDate().isBefore(LocalDateTime.now())) {
-//            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
-//        } // 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
+        // 프로젝트 종료 기간 검증
+        if (project.getEndDate().isBefore(LocalDateTime.now())) {
+            throw new BaseHandler(HttpStatus.BAD_REQUEST, "프로젝트는 종료되었습니다.");
+        } // 프로젝트 initData에 EndDate 설정이 안되어있어서 지금 테스트하면 오류걸림 그래서 주석처리 해놓음ㅇㅇ
 
-        // 팀원인지 팀장인지 검증은 필요없음.(어차피 이 post요청은 아무 권한 없는 사람이 보내는 것 취급임) ㄴ
+        // 팀원인지 팀장인지 검증은 필요없음.(어차피 이 post요청은 아무 권한 없는 사람이 보내는 것 취급임)
 
 
         // 참여코드 생성 (UUID 기반 + 현재 시간)

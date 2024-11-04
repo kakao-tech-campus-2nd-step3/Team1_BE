@@ -27,32 +27,18 @@ jobs:
           java-version: '21'
 
       # application-oauth.yml 생성
-      - name: Create application.yml
+      - name: Create application-oauth.yml
         run: |
           mkdir -p src/main/resources
           cat <<EOF > src/main/resources/application-oauth.yml
           spring:
-            datasource:
-              url: ${{
-                secrets.SPRING_DATASOURCE_URL
-              }}
-              username: ${{
-                secrets.SPRING_DATASOURCE_USERNAME
-              }}
-              password: ${{
-                secrets.SPRING_DATASOURCE_PASSWORD
-              }}
             security:
               oauth2:
                 client:
                   registration:
                     google:
-                      client-id: ${{
-                        secrets.GOOGLE_CLIENT_ID
-                      }}
-                      client-secret: ${{
-                        secrets.GOOGLE_CLIENT_SECRET
-                      }}
+                      client-id: ${{ secrets.GOOGLE_CLIENT_ID}}
+                      client-secret: ${{secrets.GOOGLE_CLIENT_SECRET}}
                       redirect-uri: https://seamlessup.com/login/oauth2/code/google
                       scope:
                         - email
@@ -62,6 +48,47 @@ jobs:
                       authorization-uri: https://accounts.google.com/o/oauth2/auth
                       token-uri: https://oauth2.googleapis.com/token
                       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+          EOF
+
+      # application-db.yml 생성
+      - name: Create application-db.yml
+        run: |
+          mkdir -p src/main/resources
+          cat <<EOF > src/main/resources/application-db.yml
+          spring:
+            datasource:
+              driver-class-name: com.mysql.cj.jdbc.Driver
+              url: ${{secrets.MYSQL_URL}}
+              username: ${{secrets.MYSQL_USERNAME}}
+              password: ${{secrets.MYSQL_PASSWORD}}
+            jpa:
+              properties:
+                hibernate:
+                  dialect: org.hibernate.dialect.MySQLDialect
+              database: mysql
+          EOF
+          
+      # application-mail.yml 생성
+      - name: Create application-mail.yml
+        run: |
+          mkdir -p src/main/resources
+          cat <<EOF > src/main/resources/application-mail.yml
+          spring:
+            mail:
+              host: smtp.gmail.com
+              port: ${{secrets.MAIL_PORT}}
+              username: ${{secrets.MAIL_USERNAME}}
+              password: ${{secrets.MAIL_PASSWORD}}
+              properties:
+                mail:
+                  smtp:
+                    auth: true
+                    starttls:
+                      enable: true
+                      required: true
+                    connectiontimeout: 5000
+                    timeout: 5000 
+                    writetimeout: 5000
           EOF
 
       # Gradle 캐시 설정

@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +43,7 @@ class MemberServiceTest {
     @BeforeEach
     public void setUp() {
 //        새로운 멤버 생성
-        CreateMember member = new CreateMember("ex@gmail.com","cCeJvA99H7bV2ctvVIpM4Bh3ZJvawh3JnX3tREWGtNA=");
+        CreateMember member = new CreateMember("ex@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","랄랄랄");
         HttpEntity<CreateMember> request1 = new HttpEntity<>(member);
         ResponseEntity<String> response1 = restTemplate.exchange(
                 url + port + "/api/project/1/member",
@@ -86,9 +87,9 @@ class MemberServiceTest {
     }
 
 
-    //"멤버 이메일 빈 칸으로 정보 수정시 반영이 안되거나 예외처리 되는가?" 에 대한 테스트
+    @DisplayName("\"멤버 이메일 빈 칸으로 정보 수정시 반영이 안되거나 예외처리 되는가?\" 에 대한 테스트")
     @Test
-    void updateMemberWithEmptyEmailShouldFail() {
+    void 멤버_정보_수정_테스트() {
         UpdateMember updateInfo = new UpdateMember("새로운 이름", "팀원", "", "http://example.com/");
         HttpEntity<UpdateMember> requestEntity = new HttpEntity<>(updateInfo, headers);
 
@@ -101,9 +102,9 @@ class MemberServiceTest {
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
-    // 멤버가 멤버를 삭제 가능한에 대한 테스트
+    @DisplayName("멤버가 멤버를 삭제 가능한에 대한 테스트")
     @Test
-    void softDeleteMember() {
+    void 멤버_삭제권한_테스트() {
         headers.setBearerAuth(memberToken);
 
         // Soft delete member
@@ -117,9 +118,9 @@ class MemberServiceTest {
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
-    // "멤버 삭제(softdelete로 되는가, 다시 조회하면 조회 되는가)" 에 대한 테스트
+    @DisplayName("\"멤버 삭제(softdelete로 되는가, 다시 조회하면 조회 되는가)\" 에 대한 테스트")
     @Test
-    void softDeleteMemberAndRequery() {
+    void 멤버_삭제_후_조회_여부_테스트() {
         headers.setBearerAuth(token);
 
         HttpEntity<UpdateMember> requestEntity = new HttpEntity<>(null, headers);

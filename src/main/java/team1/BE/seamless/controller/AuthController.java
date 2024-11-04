@@ -32,7 +32,13 @@ public class AuthController {
 
     @Operation(summary = "인증 코드 생성(테스트용)")
     @GetMapping("/memberCode/create")
-    public SingleResult<String> memberCodeCreate(@Valid @RequestParam String memberCode) {
-        return new SingleResult<>(authService.memberCodeCreate(memberCode));
+    public SingleResult<String> memberCodeCreate() {
+        return new SingleResult<>(authService.memberCodeCreate());
+    }
+
+    @Operation(summary = "인증 코드 복호화(테스트용)")
+    @GetMapping("/memberCode/decode")
+    public SingleResult<String> memberCodeDecode(@Valid @RequestParam String memberCode) {
+        return new SingleResult<>(authService.memberCodeDecode(memberCode));
     }
 }

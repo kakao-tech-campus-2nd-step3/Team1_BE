@@ -13,8 +13,8 @@ public class MemberMapper {
     public MemberEntity toEntity(CreateMember create, ProjectEntity project) {
 
         return new MemberEntity(
-            "guest",
-            "",
+            create.getName(),
+            "팀원",
             create.getEmail(),
             "",
             project

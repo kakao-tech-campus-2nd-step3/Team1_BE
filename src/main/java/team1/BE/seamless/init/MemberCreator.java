@@ -16,23 +16,14 @@ public class MemberCreator {
     }
 
     public void creator() {
-//        // 테스트용으로 request데이터 생성
-//        MemberRequestDTO.CreateMember member1 = new MemberRequestDTO.CreateMember("권순호","MEMBER","ex1@gmail.com","ZG4zyIfK/i2BNPoL4pYjbaasMQ9kZu2kuzj9VVcMuAD1g/vSWs+gt2doo4UpJmPR");
-//        memberService.createMember(1L, member1); // HttpServletRequest는 null 처리가 안돼서 테스트용으로 새로운 create만듦
-//
-//        MemberRequestDTO.CreateMember member2 = new MemberRequestDTO.CreateMember("김동혁","USER","ex2@gmail.com","ZG4zyIfK/i2BNPoL4pYjbaasMQ9kZu2kuzj9VVcMuAD1g/vSWs+gt2doo4UpJmPR");
-//        memberService.createMember(1L, member2); // HttpServletRequest는 null 처리가 안돼서 테스트용으로 새로운 create만듦
-//
-//        MemberRequestDTO.CreateMember member3 = new MemberRequestDTO.CreateMember("김도헌","MEMBER","ex3@gmail.com","ZG4zyIfK/i2BNPoL4pYjbaasMQ9kZu2kuzj9VVcMuAD1g/vSWs+gt2doo4UpJmPR");
-//        memberService.createMember(1L, member3); // HttpServletRequest는 null 처리가 안돼서 테스트용으로 새로운 create만듦
 
-        MemberRequestDTO.CreateMember member1 = new MemberRequestDTO.CreateMember("ex1@gmail.com","cCeJvA99H7bV2ctvVIpM4Bh3ZJvawh3JnX3tREWGtNA=");
+        MemberRequestDTO.CreateMember member1 = new MemberRequestDTO.CreateMember("ex1@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","순호");
         memberService.createMember(member1);
 
-        MemberRequestDTO.CreateMember member2 = new MemberRequestDTO.CreateMember("ex2@gmail.com","cCeJvA99H7bV2ctvVIpM4Bh3ZJvawh3JnX3tREWGtNA=");
+        MemberRequestDTO.CreateMember member2 = new MemberRequestDTO.CreateMember("ex2@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","동혁");
         memberService.createMember(member2);
 
-        MemberRequestDTO.CreateMember member3 = new MemberRequestDTO.CreateMember("ex3@gmail.com","cCeJvA99H7bV2ctvVIpM4Bh3ZJvawh3JnX3tREWGtNA=");
+        MemberRequestDTO.CreateMember member3 = new MemberRequestDTO.CreateMember("ex3@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","도헌");
         memberService.createMember(member3);
     }
 
