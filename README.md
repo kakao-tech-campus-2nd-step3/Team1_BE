@@ -4,7 +4,7 @@
 
 # 프로젝트 구조도
 
-![seamless](https://github.com/user-attachments/assets/98d62cf5-8755-4980-9bea-a5ada9719ee7)
+![seamless drawio](https://github.com/user-attachments/assets/2bc76c2c-ac20-4d67-b746-f4fa2b064cec)
 
 
 

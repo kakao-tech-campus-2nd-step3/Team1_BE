@@ -1,4 +1,4 @@
-package team1.BE.seamless.service;
+package team1.BE.seamless.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
 import team1.BE.seamless.entity.enums.Priority;
+import team1.BE.seamless.service.ProjectService;
+import team1.BE.seamless.service.TaskService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -86,15 +88,6 @@ class TaskServiceTest {
     public void 프로젝트_삭제시_태스크_조회_실패() {
         // 프로젝트 삭제
         projectService.deleteProject(1L);
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            taskService.getTask(1L);
-        });
-
-        String expectedMessage = "존재하지 않는 프로젝트";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
 
         HttpEntity<Long> requestEntity = new HttpEntity<>(headers);
 

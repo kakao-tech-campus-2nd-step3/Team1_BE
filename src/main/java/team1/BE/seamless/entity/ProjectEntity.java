@@ -18,22 +18,24 @@ import java.util.List;
 public class ProjectEntity extends BaseEntity {
 
     public ProjectEntity() {
-//        memberEntities = new ArrayList<>();
-//        projectOptions = new ArrayList<>();
-//        taskEntities = new ArrayList<>();
     }
 
-    public ProjectEntity(String name, UserEntity userEntity, List<ProjectOption> projectOptions,
+    public ProjectEntity(
+        String name,
+        String description,
+        String imageURL,
+        UserEntity userEntity,
+        List<ProjectOption> projectOptions,
         LocalDateTime startDate,
         LocalDateTime endDate) {
         this.name = name;
+        this.description = description;
+        this.imageURL= imageURL;
         this.isDeleted = false;
         this.userEntity = userEntity;
         this.projectOptions = projectOptions;
         this.startDate = startDate;
         this.endDate = endDate;
-//        memberEntities = new ArrayList<>();
-//        taskEntities = new ArrayList<>();
     }
 
     @Id
@@ -43,6 +45,12 @@ public class ProjectEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "imageURL")
+    private String imageURL;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -74,6 +82,13 @@ public class ProjectEntity extends BaseEntity {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 
     public boolean getIsDeleted() {
         return isDeleted;
@@ -139,10 +154,19 @@ public class ProjectEntity extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public ProjectEntity update(String name, LocalDateTime startDate, LocalDateTime endDate) {
+    public ProjectEntity update(
+        String name,
+        String description,
+        String imageURL,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        List<ProjectOption> projectOptions) {
         this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.projectOptions = projectOptions;
         return this;
     }
 

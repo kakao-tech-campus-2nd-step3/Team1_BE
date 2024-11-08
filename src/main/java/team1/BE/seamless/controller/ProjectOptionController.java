@@ -62,7 +62,7 @@ public class ProjectOptionController {
     @PutMapping("/{optionId}")
     public SingleResult<OptionDetail> updateOption(HttpServletRequest req,
         @Valid @PathVariable("optionId") Long id,
-        @Valid @RequestBody OptionDTO.updateOption update) {
+        @Valid @RequestBody OptionDTO.OptionUpdate update) {
         return new SingleResult<>(optionService.updateOption(id, update, parsingPram.getRole(req)));
     }
 

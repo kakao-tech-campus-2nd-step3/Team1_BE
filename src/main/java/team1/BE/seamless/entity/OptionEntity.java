@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import team1.BE.seamless.entity.enums.OptionType;
 
 @Entity(name = "optionss")
 public class OptionEntity extends BaseEntity {
@@ -22,7 +21,7 @@ public class OptionEntity extends BaseEntity {
 
     }
 
-    public OptionEntity(String name, String description, OptionType optionType) {
+    public OptionEntity(String name, String description, String optionType) {
         this.name = name;
         this.description = description;
         this.optionType = optionType;
@@ -41,8 +40,7 @@ public class OptionEntity extends BaseEntity {
     private String description;
 
     @Column(name = "option_type")
-    @Enumerated(EnumType.STRING)
-    private OptionType optionType;
+    private String optionType;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -68,7 +66,7 @@ public class OptionEntity extends BaseEntity {
         return description;
     }
 
-    public OptionType getOptionType() {
+    public String getOptionType() {
         return optionType;
     }
 
@@ -102,7 +100,7 @@ public class OptionEntity extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
-    public OptionEntity Update(String name, String description, OptionType optionType) {
+    public OptionEntity Update(String name, String description, String optionType) {
         this.name = name;
         this.description=description;
         this.optionType = optionType;

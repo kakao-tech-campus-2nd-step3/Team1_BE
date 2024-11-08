@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
 import team1.BE.seamless.DTO.TaskDTO.TaskDetail;
 import team1.BE.seamless.DTO.TaskDTO.TaskUpdate;
+import team1.BE.seamless.DTO.TaskDTO.TaskWithOwnerDetail;
 import team1.BE.seamless.entity.MemberEntity;
 import team1.BE.seamless.entity.ProjectEntity;
 import team1.BE.seamless.entity.TaskEntity;
@@ -41,6 +42,12 @@ public class TaskMapper {
     public TaskDetail toDetail(TaskEntity task) {
         return new TaskDetail(task.getId(), task.getName(), task.getDescription(),
             task.getOwner().getId(), task.getProgress(), task.getStartDate(), task.getEndDate(),
+            task.getPriority(), task.getStatus());
+    }
+
+    public TaskWithOwnerDetail toDetailWithOwner(TaskEntity task) {
+        return new TaskWithOwnerDetail(task.getId(), task.getName(), task.getDescription(),
+            task.getOwner(), task.getProgress(), task.getStartDate(), task.getEndDate(),
             task.getPriority(), task.getStatus());
     }
 }
