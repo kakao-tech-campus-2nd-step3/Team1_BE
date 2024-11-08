@@ -102,12 +102,13 @@ public class MemberService {
 //        return memberRepository.findAllByProjectEntityIdAndIsDeleteFalse(projectId, memberList.toPageable())
 //            .map(memberMapper::toGetResponseDTO);
 
-        int start = memberList.getPage() * memberList.getSize();
-        int end = Math.min((start + memberList.getSize()), project.getMemberEntities().size());
-        List<MemberEntity> memberEntities = project.getMemberEntities().subList(start, end);
 
-        return new PageImpl<>(memberEntities,memberList.toPageable(), project.getMemberEntities().size())
-            .map(memberMapper::toGetResponseDTO);
+        List<MemberEntity> memberEntities = memberRepository.findActiveMembersByProjectId(projectId);
+        int start = memberList.getPage() * memberList.getSize();
+        int end = Math.min((start + memberList.getSize()), memberEntities.size());
+
+        return new PageImpl<>(memberEntities.subList(start, end), memberList.toPageable(), memberEntities.size())
+                .map(memberMapper::toGetResponseDTO);
 
     }
 
