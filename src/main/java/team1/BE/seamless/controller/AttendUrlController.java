@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import team1.BE.seamless.service.AttendURLService;
 import team1.BE.seamless.util.page.SingleResult;
 
-@Tag(name = "참여 링크 생성")
+@Tag(name = "어텐드 링크 생성")
 @RestController
 public class AttendUrlController {
 
@@ -21,14 +21,15 @@ public class AttendUrlController {
     public AttendUrlController(AttendURLService attendURLService) {
         this.attendURLService = attendURLService;
     }
- 
+
     /**
      * 팉장의 토큰과 프로젝트id로 프로젝트 존재 검증 프로젝트id + " " + exp로 코드 생성 코드를 양방향 암호화 ex)
      */
-    @Operation(summary = "팀원초대 코드 생성")
-    @PostMapping("/api/project/{projectId}/invite-link")
+    @Operation(summary = "초대용 어텐드링크 생성")
+    @PostMapping("/api/project/{projectId}/invite-link/{userId}")
     public SingleResult<String> generateInviteLink(HttpServletRequest req,
-        @Valid @PathVariable("projectId") Long projectId) {
-        return new SingleResult<>(attendURLService.generateAttendURL(req, projectId));
+        @Valid @PathVariable("projectId") Long projectId,
+        @Valid @PathVariable("userId") Long userId) {
+        return new SingleResult<>(attendURLService.generateAttendURL(req, projectId, userId));
     }
 }

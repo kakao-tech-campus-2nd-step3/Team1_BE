@@ -18,4 +18,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Optional<ProjectEntity> findByIdAndIsDeletedFalse(Long id);
 
     List<ProjectEntity> findAllByIsDeletedFalse();
+
+    Optional<ProjectEntity> findByIdAndUserEntityIdAndIsDeletedFalse(Long projectId, Long userId);
 }

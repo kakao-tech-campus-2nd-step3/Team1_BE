@@ -16,7 +16,7 @@ import team1.BE.seamless.service.InviteCodeByEmailService;
 import team1.BE.seamless.util.errorException.BaseHandler;
 import team1.BE.seamless.util.page.SingleResult;
 
-@Tag(name = "이메일 전송")
+@Tag(name = "이메일 전송 테스트용 엔드포인트")
 @RestController
 @RequestMapping("/api/project")
 public class InviteCodeByEmailController {
@@ -25,7 +25,7 @@ public class InviteCodeByEmailController {
     private InviteCodeByEmailService inviteService;
 
     @Profile("test")
-    @Operation(summary = "이메일로 참여코드 전송하기")
+    @Operation(summary = "이메일 테스트용 엔드포인트")
     @PostMapping("/invite")
     public SingleResult<String> inviteMemberToProject(@RequestBody InviteRequestDTO inviteRequest) {
         try {
