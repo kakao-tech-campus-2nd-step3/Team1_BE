@@ -17,13 +17,13 @@ public class MemberCreator {
 
     public void creator() {
 
-        MemberRequestDTO.CreateMember member1 = new MemberRequestDTO.CreateMember("ex1@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","순호");
+        MemberRequestDTO.CreateMember member1 = new MemberRequestDTO.CreateMember("ex1@gmail.com","sv_XKCT5j5Sm0msQw-mEAmstJ5tq9uBh6c8_QLhzKGo=","순호");
         memberService.createMember(member1);
 
-        MemberRequestDTO.CreateMember member2 = new MemberRequestDTO.CreateMember("ex2@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","동혁");
+        MemberRequestDTO.CreateMember member2 = new MemberRequestDTO.CreateMember("ex2@gmail.com","sv_XKCT5j5Sm0msQw-mEAmstJ5tq9uBh6c8_QLhzKGo=","동혁");
         memberService.createMember(member2);
 
-        MemberRequestDTO.CreateMember member3 = new MemberRequestDTO.CreateMember("ex3@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","도헌");
+        MemberRequestDTO.CreateMember member3 = new MemberRequestDTO.CreateMember("ex3@gmail.com","sv_XKCT5j5Sm0msQw-mEAmstJ5tq9uBh6c8_QLhzKGo=","도헌");
         memberService.createMember(member3);
     }
 

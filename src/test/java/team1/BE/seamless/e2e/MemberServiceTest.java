@@ -1,4 +1,4 @@
-package team1.BE.seamless.service;
+package team1.BE.seamless.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -43,14 +43,14 @@ class MemberServiceTest {
     @BeforeEach
     public void setUp() {
 //        새로운 멤버 생성
-        CreateMember member = new CreateMember("ex@gmail.com","wiRjOIEryKrkU04hAWDKdiryZT8g6JlQW1qOxmzIX7A=","랄랄랄");
+        CreateMember member = new CreateMember("ex@gmail.com","sv_XKCT5j5Sm0msQw-mEAmstJ5tq9uBh6c8_QLhzKGo=","랄랄랄");
         HttpEntity<CreateMember> request1 = new HttpEntity<>(member);
         ResponseEntity<String> response1 = restTemplate.exchange(
                 url + port + "/api/project/1/member",
                 POST,
             request1, String.class);
 
-        int startIndex = response1.getBody().indexOf("\"code\":\"") + "\"code\":\"".length();
+        int startIndex = response1.getBody().indexOf("\"attendURL\":\"") + "\"attendURL\":\"".length();
         int endIndex = response1.getBody().indexOf("\"", startIndex);
 
 //        멤버 생성시 반환되는 코드 추출
@@ -81,7 +81,7 @@ class MemberServiceTest {
         token = responseEntity.getBody().substring(startIndex, endIndex);
 
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(memberToken);
+        headers.setBearerAuth(token);
 
         this.url += port + "/api/project/1/member/";
     }

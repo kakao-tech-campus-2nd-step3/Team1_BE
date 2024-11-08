@@ -18,11 +18,14 @@ public class ProjectCreator {
     }
 
     public void creator() {
-        projectService.createProject(new ProjectCreate("프로젝트 이름1",
+        projectService.createProject(
+            new ProjectCreate(
+                "프로젝트 이름1",
+                "프로젝트 설명1",
+                "https://example.com/image1.jpg",
+                List.of(1L, 2L, 3L),
                 LocalDateTime.of(2024, 10, 1, 0, 0, 0),
-                LocalDateTime.of(2025, 10, 3, 0, 0, 0),
-                List.of(1L, 2L, 3L)),
-            "user1@google.com"
-        );
+                LocalDateTime.of(2025, 10, 1, 0, 0, 0)
+            ),"user1@google.com");
     }
 }

@@ -11,55 +11,13 @@ public class MemberRequestDTO {
 
     }
 
-//    public static class CreateMember {
-//
-//        @NotBlank(message = "이름은 필수 입력 사항입니다.")
-//        @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
-//        private String name;
-//
-//        private String role;
-//
-//        @Email(message = "유효한 이메일 주소를 입력해주세요.")
-//        @NotBlank(message = "이메일은 필수 입력 사항입니다.")
-//        private String email;
-//
-//        private String imageURL;
-//
-//
-//        public CreateMember() {
-//        }
-//
-//        public CreateMember(String name, String role, String email, String imageURL) {
-//            this.name = name;
-//            this.role = role;
-//            this.email = email;
-//            this.imageURL = imageURL;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-//
-//        public String getRole() {
-//            return role;
-//        }
-//
-//        public String getEmail() {
-//            return email;
-//        }
-//
-//        public String getImageURL() {
-//            return imageURL;
-//        }
-//    }
-
     public static class CreateMember {
 
         @Email(message = "유효한 이메일 주소를 입력해주세요.")
         @NotBlank(message = "이메일은 필수 입력 사항입니다.")
         private String email;
 
-        private String code;
+        private String attendURL;
 
         private String name;
 
@@ -67,12 +25,16 @@ public class MemberRequestDTO {
             return name;
         }
 
+        public String getAttendURL() {
+            return attendURL;
+        }
+
         public CreateMember() {
         }
 
-        public CreateMember(String email, String code, String name) {
+        public CreateMember(String email, String attendURL, String name) {
             this.email = email;
-            this.code = code;
+            this.attendURL = attendURL;
             this.name = name;
         }
 
@@ -80,9 +42,6 @@ public class MemberRequestDTO {
             return email;
         }
 
-        public String getCode() {
-            return code;
-        }
     }
 
     public static class UpdateMember {

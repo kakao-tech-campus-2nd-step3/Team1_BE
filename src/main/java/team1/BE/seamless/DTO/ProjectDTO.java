@@ -2,8 +2,6 @@ package team1.BE.seamless.DTO;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,6 +11,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.validator.constraints.URL;
 import team1.BE.seamless.util.page.PageParam;
 
 public class ProjectDTO {
@@ -27,33 +26,52 @@ public class ProjectDTO {
         @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
         private String name;
 
+        @Size(max = 50, message = "설명을 50글자까지 가능합니다.")
+        private String description;
+
+        @URL(message = "URL 형식으로 입력해주세요.")
+        @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)$",
+            message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
+        private String imageURL;
+
         @NotNull
         @Valid
         private List<@Positive Long> optionIds = new ArrayList<>();
 
         @NotNull
-//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime startDate;
 
         @NotNull
-//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime endDate;
 
         public ProjectCreate() {
         }
 
-        public ProjectCreate(String name,
+        public ProjectCreate(
+            String name,
+            String description,
+            String imageURL,
+            List<Long> optionIds,
             LocalDateTime startDate,
-            LocalDateTime endDate,
-            List<Long> optionIds) {
+            LocalDateTime endDate) {
             this.name = name;
+            this.description = description;
+            this.imageURL = imageURL;
+            this.optionIds = optionIds;
             this.startDate = startDate;
             this.endDate = endDate;
-            this.optionIds = optionIds;
         }
 
         public String getName() {
             return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getImageURL() {
+            return imageURL;
         }
 
         public List<Long> getOptionIds() {
@@ -86,20 +104,31 @@ public class ProjectDTO {
         @Size(max = 15, message = "이름은 공백 포함 최대 15글자까지 가능합니다.")
         private String name;
 
+        @Size(max = 50, message = "설명을 50글자까지 가능합니다.")
+        private String description;
+
+        @URL(message = "URL 형식으로 입력해주세요.")
+        @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)$",
+            message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
+        private String imageURL;
+
         @NotNull
         @Valid
         private List<@Positive Long> optionIds = new ArrayList<>();
 
-//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime startDate;
 
-//        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$")
         private LocalDateTime endDate;
 
         public ProjectUpdate() {
         }
 
-        public ProjectUpdate(String name, List<Long> optionIds, LocalDateTime startDate,
+        public ProjectUpdate(
+            String name,
+            String description,
+            String imageURL,
+            List<Long> optionIds,
+            LocalDateTime startDate,
             LocalDateTime endDate) {
             this.name = name;
             this.optionIds = optionIds;
@@ -109,6 +138,14 @@ public class ProjectDTO {
 
         public String getName() {
             return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getImageURL() {
+            return imageURL;
         }
 
         public List<Long> getOptionIds() {
@@ -135,7 +172,7 @@ public class ProjectDTO {
 
     }
 
-    public static class ProjectPeriod {
+    public static class ProjectDate {
 
         private Long id;
 
@@ -145,10 +182,10 @@ public class ProjectDTO {
 
         private LocalDateTime endDate;
 
-        public ProjectPeriod() {
+        public ProjectDate() {
         }
 
-        public ProjectPeriod(Long id, String name, LocalDateTime startDate, LocalDateTime endDate) {
+        public ProjectDate(Long id, String name, LocalDateTime startDate, LocalDateTime endDate) {
             this.id = id;
             this.name = name;
             this.startDate = startDate;
@@ -178,24 +215,44 @@ public class ProjectDTO {
 
         private String name;
 
+        private String description;
+
+        private String imageURL;
+
         private LocalDateTime startDate;
 
         private LocalDateTime endDate;
 
         private List<Long> optionIds;
 
+        private int totalMembers;
+
+        private ProjectManager projectManager;
+
         public ProjectDetail() {
         }
 
-        public ProjectDetail(Long id, String name,
+
+        public ProjectDetail(
+            Long id,
+            String name,
+            String description,
+            String imageURL,
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<Long> optionIds) {
+            List<Long> optionIds,
+            int totalMembers,
+            ProjectManager projectManager
+        ) {
             this.id = id;
             this.name = name;
+            this.description = description;
+            this.imageURL = imageURL;
             this.startDate = startDate;
             this.endDate = endDate;
             this.optionIds = optionIds;
+            this.totalMembers = totalMembers;
+            this.projectManager = projectManager;
         }
 
         public Long getId() {
@@ -204,6 +261,14 @@ public class ProjectDTO {
 
         public String getName() {
             return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getImageURL() {
+            return imageURL;
         }
 
         public LocalDateTime getStartDate() {
@@ -217,7 +282,24 @@ public class ProjectDTO {
         public List<Long> getOptionIds() {
             return optionIds;
         }
+
+        public int getTotalMembers() { return totalMembers; }
+
+        public ProjectManager getProjectManager() { return projectManager; }
     }
 
+    public static class ProjectManager {
+        private String name;
+        private String imageURL;
+
+        public ProjectManager(String name, String imageURL) {
+            this.name = name;
+            this.imageURL = imageURL;
+        }
+
+        public String getName() { return name; }
+
+        public String getImageURL() { return imageURL; }
+    }
 }
 
