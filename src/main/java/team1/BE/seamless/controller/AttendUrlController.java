@@ -21,7 +21,7 @@ public class AttendUrlController {
     public AttendUrlController(AttendURLService attendURLService) {
         this.attendURLService = attendURLService;
     }
-
+ 
     /**
      * 팉장의 토큰과 프로젝트id로 프로젝트 존재 검증 프로젝트id + " " + exp로 코드 생성 코드를 양방향 암호화 ex)
      */
