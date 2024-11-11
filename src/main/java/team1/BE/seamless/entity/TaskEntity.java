@@ -12,15 +12,25 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import team1.BE.seamless.entity.enums.Priority;
+import team1.BE.seamless.entity.enums.Status;
 
 @Entity(name = "taskss")
 public class TaskEntity {
 
-    public TaskEntity(String name, String description, Priority priority, ProjectEntity project, MemberEntity member, LocalDateTime startDate, LocalDateTime endDate, Integer progress, Integer status) {
+    public TaskEntity(
+        String name,
+        String description,
+        Priority priority,
+        ProjectEntity project,
+        MemberEntity member,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        Integer progress,
+        Status status) {
         this.name = name;
         this.description = description;
         this.progress = progress;
-        this.status = status;
+        this.status = Status.PENDING;
         this.priority = priority;
         this.isDeleted = false;
         this.projectEntity = project;
@@ -47,8 +57,9 @@ public class TaskEntity {
     @Column(name = "progress")
     private Integer progress = 0;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Integer status = 0;
+    private Status status;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
@@ -87,7 +98,7 @@ public class TaskEntity {
         return progress;
     }
 
-    public Integer getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -143,7 +154,7 @@ public class TaskEntity {
         isDeleted = deleted;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

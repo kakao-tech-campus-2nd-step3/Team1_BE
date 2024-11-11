@@ -19,4 +19,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     Optional<MemberEntity> findByEmailAndIsDeleteFalse(String email);
 
+    Optional<MemberEntity> findByName(String name);
+
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import team1.BE.seamless.DTO.TaskDTO.TaskCreate;
 import team1.BE.seamless.entity.enums.Priority;
+import team1.BE.seamless.entity.enums.Status;
 import team1.BE.seamless.service.TaskService;
 
 @Component
@@ -21,7 +22,7 @@ public class TaskCreator {
 
         TaskCreate task1 = new TaskCreate("태스크1", "첫번째 태스크입니다.", 1L,
             LocalDateTime.of(2024, 10, 10, 0, 0),
-            LocalDateTime.of(2025, 9, 3, 0, 0), Priority.HIGH, 50, 1);
+            LocalDateTime.of(2025, 9, 3, 0, 0), Priority.HIGH, Status.IN_PROGRESS, 1);
 
         taskService.createTask(1L, task1);
     }

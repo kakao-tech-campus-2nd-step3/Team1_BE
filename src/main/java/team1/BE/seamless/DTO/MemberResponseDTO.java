@@ -10,7 +10,17 @@ public class MemberResponseDTO {
 
     private String email;
 
-    private String code;
+    private String attendURL;
+
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public MemberResponseDTO(String message, String name, String role, String email) {
         this.message = message;
@@ -19,12 +29,29 @@ public class MemberResponseDTO {
         this.email = email;
     }
 
-    public MemberResponseDTO(String message, String name, String role, String email, String code) {
+    public MemberResponseDTO(String message, String name, String role, String email, String attendURL, Long id) {
         this.message = message;
         this.name = name;
         this.role = role;
         this.email = email;
-        this.code = code;
+        this.id = id;
+        this.attendURL = attendURL;
+    }
+
+    public MemberResponseDTO(String message, String name, String role, String email, Long id) {
+        this.message = message;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.id = id;
+    }
+
+    public MemberResponseDTO(String message, String name, String role, String email, String attendURL) {
+        this.message = message;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.attendURL = attendURL;
     }
 
     public String getRole() {
@@ -59,7 +86,7 @@ public class MemberResponseDTO {
         this.message = message;
     }
 
-    public String getCode() {
-        return code;
+    public String getattendURL() {
+        return attendURL;
     }
 }
