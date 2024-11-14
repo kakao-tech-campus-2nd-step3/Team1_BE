@@ -1,156 +1,147 @@
-# Team1_BE
+# **Seamless**
+
+### **간편하고 직관적인 협업 툴**
+Notion, Trello와 같은 기존 협업 툴의 복잡함을 해소하고, 간편한 협업 환경을 제공하는 프로젝트입니다.  
+**로그인 없이 참여 코드**로 간단히 참여하며, 협업의 진입 장벽을 낮추었습니다.  
+게이미피케이션 요소를 활용하여 동기부여를 제공합니다.
 
 ---
 
-# 프로젝트 구조도
+## **📖 목차**
 
-![seamless drawio](https://github.com/user-attachments/assets/2bc76c2c-ac20-4d67-b746-f4fa2b064cec)
-
-
-
----
-
-# 코드 컨벤션
-
-- angular code conventions을 기반으로 커밋 메세지 작성
-  - feat : 새로운 기능 추가
-  - fix : 버그 수정
-  - docs : 문서 변경
-  - style : 코드 스타일 변경 (포매팅 수정, 세미콜론 추가 등)
-  - refactor : 코드 리팩토링
-  - test : 테스트 코드 추가, 수정
-  - chore : 빌드 프로세스, 도구 설정 변경 등 기타 작업
+- [Seamless란?](#seamless란)
+- [사용법](#사용법)
+- [기술 스택](#기술-스택)
+- [프로젝트 구조](#프로젝트-구조)
+- [ERD](#erd)
+- [협업 전략](#협업-전략)
+- [구현 기능](#구현-기능)
+- [Technical Issue와 해결과정](#technical-issue와-해결과정)
+- [협업 이슈 해결](#협업-이슈-해결)
+- [배포 주소](#배포-주소)
 
 ---
 
-# 구현 기능 목록
+## **💡 Seamless란?**
 
-- 인증(김동혁)
-    - 회원가입 & 로그인
-      - google oauth2로 구현
-      - 몇 가지 예외처리된 경로를 제외하면 구글 로그인 요구
-        - swagger3
-        - h2-console
-        - /
-      - flow
-        - 토큰 검증
-          - 토큰이 없다면
-            - 로그인
-              - 가입 정보가 없다면 회원가입
-            - 성공시 토큰 생성 및 반환
-              - GET Param으로 반환됨
-            - 실패시 /error로 이동
-          - 토큰이 있다면
-            - 토큰 검증
-            - 토큰 내부의 정보를 파싱
-    - 유저 정보 조회
-      - 토큰내 정보로 유저 파싱
-    - 유저 정보 수정
-      - 토큰내 정보로 유저 파싱
-      - 유저이름(username), 사진(picture) 수정 가능
-      - 입력된 값만 검증해서 변경
-        - 공백 검사
-          - 공백시 기존 값 유지
-        - 이미지는 url 검사
-          - url패턴을 어길 시 400
-    - 유저 정보 삭제
-      - soft delete
-    - 코드로 참여
-      - 코드로 인증 후 토큰 반환
-      - 코드는 멤버id를 aes256으로 암호화 해서 코드 생성
-      - 코드를 복호화해서 검증
-      - 인증 후 멤버 이메일로 토큰 생성
-    - 시큐리티 토큰 생성 예외처리
-      - 기존 방식으로(@RestControllerAdvice)는 스프링 시큐리티 예외처리가 안됨
-      - 다른 방법 찾는중(w5)
-- 프로젝트(김도헌)
-  - 프로젝트 리스트 조회
-    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들을 페이지네이션을 통해 보여줌 
-  - 프로젝트 기간 리스트 조회
-    - 토큰 내 유저의 email 정보를 통해 본인이 관리하는 프로젝트들의 일정 정보를 페이지네이션을 통해 보여줌
-  - 프로젝트 조회
-    - 프로젝트 Id를 통한 단일 조회
-  - 프로젝트 멤버 조회
-    - 프로젝트 Id를 통해 해당 프로젝트의 멤버들의 정보를 조회
-    - 현재 객체를 통해 정보를 받아 오는 것으로 되어있지만, 추후 fetch join을 활용한 방법으로 수정 예정
-  - 프로젝트 생성
-    - 프로젝트를 생성함
-    - 플로우 : 
-      - email을 통해 유저가 존재하는 지 검증 ->
-      - DTO에 담긴 optionEntity들의 id 정보들을 통해 OptionEntity조회 ->
-      - OptionEntity을 ProjectOption으로 매핑 ->
-      - 해당 정보를 가진 ProjectEntity를 생성 후 Repo에 save ->
-      - 각 ProjectOption의 ProjectEntity field를 생성한 ProjectEntity로 설정
-  - 프로젝트 설정 수정
-    - 해당하는 Id의 프로젝트를 수정
-    - 플로우 : 
-      - 프로젝트가 존재하는지 검증 ->
-      - 기존의 ProjectOption 리스트 초기화->
-      - DTO에 담긴 Option id들을 통해 OptionEntity 조회 ->
-      - OptionEntity를 ProjectOption으로 매핑 ->
-      - ProjectOption 리스트에 추가 ->
-      - 나머지 정보 업데이트 후 저장
-  - 프로젝트 삭제
-    - 해당하는 Id의 프로젝트 삭제
-    - 현재는 그냥 삭제를 하지만, 추후 Soft Delete 방식으로 재구현 예정
-- 게스트(권순호)
-  - 게스트 생성
-  - 게스트 수정
-  - 게스트 삭제
-  - 프로젝트 내 게스트 추가
-  - 프로젝트 코드 메일로 전달
-- 태스크(조서영)
-  - 태스크 리스트 조회(프로젝트 아이디를 이용)
-  - 태스트 단건 조회
-  - 태스크 생성
-    - isDeleted와 progress 생성시 기본값인 0으로 설정
-    - 프로젝트id, 태스크를 수행할 멤버(팀원)id, 제목, 본문,시작일, 종료일을 입력받아서 ->
-      dto에서 시작일, 종료일 검증 ->
-      토큰내 이메일과 프로젝트id로 프로젝트를 불러오기 ->
-      멤버(팀원)존재 검증 ->
-      task객체 생성 (미완)
-      저장
-  - 태스크 수정
-  - 태스트 삭제
-- 이벤트
-  - 독려 이메일 전달
-  - 각 게스트별 진행도 조회
-  - 태스크별 진행도 조회
-- ...
+**Seamless**는 복잡한 협업 툴의 대안을 제시합니다.
+- **간단한 참여 과정**: 로그인 없이 **참여 코드**만으로 프로젝트 참여.
+- **게이미피케이션 요소**: 동기부여를 위한 다양한 기능 탑재.
+- **직관적인 인터페이스**: 복잡한 기능은 배제하고, 필요한 핵심 기능만 제공합니다.
+
+### **경쟁력**
+- **간편한 참여**: 별도의 계정 생성 없이 참여 가능.
+- **프로젝트 중심의 협업**: 프로젝트 관리와 진행도를 한눈에 확인.
+
 ---
-# 피드백
-- [3주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/13)
-- [3주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/11)
-- [4주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/17)
-- [4주차 멘토링](https://quickest-asterisk-75d.notion.site/Back-end_-323b0e20ae2b405189ffe5b7c4242e00)
-- [5주차 리뷰](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/31)
-- [6주차 피드백](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/pull/58)
+
+## **🚀 사용법**
+
+1. **팀장**
+    - 프로젝트를 생성하고, **어텐드 링크**를 통해 팀원을 초대.
+    - 팀원 초대 시, 링크를 통해 팀원이 정보를 입력하고 **참여 코드**를 이메일로 전달받도록 설정.
+
+2. **팀원**
+    - 팀장이 공유한 어텐드 링크에 접속해 이름과 이메일을 입력.
+    - 받은 **참여 코드**로 프로젝트에 로그인 없이 참여.
+    - 프로젝트 내 **진행 상황과 개인 태스크**를 확인 및 관리.
+
+👉 [자세한 사용법 링크](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/wiki/%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%82%AC%EC%9A%A9%EB%B2%95)
+
+### **예시 화면**
+1. **랜딩 페이지**  
+   ![랜딩 페이지](https://github.com/user-attachments/assets/070052c6-333d-49bc-8b6f-b272de5a8a9f)
+
+2. **로그인 UI**  
+   ![로그인 UI](https://github.com/user-attachments/assets/3d3e342e-7021-46da-8b40-fc1cf864edfc)
+
+3. **프로젝트 참여 화면**  
+   ![프로젝트 참여](https://github.com/user-attachments/assets/bf635f6c-299b-4f6c-9c7e-30a763ecd85f)
+
+### **프로토타입**
+👉 [프로토타입 확인](https://www.figma.com/design/ZhOOxxb7yLfcJORzvXLFjh)
+
 ---
-# Issue
-- [week4 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/27)
-- [week6 프로젝트 빌드 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/39)
-- [week6 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/41)
-- [week6 멤버 생성 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/42)
-- [week6 pathvaliable로 값 파싱 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/43)
-- [week6 task 날짜 validation 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/44)
-- [week6 aws server 구글 로그인 실패](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/45)
-- [week6 멤버 생성 권한 수정](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/46)
-- [week6 task 조회 쿼리 문법 오류](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues/47)
+
+## **🔧 기술 스택**
+
+### **Frontend**
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)  
+**Tools:** NPM, TypeScript, Storybook, Webpack, ESLint
+
+### **Backend**
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)  
+**Tools:** Hibernate, Spring Security, Gmail API, Swagger, JPA
+
+### **Deployment**
+![AWS](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+
 ---
-# 질문사항
-- week3
-  - 팀원마다 코드스타일이 다른경우 통일을 하나요?
-  - 프로젝트 시작 시 세팅은 어느정도로 하나요?
-  - 현재 팀원마다 각각 domain을 1개씩 담당하여 작업을 하고 있습니다. 이러한 경우 다른 팀원이 만들어야 하는 객체를 참조해야 되는 상황일 때,(저는 그냥 구현을 해버려서 conflict가 발생했습니다.) 구현을하지 않고 mock 혹은 fake 객체를 만들어 두고 작업을 하는 편인가요?
-  - 보통 이 정도 규모의 프로젝트를 분업하게 되면 어떠한 기준으로 작업을 분배하나요?
-  - conflict resolve시의 기준이 있나요?
-- week4(멘토링)
-  - 유저 삭제시 인증 구현 방식
-  - 다양한 소셜 로그인의 유저를 특정하는 방법
-  - 메일 발송 방법
-  - 코드 스타일
-  - 동시성 처리
-- week5
-  - softDelete의 구현 방법
-  - 연결괸 객체의 정보를 가져오는 방법
-- week6
+
+## **🛠️ 프로젝트 구조**
+
+![프로젝트 구조도](https://github.com/user-attachments/assets/2bc76c2c-ac20-4d67-b746-f4fa2b064cec)
+👉 [아키텍처 설명 링크](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9E%90%EC%84%B8%ED%95%9C-%EC%84%A4%EB%AA%85)
+---
+
+## **📊 ERD**
+
+![ERD](https://github.com/user-attachments/assets/fcac1f9b-2f0f-4276-9481-47748648e7bf)
+👉 [ERD 설명 링크](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/wiki/ERD-%EC%84%A4%EB%AA%85)
+---
+
+## **🤝 협업 전략**
+
+### **Branch 전략**
+- **Weekly Branch**: 각자 주별 브랜치 pull 후 작업.
+- **Pull Request**: Weekly → Develop → Master 순으로 PR.
+- **CI/CD**: Develop 브랜치를 통해 자동 배포.
+
+### **Commit 규칙** (Angular 스타일)
+- `feat`: 새로운 기능 추가
+- `fix`: 버그 수정
+- `docs`: 문서 변경
+- **자세한 규칙:** 👉 [Commit 규칙](https://quickest-asterisk-75d.notion.site/P2P-d38e691fbcbb4a719274fb91e48f91cd?p=1d0fac986a2e48e5a4152524214084e7&pm=s)
+
+### **API 입출력 규칙**
+👉 [API 문서 링크](https://quickest-asterisk-75d.notion.site/P2P-d38e691fbcbb4a719274fb91e48f91cd?p=905fd6f9a8a140178580b5fd9593e0fe&pm=s)
+
+---
+
+## **✨ 구현 기능**
+
+1. **프로젝트 관리 API**
+2. **팀원 관리 API**
+3. **태스크 관리 API**
+4. **이벤트 관리 API**: 독려 이메일, 진행도 조회
+5. **Google OAuth2 인증 및 참여 코드 인증 플로우**
+
+![로그인 플로우](https://github.com/user-attachments/assets/0dd89459-af2a-42be-9a06-18791d4e3f1b)  
+![멤버 인증 플로우](https://github.com/user-attachments/assets/030044e6-054a-4c12-b63e-044064ae5cbd)
+👉 [자세한 백엔드 구현 기능 링크](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/wiki/%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B5%AC%ED%98%84-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85-%ED%8E%98%EC%9D%B4%EC%A7%80)
+---
+
+## **🛠️ Technical Issue와 해결과정**
+
+- **GitHub Issues**를 통해 기술적 이슈를 기록 및 해결.
+- **문제 해결 예시**  
+  ![이슈1](https://github.com/user-attachments/assets/55fb2544-0547-4e1c-aa99-2deee1541767)  
+  ![이슈2](https://github.com/user-attachments/assets/16174838-f3db-4161-98f6-54dda06d3e03)
+👉 [자세한 이슈 해결 링크](https://github.com/kakao-tech-campus-2nd-step3/Team1_BE/issues)
+---
+
+## **🤝 협업 이슈 해결**
+
+- **노션**을 통해 프론트 트랙과의 이슈 해결.
+- **문제 해결 예시**
+![스크린샷 2024-11-12 194745](https://github.com/user-attachments/assets/c57ea804-562c-4855-bb28-29feaedf55c3)
+![스크린샷 2024-11-12 194841](https://github.com/user-attachments/assets/8e61bab5-a27f-4251-a3fa-e51dd098e4f4)
+👉 [자세한 협업 과정 링크](https://polar-yellowhorn-1cd.notion.site/Swagger-241107-137a2fbcb2b180a0a67cf6906ab83ab8)
+
+---
+
+## **🌐 배포 주소**
+
+- **백엔드:** [Backend URL](http://3.36.254.166)
+- **프론트엔드:** [Frontend URL](https://team1-fe.pages.dev/)
+- **Frontend GitHub:** [프론트엔드 깃허브](https://github.com/kakao-tech-campus-2nd-step3/Team1_FE)

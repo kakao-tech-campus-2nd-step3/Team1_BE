@@ -48,6 +48,14 @@ jobs:
                       authorization-uri: https://accounts.google.com/o/oauth2/auth
                       token-uri: https://oauth2.googleapis.com/token
                       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+          
+          jwt:
+            secretKey: ${{ secrets.JWT_SECRET_KEY}}
+            tokenExpTime: ${{ secrets.JWT_TOKEN_EXP_TIME}}
+
+          code:
+            secretKey: ${{ secrets.CODE_SECRET_KEY}}
+            vector: ${{ secrets.CODE_VECTOR}}
           EOF
 
       # application-db.yml 생성
