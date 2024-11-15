@@ -33,14 +33,14 @@ public class OptionService {
         validateRole(role);
 
         return optionRepository.findAllByIsDeletedFalse(param.toPageable())
-            .map(optionMapper::toSimple);
+                .map(optionMapper::toSimple);
     }
 
     public OptionDetail getOption(Long id, String role) {
         validateRole(role);
 
         return optionMapper.toDetail(optionRepository.findByIdAndIsDeletedFalse(id)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다.")));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다.")));
     }
 
     @Transactional
@@ -58,7 +58,7 @@ public class OptionService {
         validateRole(role);
 
         OptionEntity option = optionRepository.findByIdAndIsDeletedFalse(id)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다."));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다."));
 
         optionMapper.toUpdate(option, update);
 
@@ -70,7 +70,7 @@ public class OptionService {
         validateRole(role);
 
         OptionEntity option = optionRepository.findByIdAndIsDeletedFalse(id)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다."));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당하는 옵션이 존재하지 않습니다."));
 
         option.setIsDeleted(true);
 
@@ -78,7 +78,7 @@ public class OptionService {
     }
 
     private void validateRole(String role) {
-        if(!Role.ADMIN.isRole(role)) {
+        if (!Role.ADMIN.isRole(role)) {
             throw new BaseHandler(HttpStatus.FORBIDDEN, "관리자만 접근 가능합니다.");
         }
     }

@@ -18,7 +18,7 @@ public class MailSend {
     public void send(String to, String subject, String text) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(to);
-        mailMessage.setSubject(subject); // 이메일 제목 설정임.
+        mailMessage.setSubject(subject);
         mailMessage.setText(text);
         mailSender.send(mailMessage);
     }

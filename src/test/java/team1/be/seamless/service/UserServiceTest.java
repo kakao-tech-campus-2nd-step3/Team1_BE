@@ -33,7 +33,6 @@ class UserServiceTest {
     @Mock
     private UserMapper userMapper;
 
-    // Test data
     private String username = "testUser";
     private String email = "test@test.com";
     private String image = "https://testImage.com";
@@ -49,14 +48,12 @@ class UserServiceTest {
 
     @Test
     void 유저조회_테스트() {
-        // given
+
         UserDetails mockUserDetails = new UserDetails(username, email, image, Role.USER.toString(), LocalDateTime.now());
 
-        // When
         when(userMapper.toUserDetails(mockUser)).thenReturn(mockUserDetails);
         UserDetails user = userService.getUser(email, Role.USER.toString());
 
-        // Then
         assertEquals(username, user.getUsername());
         assertEquals(email, user.getEmail());
         assertEquals(image, user.getPicture());
@@ -64,32 +61,28 @@ class UserServiceTest {
 
     @Test
     void 유저수정_테스트() {
-        // given
+
         String updatedUsername = "testUser2";
         String updatedImage = "https://testImage2.com";
 
         UserSimple mockUserSimple = new UserSimple(updatedUsername, email, updatedImage);
         UserUpdate update = new UserUpdate(updatedUsername, updatedImage);
 
-        // When
         when(userMapper.toUserSimple(mockUser)).thenReturn(mockUserSimple);
         UserSimple user = userService.updateUser(email, Role.USER.toString(), update);
 
-        // Then
         assertEquals(updatedUsername, user.getUsername());
         assertEquals(updatedImage, user.getPicture());
     }
 
     @Test
     void 유저삭제_테스트() {
-        // given
+
         UserSimple mockUserSimple = new UserSimple(username, email, image);
 
-        // When
         when(userMapper.toUserSimple(mockUser)).thenReturn(mockUserSimple);
         UserSimple user = userService.deleteUser(email, Role.USER.toString());
 
-        // Then
         assertEquals(username, user.getUsername());
         assertEquals(image, user.getPicture());
     }

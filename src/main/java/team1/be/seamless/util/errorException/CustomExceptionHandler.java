@@ -10,29 +10,26 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    //    BaseHandler 예외처리
     @ExceptionHandler(ResponseStatusException.class)
     public final ResponseEntity<StatusResponse> handleResponseStatusException(
-        ResponseStatusException ex, WebRequest request) {
+            ResponseStatusException ex, WebRequest request) {
         StatusResponse errorResponse = new StatusResponse(ex.getStatusCode().value(),
-            ex.getReason());
+                ex.getReason());
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
     }
 
 
-    //    @Valid로 검출 예외처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public final ResponseEntity<StatusResponse> handleMethodArgumentNotValidException(
-        MethodArgumentNotValidException ex, WebRequest request) {
+            MethodArgumentNotValidException ex, WebRequest request) {
         StatusResponse errorResponse = new StatusResponse(ex.getStatusCode().value(),
-            ex.getBindingResult().getFieldError().getDefaultMessage());
+                ex.getBindingResult().getFieldError().getDefaultMessage());
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
     }
 
-    //    spring security 예외처리
     @ExceptionHandler(RuntimeHandler.class)
     public ResponseEntity<StatusResponse> handleSignatureException(RuntimeHandler ex,
-        WebRequest request) {
+                                                                   WebRequest request) {
         StatusResponse errorResponse = new StatusResponse(ex.getStatus().value(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, ex.getStatus());
     }

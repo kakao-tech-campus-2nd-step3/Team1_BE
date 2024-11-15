@@ -1,6 +1,7 @@
 package team1.be.seamless.dto;
 
 import java.time.LocalDateTime;
+
 import org.hibernate.validator.constraints.URL;
 
 public class UserDTO {
@@ -69,7 +70,7 @@ public class UserDTO {
         }
 
         public UserDetails(String username, String email, String picture, String role,
-            LocalDateTime createDate) {
+                           LocalDateTime createDate) {
             this.username = username;
             this.email = email;
             this.picture = picture;

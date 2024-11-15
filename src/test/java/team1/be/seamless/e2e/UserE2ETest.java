@@ -40,9 +40,9 @@ class UserE2ETest {
     public void setUp() {
         HttpEntity<Long> requestEntity = new HttpEntity<>(null);
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-            url + port + "/api/test/userToken/2",
-            POST,
-            requestEntity, String.class);
+                url + port + "/api/test/userToken/2",
+                POST,
+                requestEntity, String.class);
 
         int startIndex = responseEntity.getBody().indexOf("\"token\":\"") + "\"token\":\"".length();
         int endIndex = responseEntity.getBody().indexOf("\"", startIndex);
@@ -51,14 +51,15 @@ class UserE2ETest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
     }
+
     @Test
     void 유저정보_수정_테스트_성공() {
         UserUpdate body = new UserUpdate("name1", "https://tests.com/qwer1234");
 
         HttpEntity<Long> requestEntity = new HttpEntity(body, headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/user",
-            PUT,
-            requestEntity, String.class);
+                PUT,
+                requestEntity, String.class);
 
         System.out.println(responseEntity);
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
@@ -70,8 +71,8 @@ class UserE2ETest {
 
         HttpEntity<Long> requestEntity = new HttpEntity(body, headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/user",
-            PUT,
-            requestEntity, String.class);
+                PUT,
+                requestEntity, String.class);
 
         System.out.println(responseEntity);
         assertThat(responseEntity.getStatusCode()).isEqualTo(BAD_REQUEST);
@@ -82,8 +83,8 @@ class UserE2ETest {
         HttpEntity<Long> requestEntity = new HttpEntity(null, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/user",
-            DELETE,
-            requestEntity, String.class);
+                DELETE,
+                requestEntity, String.class);
 
         System.out.println(responseEntity);
         assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
@@ -93,14 +94,13 @@ class UserE2ETest {
     @Test
     void 유저정보_삭제_실패() {
         HttpEntity<Long> requestEntity = new HttpEntity(null, headers);
-//        삭제 두 번 시도
         restTemplate.exchange(url + port + "/api/user",
-            DELETE,
-            requestEntity, String.class);
+                DELETE,
+                requestEntity, String.class);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(url + port + "/api/user",
-            DELETE,
-            requestEntity, String.class);
+                DELETE,
+                requestEntity, String.class);
 
         System.out.println(responseEntity);
         assertThat(responseEntity.getStatusCode()).isEqualTo(NOT_FOUND);

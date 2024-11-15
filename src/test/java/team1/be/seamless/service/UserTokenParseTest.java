@@ -35,9 +35,9 @@ class UserTokenParseTest {
     public void setUp() {
         HttpEntity<Long> requestEntity = new HttpEntity<>(null);
         ResponseEntity<String> responseEntity = restTemplate.exchange(
-            url + port + "/api/test/userToken/1",
-            POST,
-            requestEntity, String.class);
+                url + port + "/api/test/userToken/1",
+                POST,
+                requestEntity, String.class);
 
         int startIndex = responseEntity.getBody().indexOf("\"token\":\"") + "\"token\":\"".length();
         int endIndex = responseEntity.getBody().indexOf("\"", startIndex);

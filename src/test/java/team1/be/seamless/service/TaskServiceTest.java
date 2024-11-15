@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,9 +86,9 @@ class TaskServiceTest {
         role = Role.USER.getKey();
 
         userEntity = new UserEntity(
-            "사용자1",
-            email,
-            "https://example.com/user1.jpg"
+                "사용자1",
+                email,
+                "https://example.com/user1.jpg"
         );
 
         optionEntity1 = new OptionEntity("옵션1", "옵션 설명1", "타입1");
@@ -98,89 +99,84 @@ class TaskServiceTest {
         projectOptions = List.of(projectOption1, projectOption2);
 
         projectEntity = new ProjectEntity(
-            "프로젝트1",
-            "프로젝트 설명1",
-            "https://example.com/project1.jpg",
-            userEntity,
-            projectOptions,
-            LocalDateTime.of(2024, 11, 21, 0, 0, 0),
-            LocalDateTime.of(2025, 11, 21, 0, 0, 0)
+                "프로젝트1",
+                "프로젝트 설명1",
+                "https://example.com/project1.jpg",
+                userEntity,
+                projectOptions,
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
 
         memberEntity = new MemberEntity("멤버 1", "MEMBER", "member1@gmail.com", "member1.jpeg",
-            projectEntity);
+                projectEntity);
 
         taskEntity1 = new TaskEntity("태스크 1", "첫번째 태스크 입니다.", Priority.HIGH, projectEntity,
-            memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
-            LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
+                memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
+                LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
 
         taskEntity2 = new TaskEntity("태스크 2", "두번째 태스크 입니다.", Priority.HIGH, projectEntity,
-            memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
-            LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
+                memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
+                LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
     }
 
     @Test
     void 태스크_리스트_페이지네이션_반환_검증() {
-        // Given
         Page<TaskEntity> tasks = new PageImpl<>(List.of(taskEntity1, taskEntity2));
         taskParam = new getList();
 
         when(taskRepository.findByProjectIdAndOptionalFilters(
-            1L,
-            "IN_PROGRESS",
-            "HIGH",
-            1L,
-            taskParam.toPageable())).thenReturn(tasks);
+                1L,
+                "IN_PROGRESS",
+                "HIGH",
+                1L,
+                taskParam.toPageable())).thenReturn(tasks);
         when(taskMapper.toDetailWithOwner(any(TaskEntity.class)))
-            .thenReturn(mock(TaskDTO.TaskWithOwnerDetail.class));
+                .thenReturn(mock(TaskDTO.TaskWithOwnerDetail.class));
 
-        // When
         Page<TaskWithOwnerDetail> result = taskService.getTaskList(
-            1L,
-            "IN_PROGRESS",
-            "HIGH",
-            1L,
-            taskParam);
+                1L,
+                "IN_PROGRESS",
+                "HIGH",
+                1L,
+                taskParam);
 
-        // Then
         assertThat(result).isNotNull();
         assertThat(result.getTotalElements()).isEqualTo(2);
         verify(taskRepository, times(1)).findByProjectIdAndOptionalFilters(
-            1L, "IN_PROGRESS", "HIGH", 1L, taskParam.toPageable());
+                1L, "IN_PROGRESS", "HIGH", 1L, taskParam.toPageable());
         verify(taskMapper, atLeastOnce()).toDetailWithOwner(any(TaskEntity.class));
     }
 
     @Test
     void 태스크_생성_성공() {
-        // Given
+
         TaskCreate create = new TaskCreate("새로운 태스크",
-            "새로운 태스크 입니다.", 1L,
-            LocalDateTime.of(2024, 12, 10, 0, 0), LocalDateTime.of(2024, 12, 11, 0, 0),
-            Priority.HIGH,
-            TaskStatus.IN_PROGRESS,
-            50);
+                "새로운 태스크 입니다.", 1L,
+                LocalDateTime.of(2024, 12, 10, 0, 0), LocalDateTime.of(2024, 12, 11, 0, 0),
+                Priority.HIGH,
+                TaskStatus.IN_PROGRESS,
+                50);
 
         TaskEntity created_task = new TaskEntity("새로운 태스크",
-            "새로운 태스크 입니다.",
-            Priority.HIGH,
-            projectEntity,
-            memberEntity,
-            LocalDateTime.of(2024, 12, 10, 0, 0),
-            LocalDateTime.of(2024, 12, 11, 0, 0),
-            50,
-            TaskStatus.IN_PROGRESS);
+                "새로운 태스크 입니다.",
+                Priority.HIGH,
+                projectEntity,
+                memberEntity,
+                LocalDateTime.of(2024, 12, 10, 0, 0),
+                LocalDateTime.of(2024, 12, 11, 0, 0),
+                50,
+                TaskStatus.IN_PROGRESS);
 
         when(projectRepository.findByIdAndIsDeletedFalse(any(Long.class))).thenReturn(
-            Optional.of(projectEntity));
+                Optional.of(projectEntity));
         when(memberRepository.findById(1L)).thenReturn(Optional.of(memberEntity));
         when(taskMapper.toEntity(projectEntity, memberEntity, create)).thenReturn(created_task);
         when(taskMapper.toDetail(created_task))
-            .thenReturn(mock(TaskDTO.TaskDetail.class));
+                .thenReturn(mock(TaskDTO.TaskDetail.class));
 
-        // When
         TaskDetail result = taskService.createTask(1L, create);
 
-        // Then
         assertThat(result).isNotNull();
         verify(projectRepository).findByIdAndIsDeletedFalse(1L);
         verify(taskRepository).save(any(TaskEntity.class));
@@ -189,39 +185,37 @@ class TaskServiceTest {
 
     @Test
     void 태스크_수정_성공() {
-        // Given
+
         TaskUpdate update = new TaskUpdate(
-            "수정된 태스크",
-            "수정된 태스크입니다.",
-            78,
-            1L,
-            LocalDateTime.of(2024, 12, 10, 0, 0),
-            LocalDateTime.of(2024, 12, 11, 0, 0),
-            Priority.LOW,
-            TaskStatus.IN_PROGRESS
+                "수정된 태스크",
+                "수정된 태스크입니다.",
+                78,
+                1L,
+                LocalDateTime.of(2024, 12, 10, 0, 0),
+                LocalDateTime.of(2024, 12, 11, 0, 0),
+                Priority.LOW,
+                TaskStatus.IN_PROGRESS
         );
 
         TaskEntity updated_task = new TaskEntity("수정된 태스크",
-            "수정된 태스크 입니다.",
-            Priority.LOW,
-            projectEntity,
-            memberEntity,
-            LocalDateTime.of(2024, 12, 10, 0, 0),
-            LocalDateTime.of(2024, 12, 11, 0, 0),
-            78,
-            TaskStatus.IN_PROGRESS);
+                "수정된 태스크 입니다.",
+                Priority.LOW,
+                projectEntity,
+                memberEntity,
+                LocalDateTime.of(2024, 12, 10, 0, 0),
+                LocalDateTime.of(2024, 12, 11, 0, 0),
+                78,
+                TaskStatus.IN_PROGRESS);
 
         when(taskRepository.findByIdAndIsDeletedFalse(any(Long.class))).thenReturn(
-            Optional.of(taskEntity1));
+                Optional.of(taskEntity1));
         when(memberRepository.findByIdAndIsDeleteFalse(any(Long.class))).thenReturn(Optional.of(memberEntity));
         when(taskMapper.toUpdate(taskEntity1, update)).thenReturn(updated_task);
         when(taskMapper.toDetail(any(TaskEntity.class)))
-            .thenReturn(mock(TaskDTO.TaskDetail.class));
+                .thenReturn(mock(TaskDTO.TaskDetail.class));
 
-        // When
         TaskDetail result = taskService.updateTask(role, email, 1L, update);
 
-        // Then
         assertThat(result).isNotNull();
         verify(taskRepository, times(1)).findByIdAndIsDeletedFalse(1L);
         verify(memberRepository, times(1)).findByIdAndIsDeleteFalse(1L);
@@ -231,19 +225,17 @@ class TaskServiceTest {
 
     @Test
     void 태스크_삭제_검증() {
-        // Given
+
         long taskId = 1L;
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(taskId);
         taskEntity.setIsDeleted(false);
 
         when(taskRepository.findByIdAndProjectEntityUserEntityEmail(taskId, email)).thenReturn(
-            Optional.of(taskEntity));
+                Optional.of(taskEntity));
 
-        // When
         Long result = taskService.deleteTask(role, email, taskId);
 
-        // Then
         assertThat(result).isEqualTo(taskId);
         assertThat(taskEntity.getIsDeleted()).isTrue();
         verify(taskRepository, times(1)).findByIdAndProjectEntityUserEntityEmail(taskId, email);

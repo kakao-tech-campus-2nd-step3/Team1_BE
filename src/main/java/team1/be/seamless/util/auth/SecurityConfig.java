@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     @Autowired
     public SecurityConfig(AuthService authService, OAuth2SuccessHandler successHandler,
-        TokenAuthenticationFilter tokenAuthenticationFilter) {
+                          TokenAuthenticationFilter tokenAuthenticationFilter) {
         this.authService = authService;
         this.successHandler = successHandler;
         this.tokenAuthenticationFilter = tokenAuthenticationFilter;
@@ -35,47 +35,42 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-        HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository)
-        throws Exception {
+                                                   HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository)
+            throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .cors() // CORS 설정 활성화
-            .and()
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .formLogin(AbstractHttpConfigurer::disable)
-            .logout(AbstractHttpConfigurer::disable)
-            .headers(c -> c.frameOptions().disable())
-            .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors()
+                .and()
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
+                .headers(c -> c.frameOptions().disable())
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            .authorizeHttpRequests(request -> request
-//                swagger
-                    .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
-                        "/api-docs/**", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/login/**", "/api/auth/**", "/oauth2/**")
-                    .permitAll()
-//                확장자
-                    .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif",
-                        "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
-                    .permitAll()
-//                인증, h2
-                    .requestMatchers("/h2-console/**", "/auth/**", "/api/test/**").permitAll()
-//                멤버 생성
-                    .requestMatchers(HttpMethod.POST, "/api/project/**/member/**").permitAll()
-//                멤버 조회
-                    .requestMatchers(HttpMethod.GET, "/api/project/**/member/**").permitAll()
-                    .anyRequest()
-                    .authenticated()
-            )
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs",
+                                "/api-docs/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/login/**", "/api/auth/**", "/oauth2/**")
+                        .permitAll()
+                        .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif",
+                                "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
+                        .permitAll()
+                        .requestMatchers("/h2-console/**", "/auth/**", "/api/test/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/project/**/member/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/project/**/member/**").permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
 
-            .oauth2Login(oauth -> oauth
-                .userInfoEndpoint(c -> c.userService(authService))
-                .successHandler(successHandler)
-                .authorizationEndpoint()
-                .baseUri("/login/oauth2/code/*")
-                .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
-            )
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(c -> c.userService(authService))
+                        .successHandler(successHandler)
+                        .authorizationEndpoint()
+                        .baseUri("/login/oauth2/code/*")
+                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+                )
 
-            .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -83,10 +78,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // 모든 도메인 허용
-        configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
-        configuration.addAllowedHeader("*"); // 모든 헤더 허용
-        configuration.setAllowCredentials(true); // 자격 증명 허용
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

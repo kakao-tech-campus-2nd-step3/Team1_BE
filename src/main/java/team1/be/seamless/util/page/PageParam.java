@@ -11,9 +11,9 @@ public class PageParam {
 
     public PageRequest toPageable() {
         return PageRequest.of(
-            page < 1 ? 0 : page,
-            size < 1 ? Integer.MAX_VALUE : size,
-            sort.isEmpty() ? Sort.unsorted() : Sort.unsorted()
+                page < 1 ? 0 : page,
+                size < 1 ? Integer.MAX_VALUE : size,
+                sort.isEmpty() ? Sort.unsorted() : Sort.unsorted()
         );
     }
 

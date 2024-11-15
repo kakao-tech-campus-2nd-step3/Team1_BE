@@ -57,7 +57,6 @@ public class ProjectMapperTest {
 
     @Test
     void 생성_시_ProjectCreate_에서_Entity_로_변환_검증() {
-        // Given
         ProjectDTO.ProjectCreate create = new ProjectCreate(
             "프로젝트1",
             "프로젝트 설명1",
@@ -67,10 +66,8 @@ public class ProjectMapperTest {
             LocalDateTime.of(2025, 10, 1, 0, 0, 0)
         );
 
-        //When
         ProjectEntity projectEntity = projectMapper.toEntity(create, userEntity, projectOptions);
 
-        //Then
         assertThat(projectEntity.getName()).isEqualTo("프로젝트1");
         assertThat(projectEntity.getDescription()).isEqualTo("프로젝트 설명1");
         assertThat(projectEntity.getImageURL()).isEqualTo("https://example.com/project1.jpg");
@@ -83,7 +80,6 @@ public class ProjectMapperTest {
 
     @Test
     void 수정시_해당_Entity가_업데이트_되는지_검증() {
-        // Given
         ProjectDTO.ProjectUpdate update = new ProjectUpdate(
             "프로젝트2",
             "프로젝트 설명2",
@@ -93,10 +89,8 @@ public class ProjectMapperTest {
             LocalDateTime.of(2026, 10, 1, 0, 0, 0)
         );
 
-        // When
         ProjectEntity projectEntity = projectMapper.toUpdate(projectEntity1, update, projectOptions);
 
-        //Then
         assertThat(projectEntity.getName()).isEqualTo("프로젝트2");
         assertThat(projectEntity.getDescription()).isEqualTo("프로젝트 설명2");
         assertThat(projectEntity.getImageURL()).isEqualTo("https://example.com/project2.jpg");
@@ -106,10 +100,8 @@ public class ProjectMapperTest {
 
     @Test
     void ProjectEntity가_ProjectDetail로_반환_되는_지_검증() {
-        // Given & When
         ProjectDetail projectDetail = projectMapper.toDetail(projectEntity1);
 
-        // Then
         assertThat(projectDetail.getName()).isEqualTo("프로젝트1");
         assertThat(projectDetail.getDescription()).isEqualTo("프로젝트 설명1");
         assertThat(projectDetail.getImageURL()).isEqualTo("https://example.com/project1.jpg");
@@ -122,10 +114,10 @@ public class ProjectMapperTest {
 
     @Test
     void ProjectEntity가_ProjectDate로_반환_되는_지_검증() {
-        // Given & When
+
         ProjectDate projectDate = projectMapper.toDate(projectEntity1);
 
-        // Then
+
         assertThat(projectDate.getName()).isEqualTo("프로젝트1");
         assertThat(projectDate.getStartDate()).isEqualTo(LocalDateTime.of(2024,11,21,0,0,0));
         assertThat(projectDate.getEndDate()).isEqualTo(LocalDateTime.of(2025,11,21,0,0,0));
@@ -133,10 +125,10 @@ public class ProjectMapperTest {
 
     @Test
     void UserEntity가_ProjectManager로_반환_되는_지_검증() {
-        // Given & When
+
         ProjectManager projectManager = projectMapper.toManager(userEntity);
 
-        // Then
+
         assertThat(projectManager.getName()).isEqualTo("사용자1");
         assertThat(projectManager.getImageURL()).isEqualTo("user1Image.jpg");
     }

@@ -39,38 +39,38 @@ public class ProjectOptionController {
     @Operation(summary = "프로젝트 옵션 리스트 조회")
     @GetMapping
     public PageResult<OptionSimple> getOptionList(HttpServletRequest req,
-        @Valid OptionDTO.getList param) {
+                                                  @Valid OptionDTO.getList param) {
         return PageMapper.toPageResult(
-            optionService.getProjectOptionList(param, parsingParam.getRole(req)));
+                optionService.getProjectOptionList(param, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "프로젝트 옵션 조회")
     @GetMapping("/{optionId}")
     public SingleResult<OptionDetail> getOption(HttpServletRequest req,
-        @Valid @PathVariable("optionId") Long id) {
+                                                @Valid @PathVariable("optionId") Long id) {
         return new SingleResult<>(optionService.getOption(id, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "옵션 생성")
     @PostMapping
     public SingleResult<OptionDetail> createOption(HttpServletRequest req,
-        @Valid @RequestBody OptionDTO.OptionCreate create) {
+                                                   @Valid @RequestBody OptionDTO.OptionCreate create) {
         return new SingleResult<>(optionService.createOption(create, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "옵션 수정")
     @PutMapping("/{optionId}")
     public SingleResult<OptionDetail> updateOption(HttpServletRequest req,
-        @Valid @PathVariable("optionId") Long id,
-        @Valid @RequestBody OptionDTO.OptionUpdate update) {
+                                                   @Valid @PathVariable("optionId") Long id,
+                                                   @Valid @RequestBody OptionDTO.OptionUpdate update) {
         return new SingleResult<>(
-            optionService.updateOption(id, update, parsingParam.getRole(req)));
+                optionService.updateOption(id, update, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "옵션 삭제")
     @DeleteMapping("/{optionId}")
     public SingleResult<OptionDetail> deleteOption(HttpServletRequest req,
-        @Valid @PathVariable("optionId") Long id) {
+                                                   @Valid @PathVariable("optionId") Long id) {
         return new SingleResult<>(optionService.deleteOption(id, parsingParam.getRole(req)));
     }
 

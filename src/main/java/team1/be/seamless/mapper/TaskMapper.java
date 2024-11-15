@@ -16,15 +16,15 @@ public class TaskMapper {
     public TaskEntity toEntity(ProjectEntity project, MemberEntity member, TaskCreate taskCreate) {
 
         return new TaskEntity(
-            taskCreate.getName(),
-            taskCreate.getDescription(),
-            taskCreate.getPriority(),
-            project,
-            member,
-            taskCreate.getStartDate(),
-            taskCreate.getEndDate(),
-            taskCreate.getProgress(),
-            taskCreate.getStatus());
+                taskCreate.getName(),
+                taskCreate.getDescription(),
+                taskCreate.getPriority(),
+                project,
+                member,
+                taskCreate.getStartDate(),
+                taskCreate.getEndDate(),
+                taskCreate.getProgress(),
+                taskCreate.getStatus());
     }
 
     public TaskEntity toUpdate(TaskEntity task, TaskUpdate update) {
@@ -32,7 +32,7 @@ public class TaskMapper {
         task.setDescription(update.getDescription() == null ? task.getDescription() : update.getDescription());
         task.setProgress(update.getProgress() == null ? task.getProgress() : update.getProgress());
         task.setStartDate(
-            update.getStartDate() == null ? task.getStartDate() : update.getStartDate());
+                update.getStartDate() == null ? task.getStartDate() : update.getStartDate());
         task.setEndDate(update.getEndDate() == null ? task.getEndDate() : update.getEndDate());
         task.setStatus(update.getStatus() == null ? task.getStatus() : update.getStatus());
         task.setPriority(update.getPriority() == null ? task.getPriority() : update.getPriority());
@@ -42,13 +42,13 @@ public class TaskMapper {
 
     public TaskDetail toDetail(TaskEntity task) {
         return new TaskDetail(task.getId(), task.getName(), task.getDescription(),
-                task.getOwner()==null ? null : task.getOwner().getId(), task.getProgress(), task.getStartDate(), task.getEndDate(),
+                task.getOwner() == null ? null : task.getOwner().getId(), task.getProgress(), task.getStartDate(), task.getEndDate(),
                 task.getPriority(), task.getStatus());
     }
 
     public TaskWithOwnerDetail toDetailWithOwner(TaskEntity task) {
         return new TaskWithOwnerDetail(task.getId(), task.getName(), task.getDescription(),
-            task.getOwner(), task.getProgress(), task.getStartDate(), task.getEndDate(),
-            task.getPriority(), task.getStatus());
+                task.getOwner(), task.getProgress(), task.getStartDate(), task.getEndDate(),
+                task.getPriority(), task.getStatus());
     }
 }

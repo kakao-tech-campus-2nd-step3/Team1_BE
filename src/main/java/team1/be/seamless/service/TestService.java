@@ -27,7 +27,7 @@ public class TestService {
 
     @Autowired
     public TestService(TestMapper testMapper, TestRepository testRepository, JwtToken jwtToken,
-        UserRepository userRepository) {
+                       UserRepository userRepository) {
         this.testMapper = testMapper;
         this.testRepository = testRepository;
         this.jwtToken = jwtToken;
@@ -41,7 +41,7 @@ public class TestService {
     @Profile("test")
     public TestEntity getTest(long get) {
         TestEntity entity = testRepository.findById(get)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않음"));
         System.out.println(entity);
         return entity;
     }
@@ -57,7 +57,7 @@ public class TestService {
     @Profile("test")
     public Token TestTokenCreate(Long userId) {
         UserEntity user = userRepository.findById(userId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.FORBIDDEN, "유저 없음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.FORBIDDEN, "유저 없음"));
 
         String token = jwtToken.createUserToken(user);
 

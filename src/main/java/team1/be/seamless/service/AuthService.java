@@ -2,6 +2,7 @@ package team1.be.seamless.service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -38,7 +39,7 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     @Autowired
     public AuthService(UserRepository userRepository, MemberRepository memberRepository,
-        UserMapper userMapper, JwtToken jwtToken, AesEncrypt aesEncrypt) {
+                       UserMapper userMapper, JwtToken jwtToken, AesEncrypt aesEncrypt) {
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.userMapper = userMapper;
@@ -54,22 +55,15 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
         Map<String, Object> oAuth2UserAttributes = delegate.loadUser(userRequest).getAttributes();
 
-//        로그인 플랫폼 확인
-//        추후 다른 OAuth2를 추가할 경우 사용
-//        String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-//        OAuth2 로그인 진행 시 키가 되는 필드 값
         String userNameAttributeName = userRequest.getClientRegistration()
-            .getProviderDetails()
-            .getUserInfoEndpoint()
-            .getUserNameAttributeName();
+                .getProviderDetails()
+                .getUserInfoEndpoint()
+                .getUserNameAttributeName();
 
-//        유저 정보 dto
         AuthDTO.OAuthAttributes attributes = AuthDTO.OAuthAttributes.ofGoogle(userNameAttributeName,
-            oAuth2User.getAttributes());
+                oAuth2User.getAttributes());
 
-//        기존에 회원가입 되어 있으면 로그인
-//        회원가입이 않되어 있으면 회원가입 후 로그인
         UserEntity user = saveOrUpdate(attributes);
 
         return new PrincipalDetails(user, oAuth2UserAttributes, userNameAttributeName);
@@ -81,39 +75,36 @@ public class AuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     @Transactional
     public UserEntity saveOrUpdate(OAuthAttributes attributes) {
         UserEntity user = userRepository.findByEmail(attributes.getEmail())
-            // 구글 사용자 정보 업데이트(이미 가입된 사용자) => 업데이트
-//            .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
 
-            // 가입되지 않은 사용자 => User 엔티티 생성
-            .orElse(userMapper.toEntity(attributes.getName(), attributes.getEmail(),
-                attributes.getPicture()));
+                .orElse(userMapper.toEntity(attributes.getName(), attributes.getEmail(),
+                        attributes.getPicture()));
 
         return userRepository.save(user);
     }
 
     public MemberToken memberCodeJoin(String memberCode) {
-//        decode
+
         String[] code = aesEncrypt.decrypt(memberCode).split("_");
 
-//        프로젝트, member가 존재하는지 검증
-        MemberEntity member = memberRepository.findById(Long.parseLong(code[0]))
-            .orElseThrow(() -> new BaseHandler(HttpStatus.FORBIDDEN, "해당 멤버가 존재하지 않습니다."));
 
-//        토큰 반환
+        MemberEntity member = memberRepository.findById(Long.parseLong(code[0]))
+                .orElseThrow(() -> new BaseHandler(HttpStatus.FORBIDDEN, "해당 멤버가 존재하지 않습니다."));
+
+
         String token = jwtToken.createMemberToken(member);
 
-        return new MemberToken(token,code[1]);
+        return new MemberToken(token, code[1]);
     }
 
     public String memberCodeCreate() {
-//        ENCODE
+
         String code = aesEncrypt.encrypt(
-            1 + "_" + LocalDateTime.now().plusDays(1000).withNano(0));
+                1 + "_" + LocalDateTime.now().plusDays(1000).withNano(0));
         return code;
     }
 
     public String memberCodeDecode(String memberCode) {
-//        ENCODE
+
         String code = aesEncrypt.decrypt(memberCode);
         return code;
     }

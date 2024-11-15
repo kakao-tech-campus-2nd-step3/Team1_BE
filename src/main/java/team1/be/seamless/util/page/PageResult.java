@@ -12,12 +12,12 @@ public class PageResult<T> extends ListResult<T> {
     private final Long total;
 
     public PageResult(
-        Collection<T> initList,
-        Integer size,
-        Integer page,
-        Integer pages,
-        Boolean hasNext,
-        Long total
+            Collection<T> initList,
+            Integer size,
+            Integer page,
+            Integer pages,
+            Boolean hasNext,
+            Long total
     ) {
         super(initList);
         this.size = size != null ? size : 0;
@@ -50,11 +50,11 @@ public class PageResult<T> extends ListResult<T> {
     @Override
     public String toString() {
         return "PageResult{" +
-            "size=" + size +
-            ", page=" + page +
-            ", pages=" + pages +
-            ", hasNext=" + hasNext +
-            ", total=" + total +
-            '}';
+                "size=" + size +
+                ", page=" + page +
+                ", pages=" + pages +
+                ", hasNext=" + hasNext +
+                ", total=" + total +
+                '}';
     }
 }

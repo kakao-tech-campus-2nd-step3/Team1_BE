@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class MemberEntity extends BaseEntity {
     }
 
     public MemberEntity(String name, String role, String email, String imageURL,
-        ProjectEntity projectEntity) {//Task 오류나서 생성자 새로 만들어놓음
+                        ProjectEntity projectEntity) {
         this.name = name;
         this.role = role;
         this.email = email;

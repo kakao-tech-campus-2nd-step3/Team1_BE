@@ -13,18 +13,18 @@ public class OptionMapper {
 
     public OptionEntity toEntity(OptionCreate create) {
         return new OptionEntity(
-            create.getName(),
-            create.getDescription(),
-            create.getOptionType()
+                create.getName(),
+                create.getDescription(),
+                create.getOptionType()
         );
     }
 
     public OptionEntity toUpdate(OptionEntity entity, OptionUpdate update) {
         return entity.Update(
-            Util.isNull(update.getName()) ? entity.getName() : update.getName(),
-            Util.isNull(update.getDescription()) ? entity.getDescription()
-                : update.getDescription(),
-            Util.isNull(update.getOptionType()) ? entity.getOptionType() : update.getOptionType()
+                Util.isNull(update.getName()) ? entity.getName() : update.getName(),
+                Util.isNull(update.getDescription()) ? entity.getDescription()
+                        : update.getDescription(),
+                Util.isNull(update.getOptionType()) ? entity.getOptionType() : update.getOptionType()
         );
     }
 
@@ -35,6 +35,6 @@ public class OptionMapper {
 
     public OptionDetail toDetail(OptionEntity entity) {
         return new OptionDetail(entity.getId(), entity.getName(), entity.getDescription(),
-            entity.getOptionType(), entity.getCreatedAt(), entity.getUpdatedAt());
+                entity.getOptionType(), entity.getCreatedAt(), entity.getUpdatedAt());
     }
 }

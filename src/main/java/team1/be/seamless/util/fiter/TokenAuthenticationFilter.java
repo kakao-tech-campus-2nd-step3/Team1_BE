@@ -5,8 +5,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,19 +35,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
         response.setCharacterEncoding("utf-8");
-//        String path = request.getRequestURI();
-//        String method = request.getMethod();
-//
+
         String token = request.getHeader(AUTHORIZATION_HEADER);
         if (token != null && token.startsWith(BEARER_PREFIX)) {
             token = token.substring(7);
-            try{
+            try {
                 jwtToken.validateToken(token);
                 setAuthentication(token);
-            } catch (RuntimeHandler e){
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 상태 설정
+            } catch (RuntimeHandler e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"errorCode\": 401, \"errorMessage\": \"" + e.getMessage() + "\"}");
 
@@ -57,7 +57,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private void setAuthentication(String accessToken) {
         Authentication authentication = jwtToken.getAuthentication(accessToken);
-        //현재 Request의 Security Context에 접근권한 설정
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

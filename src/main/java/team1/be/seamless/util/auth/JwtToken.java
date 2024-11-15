@@ -7,6 +7,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
 import java.security.Key;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -35,7 +37,7 @@ public class JwtToken {
     private long tokenExpTime;
 
     public JwtToken(@Value("${jwt.secretKey}") String secretKey,
-        @Value("${jwt.tokenExpTime}") long tokenExpTime) {
+                    @Value("${jwt.tokenExpTime}") long tokenExpTime) {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.tokenExpTime = tokenExpTime;
     }
@@ -45,8 +47,8 @@ public class JwtToken {
         ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
 
         String authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining());
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining());
 
         PrincipalDetails user = (PrincipalDetails) authentication.getPrincipal();
 
@@ -54,11 +56,11 @@ public class JwtToken {
         claims.put("authentication", authorities);
         claims.put("email", user.getUser().getEmail());
         return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(Date.from(now.toInstant()))
-            .setExpiration(Date.from(expirationDateTime.toInstant()))
-            .signWith(secretKey, SignatureAlgorithm.HS256)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(Date.from(now.toInstant()))
+                .setExpiration(Date.from(expirationDateTime.toInstant()))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public String createMemberToken(MemberEntity member) {
@@ -69,11 +71,11 @@ public class JwtToken {
         claims.put("authentication", Role.MEMBER.toString());
         claims.put("email", member.getEmail());
         return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(Date.from(now.toInstant()))
-            .setExpiration(Date.from(expirationDateTime.toInstant()))
-            .signWith(secretKey, SignatureAlgorithm.HS256)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(Date.from(now.toInstant()))
+                .setExpiration(Date.from(expirationDateTime.toInstant()))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     @Profile("test")
@@ -85,20 +87,20 @@ public class JwtToken {
         claims.put("authentication", Role.USER.toString());
         claims.put("email", user.getEmail());
         return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(Date.from(now.toInstant()))
-            .setExpiration(Date.from(expirationDateTime.toInstant()))
-            .signWith(secretKey, SignatureAlgorithm.HS256)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(Date.from(now.toInstant()))
+                .setExpiration(Date.from(expirationDateTime.toInstant()))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public Claims validateToken(String token) {
         try {
             return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
         } catch (ExpiredJwtException e) {
             throw new RuntimeHandler(HttpStatus.UNAUTHORIZED, "만료된 토큰 입니다.");
         } catch (JwtException e) {
@@ -115,7 +117,7 @@ public class JwtToken {
 
     private List<SimpleGrantedAuthority> getAuthorities(Claims claims) {
         return Collections.singletonList(
-            new SimpleGrantedAuthority(claims.get("authentication", String.class)));
+                new SimpleGrantedAuthority(claims.get("authentication", String.class)));
     }
 
     public String getEmail(String token) {

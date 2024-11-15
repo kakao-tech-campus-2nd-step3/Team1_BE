@@ -11,8 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,7 +22,7 @@ import team1.be.seamless.entity.enums.Role;
 
 @Entity(name = "userss")
 @EntityListeners(AuditingEntityListener.class)
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +37,7 @@ public class UserEntity extends BaseEntity{
     @Column
     private String picture;
 
-    @Enumerated(EnumType.STRING) // Enum 타입은 문자열 형태로 저장해야 함
+    @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
 

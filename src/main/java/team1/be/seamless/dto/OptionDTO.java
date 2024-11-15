@@ -1,7 +1,9 @@
 package team1.be.seamless.dto;
 
 import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
+
 import team1.be.seamless.util.page.PageParam;
 
 public class OptionDTO {
@@ -116,7 +118,7 @@ public class OptionDTO {
         }
 
         public OptionDetail(Long id, String name, String description, String optionType,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+                            LocalDateTime createdAt, LocalDateTime updatedAt) {
             this.id = id;
             this.name = name;
             this.description = description;

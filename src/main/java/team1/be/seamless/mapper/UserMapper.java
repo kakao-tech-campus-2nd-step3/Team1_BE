@@ -17,25 +17,25 @@ public class UserMapper {
     public UserEntity toUpdate(UserEntity entity, UserUpdate update) {
 
         return entity.update(
-            Util.isNull(update.getUsername()) ? entity.getName() : update.getUsername(),
-            Util.isNull(update.getPicture()) ? entity.getPicture() : update.getPicture()
+                Util.isNull(update.getUsername()) ? entity.getName() : update.getUsername(),
+                Util.isNull(update.getPicture()) ? entity.getPicture() : update.getPicture()
         );
     }
 
     public UserSimple toUserSimple(UserEntity entity) {
         return new UserSimple(
-            entity.getName(),
-            entity.getEmail(),
-            entity.getPicture()
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPicture()
         );
     }
 
     public UserDetails toUserDetails(UserEntity entity) {
         return new UserDetails(
-            entity.getName(),
-            entity.getEmail(),
-            entity.getPicture(),
-            entity.getRole().toString(),
-            entity.getCreatedAt());
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPicture(),
+                entity.getRole().toString(),
+                entity.getCreatedAt());
     }
 }

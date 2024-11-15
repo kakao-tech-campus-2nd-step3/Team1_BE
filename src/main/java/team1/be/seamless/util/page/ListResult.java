@@ -3,6 +3,7 @@ package team1.be.seamless.util.page;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import team1.be.seamless.util.errorException.BaseResult;
 
 public class ListResult<T> extends BaseResult {
@@ -30,7 +31,7 @@ public class ListResult<T> extends BaseResult {
     @Override
     public String toString() {
         return "ListResult{" +
-            "resultData=" + resultData +
-            '}';
+                "resultData=" + resultData +
+                '}';
     }
 }

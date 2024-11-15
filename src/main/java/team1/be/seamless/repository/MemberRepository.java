@@ -15,10 +15,10 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Page<MemberEntity> findAllByProjectEntityIdAndIsDeleteFalse(Long projectId, Pageable pageable);
 
     Optional<MemberEntity> findByProjectEntityIdAndEmailAndIsDeleteFalse(Long projectId,
-        String email);
+                                                                         String email);
 
     Optional<MemberEntity> findByProjectEntityIdAndIdAndIsDeleteFalse(Long projectId,
-        Long memberId);
+                                                                      Long memberId);
 
     Optional<MemberEntity> findByEmailAndIsDeleteFalse(String email);
 

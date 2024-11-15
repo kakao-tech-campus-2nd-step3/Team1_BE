@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.lenient;
 
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,6 @@ class TestServiceTest {
     @Mock
     private JwtToken jwtToken;
 
-    // Test data
     private final long id = 1L;
     private String name = "testUser";
 
@@ -48,24 +48,18 @@ class TestServiceTest {
 
     @Test
     void 테스트함수_조회_테스트() {
-        // given
-
-        // When
         TestEntity test = testService.getTest(id);
 
-        // Then
         assertEquals(name, test.getName());
     }
 
     @Test
     void 테스트함수_생성_테스트() {
-        // given
+
         TestDTO.create create = new create(name);
 
-        // When
         TestEntity test = testService.createTest(create);
 
-        // Then
         assertEquals(name, test.getName());
     }
 }

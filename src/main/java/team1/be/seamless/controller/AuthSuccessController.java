@@ -14,7 +14,7 @@ public class AuthSuccessController {
     private String returnURL;
 
     @Autowired
-    public AuthSuccessController(@Value("${Url.Url}")String returnURL) {
+    public AuthSuccessController(@Value("${Url.Url}") String returnURL) {
         this.returnURL = returnURL;
 //        TestUrl();
     }
@@ -22,13 +22,12 @@ public class AuthSuccessController {
     @GetMapping("/api/auth/success")
     public String redirectURL(HttpServletRequest request, RedirectAttributes redirectAttributes, @RequestParam("accessToken") String accessToken) {
         String referer = request.getHeader("Referer");
-        // accessToken 값을 URL 파라미터로 전달
         redirectAttributes.addAttribute("accessToken", accessToken);
-        return "redirect:"+returnURL+"/login";
+        return "redirect:" + returnURL + "/login";
     }
 
     @Profile("test")
-    public void TestUrl(){
-        returnURL="http://localhost:3000";
+    public void TestUrl() {
+        returnURL = "http://localhost:3000";
     }
 }

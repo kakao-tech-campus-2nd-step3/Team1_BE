@@ -29,7 +29,8 @@ public class MemberResponseDTO {
         this.email = email;
     }
 
-    public MemberResponseDTO() {}
+    public MemberResponseDTO() {
+    }
 
     public MemberResponseDTO(String message, String name, String role, String email,
                              String attendURL, Long id) {

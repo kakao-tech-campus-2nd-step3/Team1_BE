@@ -3,12 +3,15 @@ package team1.be.seamless.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -81,9 +84,9 @@ public class ProjectServiceTest {
         param = new ProjectDTO.getList();
 
         userEntity = new UserEntity(
-            "사용자1",
-            email,
-            "https://example.com/user1.jpg"
+                "사용자1",
+                email,
+                "https://example.com/user1.jpg"
         );
 
         optionEntity1 = new OptionEntity("옵션1", "옵션 설명1", "타입1");
@@ -94,55 +97,52 @@ public class ProjectServiceTest {
         projectOptions = List.of(projectOption1, projectOption2);
 
         projectEntity1 = new ProjectEntity(
-            "프로젝트1",
-            "프로젝트 설명1",
-            "https://example.com/project1.jpg",
-            userEntity,
-            projectOptions,
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0)
+                "프로젝트1",
+                "프로젝트 설명1",
+                "https://example.com/project1.jpg",
+                userEntity,
+                projectOptions,
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
 
         projectEntity2 = new ProjectEntity(
-            "프로젝트2",
-            "프로젝트 설명2",
-            "https://example.com/project2.jpg",
-            userEntity,
-            projectOptions,
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0)
+                "프로젝트2",
+                "프로젝트 설명2",
+                "https://example.com/project2.jpg",
+                userEntity,
+                projectOptions,
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
     }
 
     @Test
     void 프로젝트_리스트_페이지네이션_반환_검증() {
-        //Given
         Page<ProjectEntity> projects = new PageImpl<>(List.of(projectEntity1, projectEntity2));
         given(projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email)).willReturn(projects);
 
-        // When
         Page<ProjectDetail> result = projectService.getProjectList(param, email, role);
 
-        // Then
         assertThat(result).isNotNull();
         then(projectRepository).should().findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
     }
 
     @Test
     void 존재_하지_않는_프로젝트_조회_시_예외() {
-        // Given
+
         long projectId = 1L;
         given(projectRepository.findByIdAndIsDeletedFalse(projectId)).willReturn(Optional.empty());
 
-        // When / Then
+
         assertThatThrownBy(() -> projectService.getProject(projectId, email, role))
-            .isInstanceOf(BaseHandler.class);
+                .isInstanceOf(BaseHandler.class);
         then(projectRepository).should().findByIdAndIsDeletedFalse(projectId);
     }
 
     @Test
     void 프로젝트에_적용된_옵션들_조회() {
-        // Given
+
         long projectId = 1L;
         given(projectRepository.findByIdAndIsDeletedFalse(projectId)).willReturn(Optional.of(projectEntity1));
 
@@ -152,10 +152,8 @@ public class ProjectServiceTest {
         given(optionMapper.toDetail(optionEntity1)).willReturn(optionDetail1);
         given(optionMapper.toDetail(optionEntity2)).willReturn(optionDetail2);
 
-        // When
         List<OptionDetail> result = projectService.getProjectOptions(projectId, email, role);
 
-        // Then
         assertThat(result).isNotNull();
         then(projectRepository).should().findByIdAndIsDeletedFalse(projectId);
         then(optionMapper).should().toDetail(optionEntity1);
@@ -164,7 +162,6 @@ public class ProjectServiceTest {
 
     @Test
     void 프로젝트_기간_조회() {
-        //Given
         Page<ProjectEntity> projects = new PageImpl<>(List.of(projectEntity1, projectEntity2));
         given(projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email)).willReturn(projects);
 
@@ -173,10 +170,8 @@ public class ProjectServiceTest {
         given(projectMapper.toDate(projectEntity1)).willReturn(projectDate1);
         given(projectMapper.toDate(projectEntity2)).willReturn(projectDate2);
 
-        // When
         Page<ProjectDate> result = projectService.getProjectDate(param, email, role);
 
-        // Then
         assertThat(result).isNotNull();
         then(projectRepository).should().findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email);
     }
@@ -184,14 +179,13 @@ public class ProjectServiceTest {
 
     @Test
     void createProject_생성_성공() {
-        // Given
         ProjectDTO.ProjectCreate create = new ProjectDTO.ProjectCreate(
-            "프로젝트1",
-            "프로젝트 설명1",
-            "https://example.com/project1.jpg",
-            List.of(1L, 2L),
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0)
+                "프로젝트1",
+                "프로젝트 설명1",
+                "https://example.com/project1.jpg",
+                List.of(1L, 2L),
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
 
         given(userRepository.findByEmailAndIsDeleteFalse(email)).willReturn(Optional.of(userEntity));
@@ -206,22 +200,20 @@ public class ProjectServiceTest {
         given(projectRepository.save(projectEntity1)).willReturn(projectEntity1);
 
         ProjectDTO.ProjectDetail projectDetail = new ProjectDTO.ProjectDetail(
-            1L,
-            "프로젝트1",
-            "프로젝트 설명1",
-            "https://example.com/project1.jpg",
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0),
-            List.of(1L, 2L),
-            0,
-            null
+                1L,
+                "프로젝트1",
+                "프로젝트 설명1",
+                "https://example.com/project1.jpg",
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0),
+                List.of(1L, 2L),
+                0,
+                null
         );
         given(projectMapper.toDetail(projectEntity1)).willReturn(projectDetail);
 
-        // When
         ProjectDTO.ProjectDetail result = projectService.createProject(create, email, role);
 
-        // Then
         assertThat(result).isEqualTo(projectDetail);
         then(userRepository).should().findByEmailAndIsDeleteFalse(email);
         then(optionRepository).should().findByIdIn(create.getOptionIds());
@@ -230,14 +222,13 @@ public class ProjectServiceTest {
 
     @Test
     void 프로젝트_수정_검증() {
-        // Given
         ProjectDTO.ProjectUpdate update = new ProjectDTO.ProjectUpdate(
-            "프로젝트2",
-            "프로젝트 설명2",
-            "https://example.com/project2.jpg",
-            List.of(1L, 2L),
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0)
+                "프로젝트2",
+                "프로젝트 설명2",
+                "https://example.com/project2.jpg",
+                List.of(1L, 2L),
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
 
         given(optionRepository.findById(1L)).willReturn(Optional.of(optionEntity1));
@@ -246,15 +237,15 @@ public class ProjectServiceTest {
         given(optionRepository.findByIdIn(update.getOptionIds())).willReturn(List.of(optionEntity1, optionEntity2));
 
         ProjectDTO.ProjectDetail projectDetail = new ProjectDTO.ProjectDetail(
-            1L,
-            "프로젝트2",
-            "프로젝트 설명2",
-            "https://example.com/project2.jpg",
-            LocalDateTime.of(2024,11,21,0,0,0),
-            LocalDateTime.of(2025,11,21,0,0,0),
-            List.of(1L, 2L),
-            0,
-            null
+                1L,
+                "프로젝트2",
+                "프로젝트 설명2",
+                "https://example.com/project2.jpg",
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0),
+                List.of(1L, 2L),
+                0,
+                null
         );
 
         given(projectRepository.findByIdAndIsDeletedFalse(1L)).willReturn(Optional.of(projectEntity1));
@@ -263,10 +254,8 @@ public class ProjectServiceTest {
 
         given(projectMapper.toDetail(any(ProjectEntity.class))).willReturn(projectDetail);
 
-        // When
         ProjectDTO.ProjectDetail result = projectService.updateProject(1L, update, email, role);
 
-        // Then
         assertThat(result).isEqualTo(projectDetail);
         assertThat(result.getName()).isEqualTo("프로젝트2");
         assertThat(result.getDescription()).isEqualTo("프로젝트 설명2");
@@ -277,7 +266,7 @@ public class ProjectServiceTest {
 
     @Test
     void 프로젝트_삭제_검증() {
-        // Given
+
         long projectId = 1L;
 
         projectEntity1.setId(projectId);
@@ -285,10 +274,8 @@ public class ProjectServiceTest {
 
         given(projectRepository.findByIdAndIsDeletedFalse(projectId)).willReturn(Optional.of(projectEntity1));
 
-        // When
         Long result = projectService.deleteProject(projectId, email, role);
 
-        // Then
         assertThat(result).isEqualTo(projectId);
         assertThat(projectEntity1.getIsDeleted()).isTrue();
         then(projectRepository).should().findByIdAndIsDeletedFalse(projectId);

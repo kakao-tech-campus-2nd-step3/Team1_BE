@@ -31,10 +31,10 @@ class AttendURLServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Mock 객체 초기화
+        MockitoAnnotations.openMocks(this);
     }
 
-    @Test // 참여 URL이 정상적으로 생성되는지 검증
+    @Test
     void 참여_URL_생성_성공() {
         String email = "test@example.com";
         String role = Role.USER.toString();
@@ -56,7 +56,7 @@ class AttendURLServiceTest {
         verify(aesEncrypt, times(1)).encrypt(anyString());
     }
 
-    @Test // 프로젝트가 존재하지 않을 때 예외가 발생하는지 검증
+    @Test
     void 프로젝트_존재하지_않음_예외() {
 
         String email = "test@example.com";
@@ -73,7 +73,7 @@ class AttendURLServiceTest {
         assertEquals("프로젝트가 존재하지 않음", exception.getReason());
     }
 
-    @Test // 프로젝트가 종료된 경우 예외가 발생하는지 검증
+    @Test
     void 프로젝트_종료됨_예외() {
 
         String email = "test@example.com";
@@ -82,7 +82,7 @@ class AttendURLServiceTest {
 
         ProjectEntity project = new ProjectEntity();
         project.setId(projectId);
-        project.setEndDate(LocalDateTime.now().minusDays(1)); // 종료 설정임ㅇㅇ
+        project.setEndDate(LocalDateTime.now().minusDays(1));
 
         when(projectRepository.findByIdAndUserEntityEmailAndIsDeletedFalse(projectId, email))
                 .thenReturn(Optional.of(project));
@@ -94,11 +94,11 @@ class AttendURLServiceTest {
         assertEquals("프로젝트는 종료되었습니다.", exception.getReason());
     }
 
-    @Test // 권한이 없는 경우 예외가 발생하는지 검증
+    @Test
     void 권한_없음_예외() {
 
         String email = "test@example.com";
-        String role = Role.MEMBER.toString(); // 팀원은 노권한임
+        String role = Role.MEMBER.toString();
         Long projectId = 1L;
 
         ProjectEntity project = new ProjectEntity();

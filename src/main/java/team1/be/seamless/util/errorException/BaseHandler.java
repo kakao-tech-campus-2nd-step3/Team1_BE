@@ -18,12 +18,12 @@ public class BaseHandler extends ResponseStatusException {
     }
 
     public BaseHandler(HttpStatusCode status, String reason,
-        Throwable cause) {
+                       Throwable cause) {
         super(status, reason, cause);
     }
 
     public BaseHandler(HttpStatusCode status, String reason,
-        Throwable cause, String messageDetailCode, Object[] messageDetailArguments) {
+                       Throwable cause, String messageDetailCode, Object[] messageDetailArguments) {
         super(status, reason, cause, messageDetailCode, messageDetailArguments);
     }
 }

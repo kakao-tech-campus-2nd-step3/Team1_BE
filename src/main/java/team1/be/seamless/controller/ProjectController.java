@@ -66,16 +66,16 @@ public class ProjectController {
     @Operation(summary = "프로젝트 생성")
     @PostMapping
     public SingleResult<ProjectDetail> createProject(
-        @Valid @RequestBody ProjectDTO.ProjectCreate create, HttpServletRequest req) {
+            @Valid @RequestBody ProjectDTO.ProjectCreate create, HttpServletRequest req) {
         return new SingleResult<>(projectService.createProject(create, parsingParam.getEmail(req), parsingParam.getRole(req)));
     }
 
     @Operation(summary = "프로젝트 설정 수정")
     @PutMapping("/{projectId}")
     public SingleResult<ProjectDetail> updateProject(
-        @Valid @RequestBody ProjectDTO.ProjectUpdate update,
-        @PathVariable("projectId") Long id,
-        HttpServletRequest req) {
+            @Valid @RequestBody ProjectDTO.ProjectUpdate update,
+            @PathVariable("projectId") Long id,
+            HttpServletRequest req) {
         return new SingleResult<>(projectService.updateProject(id, update, parsingParam.getEmail(req), parsingParam.getRole(req)));
     }
 

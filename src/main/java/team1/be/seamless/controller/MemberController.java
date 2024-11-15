@@ -38,54 +38,54 @@ public class MemberController {
     @Operation(summary = "팀원 본인 조회")
     @GetMapping("/me")
     public SingleResult<MemberResponseDTO> getMyMember(
-        @Valid @PathVariable("projectId") Long projectId,
-        HttpServletRequest req) {
+            @Valid @PathVariable("projectId") Long projectId,
+            HttpServletRequest req) {
         return new SingleResult<>(memberService.getMyMember(projectId, parsingParam.getEmail(req), parsingParam.getRole(req)));
     }
 
     @Operation(summary = "팀원 개별 조회")
     @GetMapping("/{memberId}")
     public SingleResult<MemberResponseDTO> getMember(
-        @Valid @PathVariable("projectId") Long projectId,
-        @Valid @PathVariable("memberId") Long memberId,
-        HttpServletRequest req) {
+            @Valid @PathVariable("projectId") Long projectId,
+            @Valid @PathVariable("memberId") Long memberId,
+            HttpServletRequest req) {
         return new SingleResult<>(memberService.getMember(projectId, memberId, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "팀원 전체 조회")
     @GetMapping
     public PageResult<MemberResponseDTO> getMemberList(
-        @Valid @PathVariable("projectId") Long projectId,
-        HttpServletRequest req,
-        @Valid MemberRequestDTO.getMemberList memberListRequestDTO) {
+            @Valid @PathVariable("projectId") Long projectId,
+            HttpServletRequest req,
+            @Valid MemberRequestDTO.getMemberList memberListRequestDTO) {
         return PageMapper.toPageResult(
-            memberService.getMemberList(projectId, memberListRequestDTO, parsingParam.getRole(req)));
+                memberService.getMemberList(projectId, memberListRequestDTO, parsingParam.getRole(req)));
     }
 
 
     @Operation(summary = "새 팀원 추가")
     @PostMapping
     public SingleResult<MemberResponseDTO> createMember(
-        @Valid @RequestBody MemberRequestDTO.CreateMember Create) {
+            @Valid @RequestBody MemberRequestDTO.CreateMember Create) {
         return new SingleResult<>(memberService.createMember(Create));
     }
 
     @Operation(summary = "팀원 정보 수정")
     @PutMapping("/{memberId}")
     public SingleResult<MemberResponseDTO> updateMember(
-        @PathVariable("projectId") Long projectId,
-        @PathVariable("memberId") Long memberId,
-        @RequestBody MemberRequestDTO.UpdateMember update,
-        HttpServletRequest req) {
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("memberId") Long memberId,
+            @RequestBody MemberRequestDTO.UpdateMember update,
+            HttpServletRequest req) {
         return new SingleResult<>(memberService.updateMember(projectId, memberId, update, parsingParam.getRole(req)));
     }
 
     @Operation(summary = "팀원 삭제")
     @DeleteMapping("/{memberId}")
     public SingleResult<MemberResponseDTO> deleteMember(
-        @PathVariable("projectId") Long projectId,
-        @PathVariable("memberId") Long memberId,
-        HttpServletRequest req) {
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("memberId") Long memberId,
+            HttpServletRequest req) {
         return new SingleResult<>(memberService.deleteMember(projectId, memberId, parsingParam.getRole(req)));
     }
 }

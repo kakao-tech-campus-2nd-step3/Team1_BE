@@ -52,7 +52,7 @@ public class TaskService {
     public Page<TaskWithOwnerDetail> getTaskList(Long projectId, String status, String priority, Long ownerId, getList param) {
 
         Page<TaskEntity> taskEntities = taskRepository.findByProjectIdAndOptionalFilters(
-            projectId, status, priority, ownerId, param.toPageable());
+                projectId, status, priority, ownerId, param.toPageable());
 
         return new PageImpl<>(
                 taskEntities.stream()
@@ -77,19 +77,19 @@ public class TaskService {
         String description;
 
         switch (average / 25) {
-            case 0: // 0~25
+            case 0:
                 growthLevel = "새싹";
                 description = "아직 새싹이네요. 본격적으로 프로젝트를 시작해볼까요?";
                 break;
-            case 1: // 26~50
+            case 1:
                 growthLevel = "묘목";
                 description = "나무가 자라기 시작했어요. 팀원들과 함께 나무를 열심히 키워봐요!";
                 break;
-            case 2: // 51~75
+            case 2:
                 growthLevel = "어린 나무";
                 description = "나무가 자라고 있어요. 프로젝트에 더욱더 박차를 가해봐요!";
                 break;
-            case 3: // 76~100
+            case 3:
                 growthLevel = "성장한 나무";
                 description = "나무가 거의 다 자랐어요. 프로젝트 마무리까지 화이팅!";
                 break;
@@ -104,10 +104,8 @@ public class TaskService {
         ProjectEntity project = projectRepository.findByIdAndIsDeletedFalse(projectId)
                 .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
-//        결과를 담을 리스트
         List<MemberProgress> teamMemberProgress = new ArrayList<>();
 
-//        삭제되지 않음 멤버들
         List<MemberEntity> memberEntities = project.getMemberEntities().stream()
                 .filter(member -> Boolean.FALSE.equals(member.getIsDelete())).toList();
 
@@ -115,7 +113,6 @@ public class TaskService {
             return new PageImpl<>(teamMemberProgress, param.toPageable(), 0);
         }
 
-//        페이지에 해당하는 멤버들만 순회해서 연산의 수를 감소
         int start;
 
         if (param.getPage() * param.getSize() >= memberEntities.size()) {
@@ -128,13 +125,12 @@ public class TaskService {
                 Math.min((start + param.getSize()), project.getMemberEntities().size()))) {
             List<TaskEntity> tasks = new ArrayList<>();
             for (TaskEntity task : project.getTaskEntities()) {
-//                   태스크가 삭제되지 않았고, 해당 테스크의 담당이라면
+
                 if (Boolean.FALSE.equals(task.getIsDeleted()) && task.getOwner().equals(member)) {
                     tasks.add(task);
                 }
             }
 
-//               해당 멤버의 프로그레스의 평균을 사용
             teamMemberProgress.add(new MemberProgress(
                     member
                     , (int) Math.round(tasks.stream()
@@ -152,8 +148,8 @@ public class TaskService {
                 .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
         if (Role.MEMBER.isRole(role)) {
-            if(!project.getMemberEntities().stream()
-                    .anyMatch(memberEntity -> memberEntity.getEmail().equals(email) && Boolean.FALSE.equals(memberEntity.getIsDelete()))){
+            if (!project.getMemberEntities().stream()
+                    .anyMatch(memberEntity -> memberEntity.getEmail().equals(email) && Boolean.FALSE.equals(memberEntity.getIsDelete()))) {
                 throw new BaseHandler(HttpStatus.UNAUTHORIZED, "해당 프로젝트에 소속되어 있지 않습니다.");
             }
 
@@ -164,14 +160,13 @@ public class TaskService {
             }
         }
 
-        //        태스크의 일정 검증
         if (project.getStartDate().isAfter(taskCreate.getStartDate()) || project.getEndDate()
                 .isBefore(taskCreate.getEndDate())) {
             throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
-        MemberEntity member=null;
-        if (taskCreate.getOwnerId()!=null){
+        MemberEntity member = null;
+        if (taskCreate.getOwnerId() != null) {
             member = memberRepository.findByIdAndIsDeleteFalse(taskCreate.getOwnerId())
                     .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
         }
@@ -184,14 +179,12 @@ public class TaskService {
     }
 
     @Profile("test")
-    // 테스트용 오버로딩
     public TaskDetail createTask(Long projectId, TaskCreate taskCreate) {
 
         ProjectEntity project = projectRepository.findByIdAndIsDeletedFalse(
-                projectId)
+                        projectId)
                 .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트"));
 
-//        태스크의 일정 검증
         if (project.getStartDate().isAfter(taskCreate.getStartDate()) || project.getEndDate()
                 .isBefore(taskCreate.getEndDate())) {
             throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
@@ -212,29 +205,25 @@ public class TaskService {
         TaskEntity task = taskRepository.findByIdAndIsDeletedFalse(taskId)
                 .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 태스크"));
 
-//        태스크의 일정 검증
         if (task.getProject().getStartDate().isAfter(update.getStartDate()) || task.getProject()
                 .getEndDate().isBefore(update.getEndDate())) {
             throw new BaseHandler(HttpStatus.BAD_REQUEST, "태스크는 프로젝트의 기한을 넘어설 수 없습니다.");
         }
 
-//        수정 권한이 있는지 검증
-//        팀장
         if (Role.USER.isRole(role)) {
             if (!task.getProject().getUserEntity().getEmail().equals(email)) {
                 throw new BaseHandler(HttpStatus.UNAUTHORIZED, "태스크 수정 권한이 없습니다.");
             }
-//            멤버 변경
-            if (update.getOwnerId()==null){
+            if (update.getOwnerId() == null) {
                 task.setOwner(null);
-            }else{
+            } else {
                 MemberEntity member = memberRepository.findByIdAndIsDeleteFalse(update.getOwnerId())
                         .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "존재하지 않는 멤버"));
 
                 task.setOwner(member);
             }
         }
-//        팀원
+
         if (Role.MEMBER.isRole(role)) {
             if (!task.getOwner().getEmail().equals(email)) {
                 throw new BaseHandler(HttpStatus.UNAUTHORIZED, "태스크 수정 권한이 없습니다.");

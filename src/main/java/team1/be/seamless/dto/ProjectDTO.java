@@ -7,10 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.hibernate.validator.constraints.URL;
 import team1.be.seamless.util.page.PageParam;
 
@@ -31,7 +33,7 @@ public class ProjectDTO {
 
         @URL(message = "URL 형식으로 입력해주세요.")
         @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)$",
-            message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
+                message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
         private String imageURL;
 
         @NotNull
@@ -48,12 +50,12 @@ public class ProjectDTO {
         }
 
         public ProjectCreate(
-            String name,
-            String description,
-            String imageURL,
-            List<Long> optionIds,
-            LocalDateTime startDate,
-            LocalDateTime endDate) {
+                String name,
+                String description,
+                String imageURL,
+                List<Long> optionIds,
+                LocalDateTime startDate,
+                LocalDateTime endDate) {
             this.name = name;
             this.description = description;
             this.imageURL = imageURL;
@@ -109,7 +111,7 @@ public class ProjectDTO {
 
         @URL(message = "URL 형식으로 입력해주세요.")
         @Pattern(regexp = "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)$",
-            message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
+                message = "이미지 URL은 .jpg, .jpeg, .png, .gif, .bmp, .webp 형식이어야 합니다.")
         private String imageURL;
 
         @NotNull
@@ -124,12 +126,12 @@ public class ProjectDTO {
         }
 
         public ProjectUpdate(
-            String name,
-            String description,
-            String imageURL,
-            List<Long> optionIds,
-            LocalDateTime startDate,
-            LocalDateTime endDate) {
+                String name,
+                String description,
+                String imageURL,
+                List<Long> optionIds,
+                LocalDateTime startDate,
+                LocalDateTime endDate) {
             this.name = name;
             this.description = description;
             this.imageURL = imageURL;
@@ -237,15 +239,15 @@ public class ProjectDTO {
 
 
         public ProjectDetail(
-            Long id,
-            String name,
-            String description,
-            String imageURL,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            List<Long> optionIds,
-            int totalMembers,
-            ProjectManager projectManager
+                Long id,
+                String name,
+                String description,
+                String imageURL,
+                LocalDateTime startDate,
+                LocalDateTime endDate,
+                List<Long> optionIds,
+                int totalMembers,
+                ProjectManager projectManager
         ) {
             this.id = id;
             this.name = name;

@@ -13,11 +13,11 @@ public class MemberMapper {
     public MemberEntity toEntity(CreateMember create, ProjectEntity project) {
 
         return new MemberEntity(
-            create.getName(),
-            "팀원",
-            create.getEmail(),
-            "",
-            project
+                create.getName(),
+                "팀원",
+                create.getEmail(),
+                "",
+                project
         );
     }
 
@@ -31,36 +31,36 @@ public class MemberMapper {
 
     public MemberResponseDTO toGetResponseDTO(MemberEntity memberEntity) {
         return new MemberResponseDTO("성공적으로 조회되었습니다.",
-            memberEntity.getName(),
-            memberEntity.getRole(),
-            memberEntity.getEmail(),
-            memberEntity.getId()
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail(),
+                memberEntity.getId()
         );
     }
 
     public MemberResponseDTO toDeleteResponseDTO(MemberEntity memberEntity) {
         return new MemberResponseDTO("성공적으로 삭제되었습니다.",
-            memberEntity.getName(),
-            memberEntity.getRole(),
-            memberEntity.getEmail(),
-            memberEntity.getId());
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail(),
+                memberEntity.getId());
     }
 
     public MemberResponseDTO toCreateResponseDTO(MemberEntity memberEntity, String attendURL) {
         return new MemberResponseDTO("성공적으로 생성되었습니다.",
-            memberEntity.getName(),
-            memberEntity.getRole(),
-            memberEntity.getEmail(),
-            attendURL,
-            memberEntity.getId());
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail(),
+                attendURL,
+                memberEntity.getId());
     }
 
     public MemberResponseDTO toPutResponseDTO(MemberEntity memberEntity) {
         return new MemberResponseDTO("성공적으로 수정되었습니다.",
-            memberEntity.getName(),
-            memberEntity.getRole(),
-            memberEntity.getEmail(),
-            memberEntity.getId());
+                memberEntity.getName(),
+                memberEntity.getRole(),
+                memberEntity.getEmail(),
+                memberEntity.getId());
     }
 
 }

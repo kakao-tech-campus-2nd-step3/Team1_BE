@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,8 @@ public class ProjectService {
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository, UserRepository userRepository,
-        ProjectOptionRepository projectOptionRepository,
-        OptionRepository optionRepository, ProjectMapper projectMapper, OptionMapper optionMapper) {
+                          ProjectOptionRepository projectOptionRepository,
+                          OptionRepository optionRepository, ProjectMapper projectMapper, OptionMapper optionMapper) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.optionRepository = optionRepository;
@@ -59,7 +60,6 @@ public class ProjectService {
      * false인 프로젝트를 페이지네이션 형식으로 반환
      */
     public Page<ProjectDetail> getProjectList(ProjectDTO.getList param, String email, String role) {
-        //USER만 권한 존재
         validateRole(role);
 
         return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email).map(projectMapper::toDetail);
@@ -72,7 +72,7 @@ public class ProjectService {
      */
     public ProjectDetail getProject(long projectId, String email, String role) {
         ProjectEntity projectEntity = projectRepository.findByIdAndIsDeletedFalse(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
         return projectMapper.toDetail(projectEntity);
     }
@@ -82,16 +82,15 @@ public class ProjectService {
      * @return : 해당 id를 가진 프로젝트에 설정된 옵션 목록
      */
     public List<OptionDetail> getProjectOptions(long projectId, String email, String role) {
-        //USER만 권한 존재
         validateRole(role);
 
         ProjectEntity projectEntity = projectRepository.findByIdAndIsDeletedFalse(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
         validateProjectOwner(projectEntity, email);
 
         return projectEntity.getProjectOptions().stream()
-            .map(projectOption -> optionMapper.toDetail(projectOption.getOptionEntity())).toList();
+                .map(projectOption -> optionMapper.toDetail(projectOption.getOptionEntity())).toList();
     }
 
     /**
@@ -100,7 +99,6 @@ public class ProjectService {
      * @return : 프로젝트의 Id, name, startDate, endDate 정보를 페이지네이션
      */
     public Page<ProjectDate> getProjectDate(ProjectDTO.getList param, String email, String role) {
-        //USER만 권한 존재
         validateRole(role);
 
         return projectRepository.findAllByUserEntityEmailAndIsDeletedFalse(param.toPageable(), email).map(projectMapper::toDate);
@@ -115,17 +113,16 @@ public class ProjectService {
      */
     @Transactional
     public ProjectDetail createProject(ProjectCreate create, String email, String role) {
-        //USER만 권한 존재
         validateRole(role);
 
-        //token의 이메일 정보를 통해 사용자 검증
-        UserEntity userEntity = userRepository.findByEmailAndIsDeleteFalse(email)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "사용자가 존재하지 않음"));
 
-        //옵션이 존재 하는지
+        UserEntity userEntity = userRepository.findByEmailAndIsDeleteFalse(email)
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "사용자가 존재하지 않음"));
+
+
         create.getOptionIds()
-            .forEach(id -> optionRepository.findById(id)
-                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 옵션이 존재하지 않음")));
+                .forEach(id -> optionRepository.findById(id)
+                        .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 옵션이 존재하지 않음")));
 
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(create.getOptionIds());
 
@@ -146,23 +143,23 @@ public class ProjectService {
      */
     @Transactional
     public ProjectDetail updateProject(long projectId, ProjectUpdate update, String email, String role) {
-        //USER만 권한 존재
+
         validateRole(role);
 
         ProjectEntity projectEntity = projectRepository.findByIdAndIsDeletedFalse(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
         validateProjectOwner(projectEntity, email);
 
-        // 기존 옵션 삭제
+
         projectOptionRepository.deleteByProjectEntity(projectEntity);
 
-        //옵션이 존재 하는지
-        update.getOptionIds()
-            .forEach(id -> optionRepository.findById(id).
-                orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 옵션이 존재하지 않음")));
 
-        // 새로운 옵션 추가
+        update.getOptionIds()
+                .forEach(id -> optionRepository.findById(id).
+                        orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 옵션이 존재하지 않음")));
+
+
         List<OptionEntity> optionEntities = optionRepository.findByIdIn(update.getOptionIds());
         List<ProjectOptionEntity> newProjectOptionEntities = new ArrayList<>();
 
@@ -171,17 +168,17 @@ public class ProjectService {
             newProjectOptionEntities.add(projectOptionEntity);
         }
 
-        //종료일이 가장 늦은 태스크보다 종료일을 이전으로 업데이드 하면 안됨
+
         projectEntity.getTaskEntities().stream()
-            .filter(taskEntity -> taskEntity.getIsDeleted().equals(false))
-            .map(TaskEntity::getEndDate)
-            .max(Comparator.naturalOrder())
-            .ifPresent(lastEndDate -> {
-                if (lastEndDate.isAfter(update.getEndDate())) {
-                    throw new BaseHandler(HttpStatus.BAD_REQUEST,
-                        "변경하려는 프로젝트의 종료일은 현재 태스크의 가장 늦은 종료일 보다 이릅니다.");
-                }
-            });
+                .filter(taskEntity -> taskEntity.getIsDeleted().equals(false))
+                .map(TaskEntity::getEndDate)
+                .max(Comparator.naturalOrder())
+                .ifPresent(lastEndDate -> {
+                    if (lastEndDate.isAfter(update.getEndDate())) {
+                        throw new BaseHandler(HttpStatus.BAD_REQUEST,
+                                "변경하려는 프로젝트의 종료일은 현재 태스크의 가장 늦은 종료일 보다 이릅니다.");
+                    }
+                });
 
         projectMapper.toUpdate(projectEntity, update, newProjectOptionEntities);
 
@@ -194,11 +191,11 @@ public class ProjectService {
      */
     @Transactional
     public Long deleteProject(long projectId, String email, String role) {
-        //USER만 권한 존재
+
         validateRole(role);
 
         ProjectEntity projectEntity = projectRepository.findByIdAndIsDeletedFalse(projectId)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "프로젝트가 존재하지 않음"));
 
         validateProjectOwner(projectEntity, email);
 
@@ -213,7 +210,7 @@ public class ProjectService {
     }
 
     private void validateProjectOwner(ProjectEntity projectEntity, String email) {
-        if(!projectEntity.getUserEntity().getEmail().equals(email)) {
+        if (!projectEntity.getUserEntity().getEmail().equals(email)) {
             throw new BaseHandler(HttpStatus.FORBIDDEN, "해당 프로젝트의 관라자만 권한이 존재 합니다.");
         }
     }

@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,9 +76,9 @@ public class ProgressServiceTest {
         role = Role.USER.getKey();
 
         userEntity = new UserEntity(
-            "사용자1",
-            email,
-            "https://example.com/user1.jpg"
+                "사용자1",
+                email,
+                "https://example.com/user1.jpg"
         );
 
         optionEntity1 = new OptionEntity("옵션1", "옵션 설명1", "타입1");
@@ -88,48 +89,44 @@ public class ProgressServiceTest {
         projectOptions = List.of(projectOption1, projectOption2);
 
         projectEntity = new ProjectEntity(
-            "프로젝트1",
-            "프로젝트 설명1",
-            "https://example.com/project1.jpg",
-            userEntity,
-            projectOptions,
-            LocalDateTime.of(2024, 11, 21, 0, 0, 0),
-            LocalDateTime.of(2025, 11, 21, 0, 0, 0)
+                "프로젝트1",
+                "프로젝트 설명1",
+                "https://example.com/project1.jpg",
+                userEntity,
+                projectOptions,
+                LocalDateTime.of(2024, 11, 21, 0, 0, 0),
+                LocalDateTime.of(2025, 11, 21, 0, 0, 0)
         );
 
         memberEntity = new MemberEntity("멤버 1", "MEMBER", "member1@gmail.com", "member1.jpeg",
-            projectEntity);
+                projectEntity);
 
         taskEntity1 = new TaskEntity("태스크 1", "첫번째 태스크 입니다.", Priority.HIGH, projectEntity,
-            memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
-            LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
+                memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
+                LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
 
         taskEntity2 = new TaskEntity("태스크 2", "두번째 태스크 입니다.", Priority.HIGH, projectEntity,
-            memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
-            LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
+                memberEntity, LocalDateTime.of(2024, 10, 10, 0, 0),
+                LocalDateTime.of(2024, 11, 11, 0, 0), 50, TaskStatus.IN_PROGRESS);
     }
 
     @Test
     void 프로젝트_진행도_조회_성공() {
-        // Given
         Page<TaskEntity> tasks = new PageImpl<>(List.of(taskEntity1, taskEntity2));
         taskParam = new getList();
 
         when(taskRepository.findAllByProjectEntityIdAndIsDeletedFalse(any(Long.class), eq(taskParam.toPageable()))).thenReturn(tasks);
 
-        // When
         ProjectProgress result = taskService.getProjectProgress(1L, taskParam);
 
-        // Then
         assertThat(result).isNotNull();
         verify(taskRepository, times(1)).findAllByProjectEntityIdAndIsDeletedFalse(
-            1L, taskParam.toPageable());
+                1L, taskParam.toPageable());
 
     }
 
     @Test
     void 팀원별_진행도_및_태스크_리스트_조회() {
-        // Given
         taskParam = new getList();
         taskParam.setPage(0);
         taskParam.setSize(10);
@@ -138,13 +135,11 @@ public class ProgressServiceTest {
 
         when(projectRepository.findByIdAndIsDeletedFalse(1L)).thenReturn(Optional.of(projectEntity));
 
-        // When
         Page<MemberProgress> result = taskService.getMemberProgress(1L, taskParam);
 
-        // Then
         assertThat(result).isNotNull();
-        assertThat(result.getContent()).hasSize(1); // 멤버가 한 명인 경우
-        assertThat(result.getContent().get(0).getProgress()).isEqualTo(50); // 진행도 평균 계산
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent().get(0).getProgress()).isEqualTo(50);
         verify(projectRepository).findByIdAndIsDeletedFalse(1L);
     }
 }

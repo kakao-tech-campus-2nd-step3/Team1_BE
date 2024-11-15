@@ -30,7 +30,6 @@ public class TaskDTO {
 
         private String description;
 
-//        @NotNull(message = "멤버 아이디는 필수 입력 사항입니다.")
         private Long ownerId;
 
         @NotNull(message = "진행 상태(status)는 필수 입력 사항입니다.")
@@ -52,7 +51,7 @@ public class TaskDTO {
         private LocalDateTime endDate;
 
         public TaskCreate(String name, String description, Long ownerId, LocalDateTime startDate,
-            LocalDateTime endDate, Priority priority, TaskStatus taskStatus, Integer progress) {
+                          LocalDateTime endDate, Priority priority, TaskStatus taskStatus, Integer progress) {
             if (endDate.isBefore(startDate)) {
                 throw new BaseHandler(HttpStatus.BAD_REQUEST, "종료시간은 시작시간보다 이전일 수 없습니다.");
             }
@@ -123,8 +122,8 @@ public class TaskDTO {
         private LocalDateTime endDate;
 
         public TaskUpdate(String name, String description, Integer progress, Long ownerId,
-            LocalDateTime startDate,
-            LocalDateTime endDate, Priority priority, TaskStatus taskStatus) {
+                          LocalDateTime startDate,
+                          LocalDateTime endDate, Priority priority, TaskStatus taskStatus) {
             if (endDate.isBefore(startDate)) {
                 throw new BaseHandler(HttpStatus.BAD_REQUEST, "종료시간은 시작시간보다 이전일 수 없습니다.");
             }
@@ -192,8 +191,8 @@ public class TaskDTO {
         private TaskStatus taskStatus;
 
         public TaskDetail(Long id, String name, String description, Long ownerId, Integer progress,
-            LocalDateTime startDate, LocalDateTime endDate, Priority priority,
-            TaskStatus taskStatus) {
+                          LocalDateTime startDate, LocalDateTime endDate, Priority priority,
+                          TaskStatus taskStatus) {
             this.id = id;
             this.name = name;
             this.description = description;
@@ -275,9 +274,9 @@ public class TaskDTO {
         private TaskStatus taskStatus;
 
         public TaskWithOwnerDetail(Long id, String name, String description, MemberEntity owner,
-            Integer progress,
-            LocalDateTime startDate, LocalDateTime endDate, Priority priority,
-            TaskStatus taskStatus) {
+                                   Integer progress,
+                                   LocalDateTime startDate, LocalDateTime endDate, Priority priority,
+                                   TaskStatus taskStatus) {
             this.id = id;
             this.name = name;
             this.description = description;
@@ -371,7 +370,7 @@ public class TaskDTO {
         private String description;
 
         public ProjectProgress(Long projectId, Integer projectProgress, String treeGrowthStage,
-            String description) {
+                               String description) {
             this.projectId = projectId;
             this.projectProgress = projectProgress;
             this.treeGrowthStage = treeGrowthStage;
@@ -404,11 +403,11 @@ public class TaskDTO {
         private List<TaskDetail> activeTasks;
 
         public MemberProgress(MemberEntity teamMember, Integer progress,
-            List<TaskEntity> activeTasks) {
+                              List<TaskEntity> activeTasks) {
             this.teamMember = new OwnerDetail(teamMember);
             this.progress = progress;
             this.activeTasks = activeTasks.stream().map(TaskDetail::new)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
         }
 
         public OwnerDetail getTeamMember() {

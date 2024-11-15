@@ -31,7 +31,7 @@ public class UserService {
             throw new BaseHandler(HttpStatus.UNAUTHORIZED, "조회 권한이 없습니다.");
         }
         UserEntity user = userRepository.findByEmailAndIsDeleteFalse(email)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
         return userMapper.toUserDetails(user);
     }
 
@@ -42,7 +42,7 @@ public class UserService {
         }
 
         UserEntity user = userRepository.findByEmailAndIsDeleteFalse(email)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
         userMapper.toUpdate(user, update);
 
@@ -56,7 +56,7 @@ public class UserService {
         }
 
         UserEntity user = userRepository.findByEmailAndIsDeleteFalse(email)
-            .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new BaseHandler(HttpStatus.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
 
         user.setIsDelete();
 
@@ -67,11 +67,11 @@ public class UserService {
     @Transactional
     public UserEntity createUser(UserSimple simple) {
         return userRepository.findByEmailAndIsDeleteFalse(simple.getEmail())
-            .orElseGet(() -> userRepository.save(
-                userMapper.toEntity(
-                    simple.getUsername(),
-                    simple.getEmail(),
-                    simple.getPicture()
-                )));
+                .orElseGet(() -> userRepository.save(
+                        userMapper.toEntity(
+                                simple.getUsername(),
+                                simple.getEmail(),
+                                simple.getPicture()
+                        )));
     }
 }

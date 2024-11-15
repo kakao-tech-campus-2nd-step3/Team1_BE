@@ -2,7 +2,9 @@ package team1.be.seamless.util.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -22,14 +24,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException {
-        // 사용자 정보를 바탕으로 JWT 생성
+                                        Authentication authentication) throws IOException {
+
         String token = jwtToken.createToken(authentication);
 
-        // 토큰 전달을 위한 redirect
+
         String redirectUrl = UriComponentsBuilder.fromUriString(URI)
-            .queryParam("accessToken", token)
-            .build().toUriString();
+                .queryParam("accessToken", token)
+                .build().toUriString();
 
         response.sendRedirect(redirectUrl);
     }

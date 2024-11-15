@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +22,13 @@ public class ProjectEntity extends BaseEntity {
     }
 
     public ProjectEntity(
-        String name,
-        String description,
-        String imageURL,
-        UserEntity userEntity,
-        List<ProjectOptionEntity> projectOptionEntities,
-        LocalDateTime startDate,
-        LocalDateTime endDate) {
+            String name,
+            String description,
+            String imageURL,
+            UserEntity userEntity,
+            List<ProjectOptionEntity> projectOptionEntities,
+            LocalDateTime startDate,
+            LocalDateTime endDate) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
@@ -155,12 +156,12 @@ public class ProjectEntity extends BaseEntity {
     }
 
     public ProjectEntity update(
-        String name,
-        String description,
-        String imageURL,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
-        List<ProjectOptionEntity> projectOptionEntities) {
+            String name,
+            String description,
+            String imageURL,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            List<ProjectOptionEntity> projectOptionEntities) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;

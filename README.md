@@ -148,6 +148,6 @@ Notion, Trello와 같은 기존 협업 툴의 복잡함을 해소하고, 간편�
 
 ## **🌐 배포 주소**
 
-- **백엔드:** [Backend URL](http://3.36.254.166)
+- **백엔드:** [Backend URL](https://seamlessup.com/)
 - **프론트엔드:** [Frontend URL](https://team1-fe.pages.dev/)
 - **Frontend GitHub:** [프론트엔드 깃허브](https://github.com/kakao-tech-campus-2nd-step3/Team1_FE)

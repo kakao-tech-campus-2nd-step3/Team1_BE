@@ -34,7 +34,7 @@ class ProjectDeadlineReminderServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test // 마감 기한이 임박하지 않은 경우 이메일 전송 안 함
+    @Test
     void 마감_기한_임박하지_않음_테스트() {
 
         LocalDateTime now = LocalDateTime.now();
@@ -53,10 +53,10 @@ class ProjectDeadlineReminderServiceTest {
 
         reminderService.sendDeadlineReminders();
 
-        verify(mailSend, never()).send(anyString(), anyString(), anyString()); // 이메일 전송이 호출되지 않는거임ㅇㅇ
+        verify(mailSend, never()).send(anyString(), anyString(), anyString());
     }
 
-    @Test // 삭제된 프로젝트가 제외되는지 확인
+    @Test
     void 삭제된_프로젝트_제외_테스트() {
 
         when(projectRepository.findAllByIsDeletedFalse()).thenReturn(Collections.emptyList());
@@ -66,7 +66,7 @@ class ProjectDeadlineReminderServiceTest {
         verify(mailSend, never()).send(anyString(), anyString(), anyString());
     }
 
-    @Test // 프로젝트에 멤버가 없는 경우 이메일 전송 안 함
+    @Test
     void 프로젝트_멤버_없음_테스트() {
 
         LocalDateTime now = LocalDateTime.now();

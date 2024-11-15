@@ -10,24 +10,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import java.time.LocalDateTime;
+
 import team1.be.seamless.entity.enums.Priority;
 import team1.be.seamless.entity.enums.TaskStatus;
 
 @Entity(name = "taskss")
-public class TaskEntity extends BaseEntity{
+public class TaskEntity extends BaseEntity {
 
 
     public TaskEntity(
-        String name,
-        String description,
-        Priority priority,
-        ProjectEntity project,
-        MemberEntity member,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
-        Integer progress,
-        TaskStatus taskStatus) {
+            String name,
+            String description,
+            Priority priority,
+            ProjectEntity project,
+            MemberEntity member,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            Integer progress,
+            TaskStatus taskStatus) {
         this.name = name;
         this.description = description;
         this.progress = progress;
