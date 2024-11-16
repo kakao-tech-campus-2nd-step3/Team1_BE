@@ -16,7 +16,7 @@ public class AuthSuccessController {
     @Autowired
     public AuthSuccessController(@Value("${Url.Url}") String returnURL) {
         this.returnURL = returnURL;
-//        TestUrl();
+       TestUrl();
     }
 
     @GetMapping("/api/auth/success")
